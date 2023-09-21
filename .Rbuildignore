@@ -1,0 +1,7 @@
+^SomaScan\.db.*\.Rproj$
+^\.Rproj\.user$
+^doc$
+^Meta$
+^data-raw$
+^README\.Rmd$
+^LICENSE\.md$

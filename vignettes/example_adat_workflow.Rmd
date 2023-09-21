@@ -1,0 +1,346 @@
+---
+title: "Example ADAT Workflow Using SomaScan.db"
+abstract: "A short workflow illustrating the use of SomaScan.db to annotate SomaScan data (as an ADAT)."
+package: "`r BiocStyle::pkg_ver('SomaScan.db')`"
+output: 
+  BiocStyle::html_document:
+      toc_float: true
+vignette: >
+  %\VignetteIndexEntry{Example ADAT Workflow Using SomaScan.db}
+  %\VignetteEngine{knitr::knitr}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, crop = NULL)
+```
+
+```{r loading packages}
+suppressPackageStartupMessages({
+    library(dplyr)
+    library(GO.db)
+    library(SomaDataIO)
+    library(SomaScan.db)
+})
+```
+
+
+# Introduction
+
+This vignette will illustrate how the `SomaScan.db` package can be used to 
+extend the results of basic bioinformatic analyses performed on SomaScan data. 
+In this vignette, we will use tools from `r CRANpkg("SomaDataIO")`, in 
+conjunction with `SomaScan.db`, to identify and annotate proteins 
+(and ultimately, genes and their biological pathways) that are associated 
+with a clinical variable of interest; e.g. `Age`. 
+
+This workflow assumes the user has a basic knowledge of the R programming 
+language. In addition, it is assumed that the user is familiar with the ADAT 
+format, as well as the documentation in `r CRANpkg("SomaDataIO")` and the 
+`r Githubpkg("SomaLogic/SomaLogic-Data")` Github repository. For more 
+information about the ADAT format, as well as a detailed description of the 
+fields found in an ADAT, please reference the 
+`r Githubpkg("SomaLogic/SomaLogic-Data")` repository [README](https://github.com/SomaLogic/SomaLogic-Data).
+
+
+# Reading an ADAT
+
+The ADAT file format is a SomaLogic-specific, tab-delimited text file designed 
+to store SomaScan study data. The example ADAT file used for this walkthrough, 
+`example_data10.adat`, contains a SomaScan 5k study from a set of 10 human 
+samples. The measurements and identifiers have been altered to protect 
+personally identifiable information (PII), while retaining the underlying 
+biological signal as much as possible. 
+
+To begin, we will utilize `SomaDataIO::read_adat()` to load the example 
+ADAT file:
+
+```{r read-adat}
+# Retrieve the example ADAT file from the SomaDataIO package
+file <- system.file("extdata", "example_data10.adat",
+                    package = "SomaDataIO", mustWork = TRUE
+)
+# Read in the file
+adat <- SomaDataIO::read_adat(file)
+
+adat
+```
+
+---------------------
+
+
+## Data Prep and Exploration
+
+Next, we will perform some preliminary data exploration of our variable 
+of interest (`Age`):
+
+```{r age-summary}
+summary(adat$Age)
+```
+
+```{r age-hist, fig.height=3.5, fig.width=5}
+hist(adat$Age,
+     xlab = "Age (years)",
+     main = "Age Distribution"
+)
+```
+
+The subjects in this example data set are all adults, with age ranging from
+`r min(adat$Age, na.rm = TRUE)` to `r max(adat$Age, na.rm = TRUE)` 
+years.
+
+However, as suggested by the summary table above, there is 1 patient that is 
+missing age information:
+
+```{r rm-na}
+dplyr::filter(adat, is.na(Sex)) %>%
+    dplyr::select(SlideId, Age)
+```
+
+**Note**: You may notice that the `select` function above has the namespace 
+(`r CRANpkg("dplyr")`) specified; this is to distinguish between 
+`dplyr::select()` and `SomaScan.db::select()`, both of which will be used in 
+this vignette. A more thorough explanation of why this is important can be 
+found in the "`select` namespace collision" section.
+
+Samples corresponding to this patient will need to be removed before 
+proceeding:
+
+```{r}
+adat <- dplyr::filter(adat, !is.na(Age))
+```
+
+As a quick sanity check: this ADAT was generated using the 5k SomaScan assay 
+menu, which indicates that there should be RFU values for approximately 
+5,000 analytes.
+
+```{r n-analytes}
+analytes <- SomaDataIO::getAnalytes(adat)
+
+head(analytes)
+```
+
+```{r}
+length(analytes)
+```
+
+Indeed, there are `r length(analytes)` analytes in this example ADAT file, 
+consistent with the assay version.
+
+---------------------
+
+
+## Note on `SeqId` format
+
+The values obtained in `analytes` above contains the same information as a 
+SomaLogic `SeqId`, just converted to a more R-friendly format (i.e. the 
+`seq`-prefix and `"."` delimiters). This format of identifier is 
+used throughout `SomaDataIO`, and is also compatible with `SomaScan.db`. 
+Values obtained from `SomaDataIO` (with the `seq`-prefix) are 
+converted to `SeqIds` automatically when used by methods in `SomaScan.db`.
+
+
+# Identifying Associations
+
+We can now examine the data to see if any analytes are correlated with the 
+variable `Age`. First, however, the data be be pre-processed. SomaLogic 
+generally recommends to log-transform the RFU values in an ADAT prior to 
+analysis.
+
+```{r log-trans}
+log10_adat <- log10(adat)
+```
+
+After log-transformation, we can examine the correlations and identify 
+analytes that are positively correlated with `Age`. Here, correlations will be 
+calculated using `stats::cor.test()`:
+
+```{r cor-test}
+# Calculate correlations for each analyte
+cors_df <- lapply(analytes, function(x) {
+    results <- stats::cor.test(log10_adat$Age, log10_adat[[x]],
+                               method = "spearman", exact = FALSE)
+    results <- results[c("estimate", "p.value")]
+    unlist(results)
+}) %>% setNames(analytes)
+
+# Bind results together into a single dataframe
+cors_df <- dplyr::bind_rows(cors_df, .id = "analytes")
+
+# Isolate top positive correlations
+top_posCor <- cors_df %>%
+    dplyr::filter(p.value < 0.05) %>% # Retain significant cors only
+    dplyr::filter(estimate.rho >= 0.75) %>% # Retain strong correlations
+    arrange(desc(estimate.rho))
+
+nrow(top_posCor)
+head(top_posCor, 20L)
+```
+
+The table above contains analytes that have a strong positive 
+correlation with `Age`, but this information alone may not enough to derive 
+meaningful biological insights. Which proteins and genes do these identifiers 
+correspond to? Are the most correlated proteins functionally related in some 
+way, perhaps as part of the same biological pathway? These are the types of 
+questions that `SomaScan.db` is designed to address.
+
+In the next section, we will annotate these data by querying the above 
+`SeqIds` in `SomaScan.db` to retrieve additional information about their 
+corresponding genes and gene types.
+
+
+# Annotating Results
+
+To obtain a list of available annotations, use the `columns` method:
+
+```{r columns}
+columns(SomaScan.db)
+```
+
+Note that the "PROBEID" column corresponds to the SomaScan `SeqId`, the 
+central probe for the platform. This identifier ties the other available 
+annotations (listed in the `columns` output above) to the data found in an 
+ADAT file. For more information on the ADAT file format and an explanation of 
+its contents, please reference the [SomaLogic-Data GitHub repository](https://github.com/SomaLogic/SomaLogic-Data).
+
+For this example, we will retrieve Gene Ontology (GO) identifiers associated 
+with the `SeqIds` that are positively correlated with `Age`. This will be the 
+first step in identifying biological processes associated with the protein 
+targets of these `SeqIds`.
+
+```{r GO-columns}
+grep("GO|ONTOLOGY", columns(SomaScan.db), value = TRUE)
+```
+
+The `GO` and `GOALL` columns both contain GO pathway identifiers, while  
+`ONTOLOGY` and `ONTOLOGYALL` contain additional metadata about the 
+identifiers. For additional information about the values returned by `columns`,
+run `help("{COLUMN NAME}")` to get a more detailed description of the listed 
+options. 
+
+---------------------
+
+
+## Retrieving Annotations
+
+The `select` method can be used to query the annotations to retrieve 
+information corresponding to SomaScan analytes of interest. But, before we 
+proceed, a note about the `select` method.
+
+---------------------
+
+
+### `select` Namespace Collisions
+
+The `select` method is unique to Bioconductor's annotation packages (of which 
+`SomaScan.db` is one), and should not be confused with the similarly-named 
+`dplyr::select()`. These two functions perform very different actions on 
+different classes of objects. If you have the `r CRANpkg("dplyr")` package 
+([dplyr](https://dplyr.tidyverse.org)) loaded at the same time as 
+`SomaScan.db` (as we do in this vignette), you may encounter an error like the 
+one below when using `select`:
+
+```r
+Error in UseMethod("select") : 
+  no applicable method for 'select' applied to an object of class "c('SomaDb', 
+  'ChipDb', 'AnnotationDb', 'envRefClass', '.environment', 'refClass', 
+  'environment', 'refObject', 'AssayData')"
+```
+
+This error indicates that it is unclear which `select` you are attempting to 
+use (the `dplyr` version or the `SomaScan.db` version). To remedy this, it 
+can be helpful to use the `::` operator to specify the package namespace 
+when calling `select`, as seen in the code chunk below.
+
+---------------------
+
+### Gene Name Annotation
+
+Continuing on with the example, we will retrieve gene names (as symbols) that 
+correspond to the top 10 analytes associated with `Age`.
+
+```{r top-10}
+top10_analytes <- head(top_posCor$analytes, 10L)
+
+anno <- SomaScan.db::select(SomaScan.db, 
+                            keys = top10_analytes,
+                            columns = c("SYMBOL", "GENENAME", "GENETYPE"))
+
+anno
+```
+
+Remember that `select` retains the order of the original query, so these genes 
+are still listed in order of most highly associated with `Age`. 
+
+---------------------
+
+
+### GO Annotation
+
+Which pathways or biological processes are these genes associated with? Could 
+that information help explain why they positively correlated with age? 
+`SomaScan.db` enables mapping between `SeqIds` and GO identifiers, so let's 
+take the top 3 genes and add GO annotations to the data frame. But why only 3 
+genes? We are likely to receive a lot of additional 
+information if we query the database for GO identifiers, so it can be easier 
+and cleaner to begin with a small example data set when retrieving additional 
+annotations.
+
+```{r}
+go_anno <- SomaScan.db::select(SomaScan.db, 
+                               keys = anno$PROBEID[1:3L],
+                               columns = c("SYMBOL", "GENENAME", "GENETYPE", 
+                                           "GO", "ONTOLOGY")) %>%
+    dplyr::filter(ONTOLOGY == "BP")
+
+go_anno
+```
+
+As expected when working with GO terms, there were quite a few rows retrieved 
+by that `select` query (`r nrow(go_anno)` rows of information for only 3 
+genes). Filtering the results to the biological process ("BP") ontology only 
+can help reduce the number of GO identifiers that are returned in the query.
+
+This leaves us with a list of GO identifiers, but those identifiers do not 
+adequately explain much about the term itself. How can we get more 
+"human-readable" information out of GO?
+
+Luckily, this is easy to do with other annotation tools from Bioconductor. The 
+`r Biocpkg("GO.db")` annotation package contains annotations describing the  
+entire Gene Ontology knowledgebase, assembled using data directly from the 
+[GO website](http://geneontology.org/). We can use the GO IDs identified by 
+`SomaScan.db` to connect with `r Biocpkg("GO.db")` and retrieve more 
+information about each GO ID.
+
+```{r}
+go_terms <- AnnotationDbi::select(GO.db, 
+                                  keys = go_anno$GO, 
+                                  columns = c("GOID", "TERM", "DEFINITION"))
+
+go_terms
+```
+
+Now we have _much_ more information about each GO ID! Using these IDs, we can 
+merge this information back into our `select` results from `SomaScan.db`:
+
+```{r join-go}
+final_df <- left_join(go_anno, go_terms, by = c("GO" = "GOID"))
+
+final_df
+```
+
+The `SomaScan.db` package can be used to link to numerous other
+annotation resources. For a more detailed description of how this can be done
+with examples of what resources are available, see the Advanced Usage Examples 
+vignette.
+
+There is still room for further exploration and extension of these results; 
+this workflow is meant to be an introduction to how `SomaScan.db` can be 
+used to build upon and interpret information obtained from a SomaLogic ADAT.
+
+
+# Session Info
+
+```{r session-info}
+sessionInfo()
+```

@@ -1,0 +1,29 @@
+import(methods)
+import(AnnotationDbi)
+import(DBI)
+import(org.Hs.eg.db)
+
+# Only statically exported objects are listed here. 
+# All the AnnObj instances created at load time (ex. SomaScanENTREZID and the 
+# like) are dynamically exported, including UNIPROT2PROBE - see R/zzz.R
+export(SomaScan,
+      SomaScan_dbconn,
+      SomaScan_dbfile,
+      SomaScan_dbschema,
+      SomaScan_dbInfo,
+      SomaScanORGANISM,
+      SomaScanTARGETFULLNAME) # custom bimap
+
+# Export SomaDb class
+exportClasses("SomaDb")
+
+# Export methods for SomaDb
+exportMethods("keys",
+              "columns",
+              "select",
+              "mapIds",
+              "keytypes")
+
+# Export functions & data objects
+export(somascan_menu)
+export(addTargetFullName)

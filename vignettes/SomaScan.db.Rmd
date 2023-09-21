@@ -1,0 +1,502 @@
+---
+title: "Introduction to SomaScan.db"
+abstract: "Brief overview of an annotation package for SomaLogic SomaScan data."
+package: "`r BiocStyle::pkg_ver('SomaScan.db')`"
+output: 
+  BiocStyle::html_document:
+      toc_float: true
+vignette: >
+  %\VignetteIndexEntry{Introduction to SomaScan.db}
+  %\VignetteEngine{knitr::knitr}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(withr)
+```
+
+
+# Introduction
+
+The `SomaScan.db` package provides extended biological annotations to be used 
+in conjunction with the results of SomaLogic's SomaScan assay, a 
+fee-for-service proteomic technology platform designed to detect proteins 
+across numerous biological pathways. 
+
+This vignette describes how to use the `SomaScan.db` 
+package to annotate SomaScan data, i.e. add additional information to an ADAT 
+file that will give biological context (at the gene level) to the platform's 
+reagents and their protein targets. `SomaScan.db` performs annotation by 
+mapping SomaScan reagent IDs (`SeqIds`) to their corresponding protein(s) and 
+gene(s), as well as biological pathways (GO, KEGG, etc.) and identifiers from 
+other public data repositories. 
+
+`SomaScan.db` utilizes the same methods and setup as other Bioconductor 
+annotation packages, and therefore the methods should be familiar if you've 
+worked with such packages previously.
+
+
+# Package Installation
+
+To begin, install and load the `SomaScan.db` package:
+
+```{r install-bioc, eval=FALSE}
+if (!requireNamespace("BiocManager", quietly = TRUE)) {
+    install.packages("BiocManager")
+}
+
+BiocManager::install("SomaScan.db", version = remotes::bioc_version())
+```
+
+Once installed, the package can be loaded as follows:
+
+```{r load-pkg}
+library(SomaScan.db)
+```
+
+
+# Package Overview
+
+Loading this package will expose an annotation object with the same name 
+as the package, `SomaScan.db`. This object is a [SQLite database](https://www.sqlite.org/index.html) 
+containing annotation data for the SomaScan assay derived from popular public 
+repositories. Viewing the object will present a metadata table containing 
+information about the annotations and where they were obtained:
+
+```{r metadata}
+SomaScan.db
+```
+
+The same information can be retrieved as a data frame by calling 
+`metadata(SomaScan.db)`.
+
+Moving forward, this database object (`SomaScan.db`) will be used throughout 
+the vignette to retrieve SomaScan annotations and map between identifiers. 
+
+For reference, the species information for the database can directly be 
+retrieved with the following methods:
+
+```{r taxonomy}
+species(SomaScan.db)
+taxonomyId(SomaScan.db)
+```
+
+It's also possible to pull a more detailed summary of annotations and resource 
+identifiers (aka keys) by calling the package as a function, with the `.db` 
+extension removed:
+
+```{r mapped-keys}
+SomaScan()
+```
+
+*Note*: Keys will be explained in greater detail later in this vignette.
+
+
+# Retrieve Annotation Data
+
+The `SomaScan.db` package has 5 primary methods that can be used to query the 
+database:
+
+  - `keys`
+  - `keytypes`
+  - `columns` 
+  - `select`
+  - `mapIds` 
+  
+This vignette will describe how each of these methods can be used to obtain 
+annotation data from `SomaScan.db`.
+
+---------------------
+
+
+## `keys` method
+
+This annotation package is platform-based, meaning it was built around the 
+unique identifiers from a specific platform (in this case, SomaLogic's 
+SomaScan platform). That identifier corresponds to each of the assay's 
+analytes, and therefore the analyte identifiers (`SeqIds`) are the primary 
+term used to query the database (aka "key"). 
+
+All keys in the database can be retrieved using `keys`:
+
+```{r keys}
+# Short list of primary keys
+keys(SomaScan.db) |> head(10L)
+```
+
+Each key retrieved in the output above corresponds to one of the assay's 
+unique analytes. 
+
+---------------------
+
+
+## `keytype` method
+
+When querying the database, we can also specify the type of key ("keytype") 
+being used. The keytype refers to the type of identifier that is used to 
+generate a database query. While the database is centered around the SomaLogic 
+`SeqId`, other identifiers can still be used to query the database. 
+
+We can list all available datatypes that can be used as query keys using 
+`keytypes()`:
+
+```{r keytypes}
+## List all of the supported key types.
+keytypes(SomaScan.db)
+```
+
+*Note:* the SomaScan assay analyte identifiers (`SeqIds`) are stored as the 
+"PROBEID" keytype. 
+
+`keytypes` can also be used in conjunction with `keys` to retrieve all 
+identifiers associated with the specified keytype. The example below will 
+retrieve all UniProt IDs in `SomaScan.db`:
+
+```{r keys-keytype-arg}
+keys(SomaScan.db, keytype = "UNIPROT") |> head(20L)
+```
+
+---------------------
+
+
+## `columns` method
+
+All available external annotations, corresponding to "columns" of the 
+database, can be listed using `columns()`:
+
+```{r columns}
+columns(SomaScan.db)
+```
+
+*Note:* the SomaScan assay analyte identifiers (`SeqIds`) are stored in the 
+"PROBEID" column. 
+
+This list may look very similar (or even identical) to the `columns` output. 
+If identical, all columns can be used as query keys. For a more in-depth 
+explanation of what each of these columns contains, consult the manual:
+
+```{r help, eval=FALSE}
+help("OMIM") # Example help call
+```
+
+Each `columns` entry also has a mapping object that contains the information
+connecting SeqIds &rarr; the annotation's identifiers. To read further 
+documentation about the object and the resource used to make it, check out the 
+manual page for the mapping itself:
+
+```{r OMIM-bimap-help, eval=FALSE}
+?SomaScanOMIM
+```
+
+---------------------
+
+
+## `select` method
+
+The list of columns returned by `columns` informs us as to what types of data 
+are available; therefore, the column values can be used to retrieve specific 
+pieces of information from the database. You can think of keys and columns as:
+
+  - **Keys**: the information you already have (`SeqIds`/probe IDs), aka *rows*
+  of the database
+  -  **Columns**: data types for which you want to retrieve information, aka 
+  *columns* of the database
+  
+The `SomaScan.db` database can be queried via `select`, using both the keys 
+and columns.
+
+When selecting columns and keys using the `select` method, the keys are 
+returned in the left-most column of the output, in the `PROBEID` column. The 
+results will be in the exact same order as the input keys:
+
+```{r example-keys}
+# Randomly select a set of keys
+example_keys <- withr::with_seed(101L, sample(keys(SomaScan.db),
+                                              size = 5L,
+                                              replace = FALSE
+))
+
+# Query keys in the database
+select(SomaScan.db,
+       keys = example_keys,
+       columns = c("ENTREZID", "SYMBOL", "GENENAME")
+)
+```
+
+**Note:** The message above 
+(**'select()' returned 1:1 mapping between keys and columns**) will be 
+described in detail in the next section of this vignette.
+
+The data that is returned will always be in the same order as the provided 
+keys. If `select` cannot find a mapping for a specific key, an `NA` value will 
+be returned to retain the original query order.
+
+```{r select-na}
+# Inserting a new key that won't be found in the annotations ("TEST")
+test_keys <- c(example_keys[1], "TEST")
+
+select(SomaScan.db, keys = test_keys, columns = c("PROBEID", "ENTREZID"))
+```
+
+In the example above, a "PROBEID" and "ENTREZID" value couldn't be found for 
+the character string "TEST", so an `NA` was returned in its place.
+
+### One-to-Many Relationships 
+
+When using `select`, a message indicating the relationship between query keys
+and column data will be displayed along with the query results. 
+This message will describe one of the three relationships below:
+
+  - `1:1 mapping between keys and columns` 
+  - `1:many mapping between keys and columns`
+  - `many:many mapping between keys and columns`
+
+These messages describe the very real possibility that there are multiple 
+identifiers associated with each key in a query. This can cause the number of 
+rows returned by `select()` to exceed the number of keys used to retrieve the 
+data; this is what is meant by the message "'select()' returned 1:many mapping 
+between keys and columns".
+
+In these cases, you will still see concordance between the order of the 
+provided keys and outputted results rows, but you should be aware that new 
+rows were inserted into the results. This message is not an error, merely an
+informative notification to the user making it clear that more output rows 
+than input items should be expected. Importantly, this message also does not 
+relay information about the SomaScan menu itself or advice on how to handle 
+many-to-one relationships between SomaScan reagents and their corresponding 
+protein targets; rather, the message is directly related to this package's
+`select` method and how it retrieves information from the database.
+
+Because some columns may have a many-to-many relationship to each key, it is 
+generally best practice to retrieve the **minimum number of columns needed** 
+for a query. Additionally, when retrieving a column that is _known_ to have a 
+many-to-one relationship to each key, like GO terms, it's best to request that 
+information in its own query, like so:
+
+```{r select-good}
+# Good
+select(SomaScan.db, keys = example_keys[3L], columns = "GO")
+```
+
+```{r select-bad}
+# Bad
+select(SomaScan.db,
+       keys = example_keys[3L],
+       columns = c("UNIPROT", "ENSEMBL", "GO", "PATH", "IPI")
+)
+```
+
+The example above illustrates why it is preferred to request as few columns as 
+possible, especially when working with GO terms.
+
+### Specifying Keytype
+
+In `SomaScan.db`, the default keytype for `select` is the probe ID. This means 
+that when using a `SeqId` (aka "PROBEID") to retrieve annotations, 
+the `keytype=` argument does _not_ need to be defined, and can be left 
+out of the `select` call entirely. The default (`PROBEID`) will be used. 
+
+```{r select-no-keytype}
+select(SomaScan.db, keys = example_keys, columns = c("ENTREZID", "UNIPROT"))
+```
+
+However, the database can be searched using more than just `SeqIds`. 
+
+For example, you may want to retrieve a list of `SeqIds` that are associated 
+with a specific gene of interest - let's use SMAD2 as an example. You can work 
+"backwards" to retrieve the `SeqIds` associated with SMAD2 by setting the 
+`keytype="SYMBOL"`:
+
+```{r select-keytype-symbol}
+select(SomaScan.db,
+       columns = c("PROBEID", "ENTREZID"),
+       keys = "SMAD2", keytype = "SYMBOL"
+)
+```
+
+Sometimes, this may *appear* not to work. Let's use CASC4 as an example:
+
+```{r select-error-casc4, error=TRUE}
+select(SomaScan.db,
+       columns = c("PROBEID", "ENTREZID"),
+       keys = "CASC4", keytype = "SYMBOL"
+)
+```
+
+The error message above implies that `CASC4` is not a valid key for the 
+"SYMBOL" keytype, which means that no entry for CASC4 was found in the 
+"SYMBOL" column. However, genes can be tricky to search, and in some cases 
+have many common names. We can improve this using `keytype="ALIAS"`; this 
+data type contains the various aliases associated with gene names found in the 
+"SYMBOL" column. Using `keytype="ALIAS"`, we can cast a wider net:
+
+```{r select-keytype-alias}
+select(SomaScan.db,
+       columns = c("SYMBOL", "PROBEID", "ENTREZID"),
+       keys = "CASC4", keytype = "ALIAS"
+)
+```
+
+This reveals the source of our problem! CASC4 is also known as GOLM4, and 
+this symbol is used in the annotations database. Because of 
+this, searching for CASC4 as a symbol returns no results, but the same query 
+is able to identify an entry when the "ALIAS" column is specified. 
+
+Additionally, we can see that CASC4/GOLM2 is associated with two `SeqIds` - 
+`10613-33` and `8838-10`. How is this possible, and why does this happen? 
+For more information, please reference the Advanced Usage Examples (
+`vignette("advanced_usage_examples", package = "SomaScan.db")`).
+
+### Specifying Menu Version
+
+`SomaScan.db` contains annotations for all currently available versions of the 
+SomaScan menu by default. However, the `menu=` argument of `select` can be 
+used to retrieve analytes from a single, specified menu. For example, if you 
+have SomaScan data from an older menu version, like the `5k` menu (also known 
+as `V4.0`), this argument can be used to retrieve annotations associated with 
+that menu specifically:
+
+```{r menu-5k}
+all_keys <- keys(SomaScan.db)
+menu_5k <- select(SomaScan.db,
+                  keys = all_keys, columns = "PROBEID",
+                  menu = "5k"
+)
+
+head(menu_5k)
+```
+
+The `SeqIds` in the `menu_5k` data frame represent the `r nrow(menu_5k)` 
+analytes that were available in v4.0 of the SomaScan menu. All of the listed 
+analytes have currently available annotations in `SomaScan.db`. Those that are
+not represented do not currently have annotations available in `SomaScan.db`.
+
+If the `menu=` argument is not specified in `select`, annotations for *all* 
+available analytes are returned.
+
+---------------------
+
+
+## `mapIDs` method
+
+For situations in which you wish only to retrieve one data type from the 
+database, the `mapIds` method may be cleaner and more streamlined than using 
+`select`, and can help avoid problems with one-to-many mapping of keys. 
+For example, if you are only interested in the gene symbols associated with a 
+set of SomaScan analytes, they can be retrieved like so:
+
+```{r mapIds}
+mapIds(SomaScan.db, keys = example_keys, column = "SYMBOL")
+```
+
+`mapIds` will return a **named vector** from a *single* column, while `select` 
+returns a data frame and can be used to retrieve data from multiple columns. 
+
+The primary difference between `mapIds` and `select` is how the method handles 
+one-to-many mapping, i.e. when the chosen key maps to > 1 entry in the 
+selected column. When this occurs, only the **first value** (by default) is 
+returned. 
+
+Compare the output in the examples below:
+
+```{r map-ids-output}
+# Only 1 symbol per key
+mapIds(SomaScan.db, keys = example_keys[3L], column = "GO")
+```
+
+```{r select-output}
+# All entries for chosen key
+select(SomaScan.db, keys = example_keys[3L], column = "GO")
+```
+
+Note that the `mapIds` method warning message states that it _returned_ 1:many 
+mappings between keys and columns, however only one value was 
+returned for the desired `SeqId`. This is because there were more mapped 
+values that were discarded when the results were converted to a named vector. 
+This may not be a problem for some columns, like "SYMBOL" (typically there is 
+only one gene symbol per gene), but it may present a problem for others (like 
+GO terms or KEGG pathways). Think carefully when using `mapIds`, or consider 
+specifying the `multiVals=` argument to indicate what should be done
+with multi-mapped output.
+
+The default behavior of `mapIds` is to return the first available result:
+
+```{r multiVals-first}
+# The default - returns the first available result
+mapIds(SomaScan.db, keys = example_keys[3], column = "GO", multiVals = "first")
+```
+
+Again, the `select` message here indicates that, while only 1 value was 
+returned, there were many more GO term matches. All of the matches can be 
+viewed by specifying `multiVals="list"`:
+
+```{r multiVals-list}
+# Returns a list object of results, instead of only returning the first result
+mapIds(SomaScan.db, keys = example_keys[3], column = "GO", multiVals = "list")
+```
+
+
+# Adding Target Full Names
+
+Because the annotations in this package are compiled from public repositories, 
+information typically found in an ADAT may be missing. For example, in an ADAT 
+file, each `SeqId` is associated with a protein target, and
+the name of that target is provided as both an abbreviated symbol ("Target") 
+and full description ("Target Full Name"). The `SomaScan.db`
+package does not contain data _from_ a particular ADAT file; however, it does 
+contain a function to add the full protein target name to any data
+frame obtained via `select`.
+
+As an example, we will generate a data frame of 
+[Ensembl](https://useast.ensembl.org/info/about/index.html) gene IDs and 
+[OMIM](https://www.omim.org/) IDs:
+
+```{r ensembl-example}
+ensg <- select(SomaScan.db,
+               keys = example_keys[1:3L],
+               columns = c("ENSEMBL", "OMIM")
+)
+
+ensg
+```
+
+We will now append the Target Full Name to this data frame:
+
+```{r get-target-full-name}
+addTargetFullName(ensg)
+```
+
+The full protein target name will be appended to the input data frame, with
+the Target Full Name (in the "TARGETFULLNAME" column) always added to the 
+right of the "PROBEID" column.
+
+
+# Package Objects
+
+In addition to the methods mentioned above, there is an R object that can be 
+used to retrieve SomaScan analytes from a specific menu version. The object is 
+a list, with each element in the list containing a character vector of 
+`SeqIds` that were available in the specified menu.
+
+```{r menu-summary}
+summary(somascan_menu)
+```
+
+```{r menu-head}
+lapply(somascan_menu, head)
+```
+
+This object also provides a quick and easy way of comparing the available 
+SomaScan menus:
+
+```{r menu-setdiff}
+setdiff(somascan_menu$v4.1, somascan_menu$v4.0) |> head(50L)
+```
+
+
+# Session Info
+
+```{r session-info}
+sessionInfo()
+```

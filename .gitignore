@@ -1,0 +1,12 @@
+# Ignore RStudio files
+*.Rproj
+*.Rproj\.user
+.DS_Store
+.Rhistory
+
+# Ignore R CMD build/check files
+/*.tar.gz
+/*.Rcheck/
+/doc/
+/Meta/
+.Rproj.user

@@ -1,0 +1,52 @@
+Package: SomaScan.db
+Title: Somalogic SomaScan Annotation Data
+Description: An R package providing extended biological annotations for 
+    the SomaScan Assay, a proteomics platform developed by SomaLogic Operating 
+    Co., Inc. The annotations in this package were assembled using data from 
+    public repositories. For more information on the SomaScan assay 
+    and its data, please see 
+    <https://github.com/SomaLogic/SomaLogic-Data/blob/master/README.md>.
+Version: 0.99.0
+Authors@R: 
+    c(person(given = "Amanda", 
+             family = "Hiser",
+             role = c("cre", "aut"),
+             email = "ahiser@somalogic.com",
+             comment = c(ORCID = "0000-0002-2121-1873")),
+      person(given = "SomaLogic Operating Co., Inc.", 
+             role = c("cph", "fnd")))
+Maintainer: Bioconductor Package Maintainer <maintainer@bioconductor.org>
+Depends: 
+    R (>= 4.2.0),
+    AnnotationDbi (>= 1.56.2), 
+    DBI, 
+    methods, 
+    org.Hs.eg.db (>= 3.14.0)
+Suggests:
+    annotate,
+    BiocStyle,
+    dplyr,
+    GO.db,
+    hgu95av2.db,
+    KEGGREST,
+    knitr,
+    rmarkdown,
+    SomaDataIO,
+    testthat (>= 3.0.0),
+    withr
+VignetteBuilder: knitr
+License: MIT + file LICENSE
+organism: Homo sapiens
+species: Human
+manufacturer: Somalogic
+chipName: SomaScan
+manufacturerUrl: https://somalogic.com/somascan-platform/
+biocViews: ChipDb, AnnotationData, Homo_sapiens
+BiocType: Annotation
+LazyData: false
+LazyLoad: true
+RoxygenNote: 7.2.3
+Roxygen: list(markdown = TRUE)
+Encoding: UTF-8
+BugReports: https://github.com/SomaLogic/SomaScan.db/issues
+Config/testthat/edition: 3

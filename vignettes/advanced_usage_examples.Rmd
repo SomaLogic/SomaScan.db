@@ -1,0 +1,524 @@
+---
+title: "Advanced Exploration of the SomaScan Menu"
+abstract: "Advanced use cases of SomaScan.db, including SomaScan menu exploration examples."
+package: "`r BiocStyle::pkg_ver('SomaScan.db')`"
+output: 
+  BiocStyle::html_document:
+      toc_float: true
+vignette: >
+  %\VignetteIndexEntry{Advanced Exploration of the SomaScan Menu}
+  %\VignetteEngine{knitr::knitr}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(BiocStyle)
+```
+
+
+```{r loading-packages, warning = FALSE, message = FALSE}
+suppressPackageStartupMessages({
+    library(GO.db)
+    library(KEGGREST)
+    library(SomaScan.db)
+    library(withr)
+})
+```
+
+This vignette is a follow up to the "Introduction to SomaScan.db" vignette,
+and will introduce more advanced capabilities of the `SomaScan.db` 
+package. Below we illustrate how `SomaScan.db` can be used to deeply 
+explore the SomaScan menu and execute complex annotation functions, outside of 
+the basic use of `select` outlined in the introductory vignette. Knowledge of
+SQL is not required, but a familiarity with R and SomaScan data is highly 
+suggested. For an introduction to the `SomaScan.db` package and its 
+methods, please see `vignette("introductory_vignette", "SomaScan.db")`.
+
+Please note that this vignette will require the installation and usage of 
+*three* additional Bioconductor R packages: `r Biocpkg("GO.db")`, 
+`r Biocpkg("EnsDb.Hsapiens.v75")`, and `r Biocpkg("KEGGREST")`. 
+Please see the linked pages to find installation instructions for these 
+packages.
+
+
+# Incorporating Additional Annotations
+
+## Gene Ontology
+
+The `SomaScan.db` package allows a user to retrieve Gene Ontology (GO) 
+identifiers associated with a particular SomaScan `SeqId` (or set of 
+`SeqIds`). However, the available GO annotations in `SomaScan.db` are 
+limited; only the GO ID, evidence code, and ontology category are currently 
+available. This helps prevent the package from accumulating an overwhelming 
+number of annotation elements, but limits the ability to extract detailed GO 
+information. 
+
+To illustrate this limitation, below we will display the GO terms associated 
+with the gene "IL31":
+
+```{r il31-select-df}
+il31_go <- select(SomaScan.db, keys = "IL31", keytype = "SYMBOL", 
+              columns = c("PROBEID", "GO"))
+
+il31_go
+```
+
+In this data frame, IL31 maps to one single `SeqId` ("10455-196"), indicated 
+by the "PROBEID" column. This `SeqId` and gene are associated with seven 
+unique GO IDs (in the "GO" column). The GO knowledgebase is vast, however, 
+and these identifiers are not particularly informative for anyone who 
+hasn't memorized their more descriptive term names. Additional details for 
+each ID would make this table more informative and interpretable. Luckily, 
+there are two options for retrieving such data:
+
+  1. Using an additional set of GO-specific methods to retrieve additional 
+     information for each GO ID (`Term`, `Ontology`, `Definition`, and 
+     `Synonym`)
+  2. Linking results from `SomaScan.db` with another Bioconductor tool, like 
+     the `r Biocpkg("GO.db")` annotation package
+
+Each of these techniques have their own special utility. Below, we will work 
+through examples of how the techniques described above can be used to link
+GO information with the annotations from `SomaScan.db`.
+
+---------------------
+
+
+### GO Methods
+
+The `Term`, `Ontology`, `Definition`, and `Synonym` methods are GO-specific 
+methods imported from the `AnnotationDbi` package. They are designed to 
+retrieve a single piece of information, indicated by the method name, that 
+corresponds to a set of GO identifiers (note: we will skip `Ontology` in this 
+vignette, as the GO Ontology is already retrievable with `SomaScan.db`).
+
+The `Term` method retrieves a character string defining the role of the gene 
+product that corresponds to provided GO ID(s). In the example below, we will 
+retrieve the GO terms for each of the GO IDs in the `select` results generated 
+previously:
+
+```{r go-term}
+Term(il31_go$GO)
+```
+
+The `Definition` method retrieves a more detailed and extended definition of 
+the ontology for the input GO IDs:
+
+```{r go-definition}
+Definition(il31_go$GO)
+```
+
+And finally, the `Synonym` method can be used to retrieve other ontology terms 
+that are considered to be synonymous to the primary term attached to the GO 
+ID. For example, "type I programmed cell death" is considered synonymous with 
+"apoptosis". It's worth noting that `Synonym` can return a large set
+of results, so we caution against providing a large set of GO IDs to `Synonym`:
+
+```{r go-synonym}
+Synonym(il31_go$GO)
+```
+
+A GO synonym was not found for the first identifier in the provided vector,
+so an `NA` was returned.
+
+These functions are useful for quickly retrieving information for a given GO 
+ID, but you'll notice that the results are returned as a vector or list, 
+rather than a data frame. Depending on the application, this may be 
+useful - for example, these methods are handy for on-the-fly GO 
+term or definition lookups, but their format can be cumbersome to incorporate 
+into a data frame created by `select`. 
+
+Let's return to the `il31_go` data frame we generated previously. How can we 
+incorporate the additional information obtained by `Term`, `Definition`, 
+and `Synonym` into this object? Assuming the output is the same length as 
+the number of rows in `il31_go`, the character vector obtained by `Term`,
+`Definition`, or `Synonym`, can be easily appended as a new column in the 
+`il31_go` data frame:
+
+```{r append-terms}
+trms <- Term(il31_go$GO)
+class(trms)
+length(trms) == length(il31_go$GO)
+
+il31_go$TERM <- trms
+il31_go
+```
+
+The same can be done with the output of `Definition`:
+
+```{r append-definitions}
+defs <- Definition(il31_go$GO)
+class(defs)
+length(defs) == length(il31_go$GO)
+
+il31_go$DEFINITION <- defs
+il31_go[ ,c("SYMBOL", "PROBEID", "GO", "TERM", "DEFINITION")]
+```
+
+However, this only works cleanly when the output is a character 
+vector with the same order and number of elements as the input vector. 
+With the list output of `Synonym`, the process is a little less 
+straightforward. In addition, it takes multiple steps to generate these
+additional annotations and combine them with a `select` data frame. 
+Instead of performing so many steps, we can utilize another 
+Bionconductor annotation resource called `r Biocpkg("GO.db")` to retrieve GO 
+annotation elements in a convenient data frame format. 
+
+---------------------
+
+
+### GO.db
+
+The `r Biocpkg("GO.db")` R package contains annotations describing the entire 
+Gene Ontology knowledgebase, assembled using data directly from the 
+[GO website](http://geneontology.org/). `r Biocpkg("GO.db")` provides a method 
+to easily retrieve the latest version of the Gene Ontology knowledgebase into
+an R session. Like `SomaScan.db`, `r Biocpkg("GO.db")` is an annotation 
+package that can be queried using the same five methods (`select`, `keys`,
+`keytypes`, `columns`, and `mapIds`). By utilizing both `SomaScan.db` and
+`r Biocpkg("GO.db")`, it is possible to connect `SeqIds` to GO IDs, then add 
+additional GO annotations that are not available within `SomaScan.db`. 
+
+Let's walk through an example. First, select a key (and corresponding 
+GO ID) to use as a starting point:
+
+```{r example-go-ids}
+go_ids <- select(SomaScan.db, "IL3RA", keytype = "SYMBOL", 
+                 columns = c("GO", "SYMBOL"))
+
+go_ids
+```
+
+As shown previously, the GO ID, EVIDENCE code, and ONTOLOGY comprise the 
+extent of GO information contained in `SomaScan.db`. However, we can use the 
+GO ID (in the `GO` column) to connect these values to the annotations in 
+`r Biocpkg("GO.db")`: 
+
+```{r go-columns}
+columns(GO.db)
+
+go_defs <- select(GO.db, keys = go_ids$GO, 
+                  columns = c("GOID", "TERM", "DEFINITION"))
+
+go_defs
+```
+
+```{r go-merge}
+merge(go_ids, go_defs, by.x = "GO", by.y = "GOID")
+```
+
+Using this workflow, in just two steps we can link annotation information
+*between* annotation package resources (i.e `SomaScan.db` <--> `GO.db`).
+
+---------------------
+
+
+## KEGG Pathways
+
+Note that the same workflow _cannot_ be performed for KEGG pathways, 
+due to KEGG's data sharing policy. Instead, the package 
+`r Biocpkg("KEGGREST")` must be used. Rather than an annotation database-style 
+package (like `SomaScan.db` and `GO.db`), `r Biocpkg("KEGGREST")` is a package 
+that provides a client interface in R to the KEGG REST
+(REpresentational State Transfer) server. For reference, 
+REST is an interface that two computer 
+systems can use to securely exchange information over the internet. Queries 
+made with the `r Biocpkg("KEGGREST")` package retrieve information 
+directly from the online KEGG database.
+
+Let's take the same `select` query as we used for GO, but modify it to obtain
+KEGG pathway identifiers instead:
+
+```{r select-kegg}
+kegg_sel <- select(SomaScan.db, keys = "CD86", keytype = "SYMBOL", 
+                   columns = c("PROBEID", "PATH"))
+
+kegg_sel
+```
+
+We can use the identifiers in the "PATH" column to query the KEGG database 
+using `KEGGREST::keggGet()`:
+
+```{r get-path-names}
+# Add prefix indicating species (hsa = Homo sapiens)
+hsa_names <- paste0("hsa", kegg_sel$PATH)
+
+kegg_res <- keggGet(dbentries = hsa_names) |>
+    setNames(hsa_names[1:10L]) # Setting names for results list
+```
+
+Because so much information is returned by `keggGet()`, a maximum number of 10 
+entries are allowed. Input exceeding 10 entries will be truncated, and only
+the first 10 results will be returned (as indicated in the warning message 
+above). Let's take a look at what was returned for each KEGG pathway:
+
+```{r str-kegg-path}
+str(kegg_res$hsa04514)
+```
+
+Some additional data manipulation will be required to extract the desired 
+information from the results of `keggGet()`. Let's just extract the pathway
+name (`NAME`):
+
+```{r path-names-vector}
+kegg_names <- vapply(kegg_res, `[[`, i = "NAME", "", USE.NAMES = FALSE)
+
+kegg_names
+```
+
+Now we can append this vector to our original results from `select`:
+
+```{r append-names}
+kegg_sel$PATHNAME <- kegg_names
+
+kegg_sel
+```
+
+Other pieces of information can be extracted to the list and reduced to a 
+character vector or used to build a data frame, which can then be appended to
+or merged similar to the pathway name in the code chunks above. For more 
+details about what can be done with the package, see `r Biocpkg("KEGGREST")`.
+
+
+# Positional Annotation
+
+Similar to the extended GO annotation in the previous section, positional 
+annotation cannot currently be performed within `SomaScan.db`. 
+`SomaScan.db` is a platform-centric annotation package, built around the 
+probes of the SomaScan protein assay, and positional annotation is not
+within its scope. However, it _is_ possible to retrieve positional 
+annotations by linking to other Bioconductor annotation resources, which can
+then be combined with `SomaScan.db` in a two-step process (similar to above).
+The first step uses `SomaScan.db` to retrieve gene-level information
+corresponding to SomaScan analytes; the second requires a human transcriptome 
+or organism-centric annotation package to retrieve the desired chromosomal 
+locations.
+
+We will provide a brief example of this using the popular organism-centric 
+package, `r Biocpkg("EnsDb.Hsapiens.v75")`, which contains a database of human 
+annotations derived from `Ensembl release 75`. However, this procedure can 
+also be performed using transcriptome-centric annotation packages like 
+`r Biocpkg("TxDb.Hsapiens.UCSC.hg19.knownGene")`.
+
+Let's say we are interested in collecting position information 
+associated with the protein target corresponding to `SeqId = 11138-16`.
+First, we must determine which gene this `SeqId` maps to:
+
+```{r seqid-gene}
+pos_sel <- select(SomaScan.db, "11138-16", columns = c("SYMBOL", "GENENAME", 
+                                                       "ENTREZID", "ENSEMBL"))
+
+pos_sel
+```
+
+We now know this probe targets protein encoded by the `r pos_sel$SYMBOL` 
+gene. We can use `r Biocpkg("EnsDb.Hsapiens.v75")` to retrieve positional 
+information about `r pos_sel$SYMBOL`, like which chromosome the 
+`r pos_sel$SYMBOL` is on, its start and stop position, and how many exons it 
+has (at the time of Ensembl's `v75` release):
+
+```{r keys-ens75, eval = FALSE}
+# Install package from Bioconductor, if not already installed
+if (!require("EnsDb.Hsapiens.v75", quietly = TRUE)) {
+  BiocManager::install("EnsDb.Hsapiens.v75")
+}
+
+# The central keys of the organism-level database are the Ensembl gene ID
+keys(EnsDb.Hsapiens.v75)[1:10L]
+
+# Also contains the Ensembl gene ID, so this column can be used for merging
+grep("ENSEMBL", columns(SomaScan.db), value = TRUE)
+
+# These columns will inform us as to what positional information we can 
+# retrieve from the organism-level database
+columns(EnsDb.Hsapiens.v75)
+
+# Build a query to retrieve the prot IDs and start/stop pos of protein domains
+pos_res <- select(EnsDb.Hsapiens.v75, keys = "ENSG00000020633", 
+                  columns = c("GENEBIOTYPE", "SEQCOORDSYSTEM", "GENEID", 
+                              "PROTEINID", "PROTDOMSTART", "PROTDOMEND"))
+
+# Merge back into `pos_sel` using the "GENEID" column
+merge(pos_sel, pos_res, by.x = "ENSEMBL", by.y = "GENEID")
+```
+
+
+# Functional Group Representation
+
+As mentioned in the Introductory Vignette (`vignette("SomaScan.db", package = "SomaScan.db")`), 
+the `SomaScan.db` annotation database can be queried using values other than
+the central database key, the `SeqId` (i.e. the "PROBEID" column). This 
+section will describe additional methods of retrieving information from the 
+database without using the `SeqId`.
+
+---------------------
+
+
+## GO Term Coverage
+
+The annotations in `SomaScan.db` can be used to answer general questions about 
+SomaScan, without the need for a SomaScan dataset/ADAT file as a starting 
+point. For example, if one were interested in proteins involved in cancer 
+progression and metastasis (and therefore cell adhesion), is the SomaScan 
+menu capable of measuring proteins involved in cell adhesion? If so, how 
+many of these proteins can be measured with SomaScan? 
+
+We can answer this by examining the coverage of the GO term 
+"cell adhesion" in both the 5k and 7k SomaScan menus. We don't need the
+GO identifier to get started, as that information can be retrieved from
+`GO.db` using the name of the term as the key:
+
+```{r kin-act-go}
+select(GO.db, keys = "cell adhesion", keytype = "TERM", 
+       columns = c("GOID", "TERM"))
+```
+
+Now that we have the GO ID, we can search in `SomaScan.db` to determine 
+how many `SeqIds` are associated with cell adhesion.
+
+```{r}
+cellAd_ids <- select(SomaScan.db, keys = "GO:0007155", keytype = "GO",
+                     columns = "PROBEID", "UNIPROTID")
+
+head(cellAd_ids, n = 10L)
+
+# Total number of SeqIds associated with cell adhesion
+unique(cellAd_ids$PROBEID) |> length()
+```
+
+There are `r length(unique(cellAd_ids$PROBEID))` unique `SeqIds` associated 
+with the "cell adhesion" GO term (_unique_ is important here because the data 
+frame above may contain multiple entries per `SeqId`, due to the "EVIDENCE" 
+column). There are `r length(keys(SomaScan.db))` total `SeqIds` in the 
+`SomaScan.db` database, so 
+`r round(length(unique(cellAd_ids$PROBEID))/length(keys(SomaScan.db))*100, 2)`% 
+of keys in the database are associated with cell adhesion.
+
+How many of the _total_ proteins in the cell adhesion GO term are covered by 
+the SomaScan menu? To answer this question, we first must use another 
+annotation package, `org.Hs.eg.db`, to retrieve a list of all human 
+UniProt IDs associated with the "cell adhesion" GO term.
+
+```{r}
+cellAd_prots <- select(org.Hs.eg.db, 
+                       keys = "GO:0007155", 
+                       keytype = "GO", 
+                       columns = "UNIPROT")
+
+# Again, we take the unique set of proteins
+length(unique(cellAd_prots$UNIPROT))
+```
+
+The GO term `GO:0007155` (cell adhesion) contains a total of 
+`r length(unique(cellAd_prots$UNIPROT))` unique human UniProt IDs. Now we 
+can check to see how many of these are covered by the SomaScan menu by 
+searching for the proteins in `SomaScan.db` with `select`:
+
+```{r}
+cellAd_covProts <- select(SomaScan.db, keys = unique(cellAd_prots$UNIPROT),
+                          keytype = "UNIPROT", columns = "PROBEID")
+
+head(cellAd_covProts, n = 20L)
+```
+
+`select` will return an `NA` value if a key is not found in the database. As 
+seen above, some proteins in `GO:0007155` do not map to a `SeqId` in 
+`SomaScan.db`. To get an accurate count of the proteins that _do_ map to a 
+`SeqId`, we must remove the unmapped proteins by filtering out rows with `NA` 
+values:
+
+```{r}
+cellAd_covProts <- cellAd_covProts[!is.na(cellAd_covProts$PROBEID),]
+
+cellAd_covIDs <- unique(cellAd_covProts$UNIPROT)
+
+length(cellAd_covIDs)
+```
+
+We removed duplicates from the list of proteins provided as keys, to get a 
+final count of `r length(cellAd_covIDs)` proteins 
+(`r round(length(cellAd_covIDs)/length(unique(cellAd_prots$UNIPROT))*100, 2)`%) 
+from the "cell adhesion" GO term that are covered by the SomaScan menu. 
+
+Does this number differ between versions of the SomaScan Menu? Remember that 
+the 7k menu contains _all_ of the `SeqIds` in the 5k menu, so what this really 
+tells us is: were analytes targeting cell adhesion-related proteins added in 
+the 7k menu?
+
+```{r kin-act-menu-diff}
+cellAd_menu <- lapply(c("5k", "7k"), function(x) {
+    df <- select(SomaScan.db, keys = unique(cellAd_prots$UNIPROT),
+                 keytype = "UNIPROT", columns = "PROBEID",
+                 menu = x)
+    
+    # Again, removing probes that do not map to a cell adhesion protein
+    df <- df[!is.na(df$PROBEID),]
+}) |> setNames(c("somascan_5k", "somascan_7k"))
+
+identical(cellAd_menu$somascan_5k, cellAd_menu$somascan_7k)
+```
+
+In this example, the number of `SeqIds` associated with cell adhesion does 
+_not_ differ between SomaScan menu versions (the list of `SeqIds` is 
+identical). The differences between menu versions can be explored with the 
+`menu` argument of `select`, or via the `somascan_menu` data object (this is 
+explained in the Introductory Vignette).
+
+---------------------
+
+
+## Gene Families
+
+A number of gene families are targeted by reagents in the SomaScan assay. How 
+can these be interrogated using `SomaScan.db`? Is the package capable of 
+searching for/within specific gene families? The answer is yes, but  
+a specific function does not exist for analyzing gene families as a whole. 
+Instead, by using features of `select` and `keys`, `SomaScan.db` can 
+be queried for common features connecting gene families of interest - more 
+specifically, the `match=` argument of `select` and the `pattern=` argument of 
+`keys` can be used to retrieve gene family members that contain a common
+pattern in their name.
+
+The `keys` method is capable of using regular expressions ("regex") to search 
+for keys in the database that contain a specific pattern of characters. This 
+feature is especially useful when looking for annotations for a gene family. 
+For example, a regex pattern can be used to retrieve a list of all IL17 
+receptor family genes in the database:
+
+```{r keys-il17}
+il17_family <- keys(SomaScan.db, keytype = "SYMBOL", pattern = "IL17")
+```
+
+Those keys can then be used to query the database with `select`:
+
+```{r select-il17}
+select(SomaScan.db, keys = il17_family, keytype = "SYMBOL",
+       columns = c("PROBEID", "UNIPROT", "GENENAME"))
+```
+
+If multiple gene families are of interest, the `keys` argument of `select` 
+(in combination with `match=TRUE`) can support a regex pattern, and will 
+accomplish both of the previous steps in a single call:
+
+```{r combine-keys-select}
+select(SomaScan.db, keys = "NOTCH|ZF", keytype = "SYMBOL", 
+       columns = c("PROBEID", "SYMBOL", "GENENAME"), match = TRUE)
+```
+
+The `GENENAME` column can also support a regex pattern, and can be used to 
+search for keywords that are associated with specific gene families (and
+not just the gene symbols themselves). Examples include "homeobox", 
+"zinc finger", "notch", etc.
+
+```{r homeobox}
+select(SomaScan.db, keys = "homeobox", keytype = "GENENAME", 
+       columns = c("PROBEID", "SYMBOL"), match = TRUE)
+```
+
+
+# Session info
+
+```{r session-info}
+sessionInfo()
+```
