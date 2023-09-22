@@ -11,16 +11,17 @@ object, `SomaScan.db`, which is an SQLite database that can be queried
 to retrieve annotations for SomaScan analytes.
 
 `SomaScan.db` is structured around a primary identifier, the SomaLogic
-sequence ID (`SeqId`), which is in the format `####-##`. In this
+sequence ID (`SeqId`), which is in the format `12345-67`. In this
 package, the `SeqId` may also be referred to as the “PROBEID”. This
 identifier is the cornerstone of the SomaScan assay, and is used to
-uniquely identify SomaLogic analytes.
+uniquely identify SomaLogic analytes. For more information about
+`SeqIds`, please see
+[?SomaDataIO::SeqId](https://somalogic.github.io/SomaDataIO/reference/SeqId.html)
 
 The `SomaScan.db` package enables mapping from `SeqIds` to other
-commonly used identifiers within the Bioconductor universe (including
-gene-based annotations), and vice versa. For more information about
-`SeqIds`, see
-[?SomaDataIO::SeqId](https://somalogic.github.io/SomaDataIO/reference/SeqId.html)
+identifiers from popular public data repositories, many of which are
+gene-based, and vice versa. See below for installation instructions and
+usage examples.
 
 ------------------------------------------------------------------------
 
@@ -37,12 +38,6 @@ The package can then be loaded using the usual syntax:
 
 ``` r
 library(SomaScan.db)
-```
-
-And the vignettes can be loaded as follows:
-
-``` r
-browseVignettes("SomaScan.db")
 ```
 
 ### Dependencies
@@ -63,10 +58,9 @@ You may also want to install another of SomaLogic’s R packages,
 [SomaDataIO](https://github.com/SomaLogic/SomaDataIO/), which is
 designed for reading, writing, and manipulating
 [ADATs](https://github.com/SomaLogic/SomaLogic-Data/blob/master/README.md).
-If you have not already used
-[SomaDataIO](https://somalogic.github.io/SomaDataIO/) to work with your
-SomaScan data, you will likely find it highly useful. `SomaDataIO` is
-available on [CRAN](https://cran.r-project.org/package=SomaDataIO).
+If you have not already used `SomaDataIO` to work with your SomaScan
+data, you will likely find it highly useful. `SomaDataIO` is available
+on [CRAN](https://cran.r-project.org/package=SomaDataIO).
 
 ------------------------------------------------------------------------
 
@@ -83,7 +77,7 @@ keys(SomaScan.db)
 ```
 
 2.  `keytypes` lists data types that can be used as keys to query the
-    annotations:
+    SQLite database:
 
 ``` r
 keytypes(SomaScan.db)
@@ -102,16 +96,28 @@ columns(SomaScan.db)
 mapIds(SomaScan.db, keys = "18342-2", columns = "SYMBOL", multiVals = "first")
 ```
 
-5.  `select` retrieves annotation data en masse using `keys` and
-    `columns`:
+5.  `select` retrieves annotation data en masse (from multiple columns)
+    using values from `keys` and `columns`:
 
 ``` r
-select(SomaScan.db, keys = "18342-2", columns = c("ENTREZID", "SYMBOL"))
+select(SomaScan.db, keys = "18342-2", columns = c("ENTREZID", "SYMBOL", "UNIPROT"))
 ```
 
-For more detailed usage examples, please see the package vignettes and
-the [Bioconductor
-documentation](https://bioconductor.org/packages/release/bioc/html/AnnotationDbi.html).
+`select` can also be used to identify `SeqIds` associated with a gene or
+or protein of interest (here, `PROBEID` refers to the SomaScan
+`SeqIds`):
+
+``` r
+select(SomaScan.db, keys = "EGFR", keytype = "SYMBOL", columns = "PROBEID")
+```
+
+For more detailed usage examples, please see the `SomaScan.db` package
+vignettes, or the introductory vignette from Bioconductor’s
+`AnnotationDbi`:
+
+``` r
+vignette("IntroToAnnotationPackages", package = "AnnotationDbi")
+```
 
 ------------------------------------------------------------------------
 
@@ -148,5 +154,5 @@ purposes.
 
 [^1]: `SomaScan.db` contains annotations for human protein targets only.
     However, some targets in the SomaScan menu are associated with
-    biological entities not represented here. As such, this value may
-    differ from the exact number in your ADAT.
+    biological entities not represented in this package. As such, this
+    value may differ from the exact number in your ADAT.
