@@ -15,7 +15,6 @@ Authors@R:
              comment = c(ORCID = "0000-0002-2121-1873")),
       person(given = "SomaLogic Operating Co., Inc.", 
              role = c("cph", "fnd")))
-Maintainer: Bioconductor Package Maintainer <maintainer@bioconductor.org>
 Depends: 
     R (>= 4.2.0),
     AnnotationDbi (>= 1.56.2), 
