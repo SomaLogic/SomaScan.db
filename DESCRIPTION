@@ -6,7 +6,7 @@ Description: An R package providing extended biological annotations for
     public repositories. For more information on the SomaScan assay 
     and its data, please see 
     <https://github.com/SomaLogic/SomaLogic-Data/blob/master/README.md>.
-Version: 0.99.1
+Version: 0.99.2
 Authors@R: 
     c(person(given = "Amanda", 
              family = "Hiser",
@@ -39,7 +39,6 @@ organism: Homo sapiens
 species: Human
 manufacturer: Somalogic
 chipName: SomaScan
-manufacturerUrl: https://somalogic.com/somascan-platform/
 biocViews: ChipDb, AnnotationData, Homo_sapiens
 BiocType: Annotation
 LazyData: false
@@ -47,5 +46,7 @@ LazyLoad: true
 RoxygenNote: 7.2.3
 Roxygen: list(markdown = TRUE)
 Encoding: UTF-8
+URL: https://somalogic.com, https://github.com/SomaLogic/SomaScan.db/
+manufacturerUrl: https://somalogic.com/somascan-platform
 BugReports: https://github.com/SomaLogic/SomaScan.db/issues
 Config/testthat/edition: 3
