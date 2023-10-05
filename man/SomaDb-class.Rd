@@ -5,6 +5,11 @@
 \alias{SomaDb-class}
 \alias{.SomaDb}
 \title{The SomaDb S4 class}
+\value{
+\code{keys}, \code{columns}, and \code{keytypes} each return a character vector
+or possible values. \code{select} returns a data.frame and \code{mapIds} returns
+a named vector.
+}
 \description{
 The SomaDb class is a subclass of the ChipDb (and, by extension,
 the AnnotationDb) class defined in the AnnotationDbi package. It is designed

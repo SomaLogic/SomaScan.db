@@ -54,7 +54,7 @@ test_that("SeqId conversion doesn't drop values", {
     res <- select(SomaScan.db, keys = z, columns = "PROBEID")
     
     # Invalid IDs are not dropped
-    expect_length(res$PROBEID, z)
+    expect_length(res$PROBEID, length(z))
 })
 
 test_that("`SomaScan.db` correctly uses SeqIds as primary database keys", {

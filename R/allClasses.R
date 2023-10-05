@@ -6,4 +6,7 @@
 
 #' @importClassesFrom AnnotationDbi ChipDb
 #' @exportClass SomaDb
+#' @returns `keys`, `columns`, and `keytypes` each return a character vector 
+#'    or possible values. `select` returns a data.frame and `mapIds` returns 
+#'    a named vector.
 .SomaDb <- setRefClass("SomaDb", contains = "ChipDb")
