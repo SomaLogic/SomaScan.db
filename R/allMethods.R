@@ -126,7 +126,7 @@ setMethod("select", "SomaDb",
     function(x, keys, columns, keytype, menu = NULL, match = FALSE, ...) {
         if ( missing(keytype) ) keytype <- "PROBEID"
         keys <- .preprocessKeys(keytype = keytype, keys = keys, 
-                               menu = menu, match = match)
+                                menu = menu, match = match)
         x <- as(x, "ChipDb") # Convert back to ChipDb for internal methods
         callNextMethod(x, keys, columns, keytype, ...)
     }
@@ -166,17 +166,17 @@ setMethod("select", "SomaDb",
 #' mapIds(SomaScan.db, keys = keys, column = "UNIPROT", multiVals = "list")
 #' @exportMethod
 setMethod("mapIds", "SomaDb",
-    function(x, keys, column, keytype, menu = NULL, match = FALSE, ..., 
-             multiVals = c("filter", "asNA", "first", 
-                           "list", "CharacterList")) {
-        if ( missing(keytype) ) keytype <- "PROBEID" 
-        keys <- .preprocessKeys(keytype = keytype, keys = keys, 
-                                menu = menu, match = match)
- 
-        x <- as(x, "ChipDb") # Convert back to ChipDb for internal methods
-        callNextMethod(x, keys, column, keytype, menu, match, ..., 
-                       multiVals = multiVals)
-    }
+          function(x, keys, column, keytype, menu = NULL, match = FALSE, ..., 
+                   multiVals = c("filter", "asNA", "first", 
+                                 "list", "CharacterList")) {
+            if ( missing(keytype) ) keytype <- "PROBEID" 
+            keys <- .preprocessKeys(keytype = keytype, keys = keys, 
+                                    menu = menu, match = match)
+            
+            x <- as(x, "ChipDb") # Convert back to ChipDb for internal methods
+            callNextMethod(x, keys, column, keytype, menu, match, ..., 
+                           multiVals = multiVals)
+          }
 )
 
 
@@ -186,18 +186,18 @@ setMethod("mapIds", "SomaDb",
 # Performs the SeqId conversion & matching steps used in both
 # `select` and `mapIds`
 .preprocessKeys <- function(keytype, keys, menu, match) {
-  if ( isTRUE(keytype == "PROBEID") ) {
-      keys <- .filterSeqIds(keys, menu = menu)
-      ids <- getSeqId(keys)
-  } else if ( grepl("SYMBOL|ALIAS|NAME", keytype) && isTRUE(match) ) {
-      ids <- .matchKeys(keys, keytype)
-      if ( length(ids) == 0L ) {
-        message(sprintf("No '%s' matches found for '%s'!", keytype, keys))
-      }
-  } else {
-      ids <- keys
-  }
-  ids
+    if ( isTRUE(keytype == "PROBEID") ) {
+        keys <- .filterSeqIds(keys, menu = menu)
+        ids <- getSeqId(keys)
+    } else if ( grepl("SYMBOL|ALIAS|NAME", keytype) && isTRUE(match) ) {
+        ids <- .matchKeys(keys, keytype)
+        if ( length(ids) == 0L ) {
+          message(sprintf("No '%s' matches found for '%s'!", keytype, keys))
+        }
+    } else {
+        ids <- keys
+    }
+    ids
 }
 
 # Uses global analyte lists to filter keys (analytes), will only retain
@@ -219,14 +219,14 @@ setMethod("mapIds", "SomaDb",
 
 # `syms` can be a single value or vector of values
 .matchKeys <- function(syms, type = "SYMBOL") {
-  mapping <- switch(type,
-                    "SYMBOL" = SomaScanSYMBOL,
-                    "ALIAS" = SomaScanALIAS2PROBE,
-                    "GENENAME" = SomaScanGENENAME)
-  allKeys <- mappedRkeys(mapping)
-  matches <- lapply(syms, function(.x) {
-    r <- paste0("^", .x)
-    grep(r, allKeys, value = TRUE)
-  })
-  unlist(matches) # May be `character(0)` if no matches were found
+    mapping <- switch(type,
+                      "SYMBOL" = SomaScanSYMBOL,
+                      "ALIAS" = SomaScanALIAS2PROBE,
+                      "GENENAME" = SomaScanGENENAME)
+    allKeys <- mappedRkeys(mapping)
+    matches <- lapply(syms, function(.x) {
+      r <- paste0("^", .x)
+      grep(r, allKeys, value = TRUE)
+    })
+    unlist(matches) # May be `character(0)` if no matches were found
 }

@@ -59,7 +59,7 @@ with the gene "IL31":
 
 ```{r il31-select-df}
 il31_go <- select(SomaScan.db, keys = "IL31", keytype = "SYMBOL", 
-              columns = c("PROBEID", "GO"))
+                  columns = c("PROBEID", "GO"))
 
 il31_go
 ```
@@ -184,7 +184,7 @@ Let's walk through an example. First, select a key (and corresponding
 GO ID) to use as a starting point:
 
 ```{r example-go-ids}
-go_ids <- select(SomaScan.db, "IL3RA", keytype = "SYMBOL", 
+go_ids <- select(SomaScan.db, "IL3RA", keytype = "SYMBOL",
                  columns = c("GO", "SYMBOL"))
 
 go_ids
@@ -198,7 +198,7 @@ GO ID (in the `GO` column) to connect these values to the annotations in
 ```{r go-columns}
 columns(GO.db)
 
-go_defs <- select(GO.db, keys = go_ids$GO, 
+go_defs <- select(GO.db, keys = go_ids$GO,
                   columns = c("GOID", "TERM", "DEFINITION"))
 
 go_defs
@@ -321,7 +321,7 @@ has (at the time of Ensembl's `v75` release):
 ```{r keys-ens75, eval = FALSE}
 # Install package from Bioconductor, if not already installed
 if (!require("EnsDb.Hsapiens.v75", quietly = TRUE)) {
-  BiocManager::install("EnsDb.Hsapiens.v75")
+    BiocManager::install("EnsDb.Hsapiens.v75")
 }
 
 # The central keys of the organism-level database are the Ensembl gene ID

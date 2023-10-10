@@ -41,7 +41,8 @@ SomaScanORGANISM <- "Homo sapiens"
                                              objName = "UNIPROT2PROBE")
     
     ## Remove from env if not using in package
-    rmv <- grep("PROSITE|PFAM|CHR|ACCNUM", ls(ann_objs), value = TRUE) 
+    rmv <- grep("PROSITE|PFAM|CHR|ACCNUM|MAPCOUNTS", 
+                ls(ann_objs), value = TRUE) 
     rm(list = rmv, envir = ann_objs)
     
     mergeToNamespaceAndExport(ann_objs, pkgname) 

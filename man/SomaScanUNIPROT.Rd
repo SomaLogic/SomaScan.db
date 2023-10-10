@@ -1,25 +1,23 @@
 \name{SomaScanUNIPROT}
 \alias{SomaScanUNIPROT}
 \alias{SomaScanUNIPROT2PROBE}
-\title{Map Uniprot accession numbers with Entrez Gene identifiers}  
+\title{Map between Uniprot accession numbers and SomaScan SeqIds}
 \description{ 
-  SomaScanUNIPROT is an R object that contains mappings between 
-  the manufacturer identifiers and Uniprot accession numbers.    
+    \code{SomaScanUNIPROT} is an R object that contains mappings between 
+    \code{SeqIds} and Uniprot accession numbers.
 }
 \details{
-  This object is a simple mapping of manufacturer identifiers  to Uniprot
-  Accessions.
+    This object is a simple mapping of \code{SeqIds} to Uniprot
+    accession numbers.
 
-  Mappings were based on data provided by NCBI (link above) with an
-  exception for fly, which required retrieving the data from ensembl
-  \url{http://www.ensembl.org/biomart/martview/}
+    Human mappings were based on data provided by NCBI, with an
+    exception for fly, which required retrieving the data from Ensembl
+    (\url{http://www.ensembl.org/biomart/martview/}).
 }
 
 \seealso{
-  \itemize{
-    \item \code{\link[AnnotationDbi]{AnnotationDb-class}} for use of
-          the \code{select()} interface.
-  }
+    \code{\link[AnnotationDbi]{AnnotationDb-class}} for use of 
+    the \code{select()} interface.
 }
 
 \examples{
@@ -34,13 +32,10 @@ mapped_genes <- mappedkeys(x)
 # Convert to a list
 xx <- as.list(x[mapped_genes][1:300])
 if(length(xx) > 0) {
-  # Get the Uniprot IDs for the first five genes
-  xx[1:5]
-  # Get the first one
-  xx[[1]]
+    # Get the Uniprot IDs for the first five genes
+    xx[1:5]
+    # Get the first value
+    xx[[1]]
 }
 }
 \keyword{datasets}
-
-
-

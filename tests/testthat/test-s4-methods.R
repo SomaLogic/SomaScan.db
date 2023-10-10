@@ -18,10 +18,10 @@ test_that("`select()` works as expected for a SomaDb class object", {
     res <- select(SomaScan.db,
                   keys = k,
                   columns = c("ENSEMBL", "UNIPROT"))
-    # Exact number of results can vary depending on system
-    # expect_equal(dim(res), c(283, 3))
     expect_s3_class(res, "data.frame")
     expect_named(res, c("PROBEID", "ENSEMBL", "UNIPROT"))
+    # Exact number of results can vary depending on Bioc release,
+    # but all SeqIds should be represented in the output
     expect_length(unique(res$PROBEID), 100L)
 })
 

@@ -1,30 +1,32 @@
 \name{SomaScanALIAS2PROBE}
 \alias{SomaScanALIAS2PROBE}
-\title{Map between Common Gene Symbol Identifiers and Manufacturer Identifiers}
+\title{Map between Common Gene Symbol Identifiers and SomaScan SeqIds}
 \description{
-  SomaScanALIAS is an R object that provides mappings between
-  common gene symbol identifiers and manufacturer identifiers.
+    \code{SomaScanALIAS2PROBE} is an R object that provides mappings between
+    common gene symbol identifiers and manufacturer identifiers, i.e. the 
+    SomaScan \code{SeqId}.
 }
+
 \details{
-  Each gene symbol is mapped to a named vector of manufacturer identifiers. The
-  name represents the gene symbol and the vector contains all manufacturer
-  identifiers that are found for that symbol. An \code{NA} is reported for any
-  gene symbol that cannot be mapped to any manufacturer identifiers.
+    Each gene symbol is mapped to a named vector of \code{SeqIds}. 
+    The name of each vector element represents the gene symbol, and the vector 
+    contains all manufacturer identifiers that are found for that symbol. An 
+    \code{NA} is reported for any gene symbol that cannot be mapped to a 
+    \code{SeqId}.
 
-  This mapping includes ALL gene symbols including those which are already
-  listed in the SYMBOL map.  The SYMBOL map is meant to only list official gene
-  symbols, while the ALIAS maps are meant to store all used symbols.
+    This mapping includes \bold{all} gene symbols, including those which are 
+    already listed in the \code{SomaScanSYMBOL} map. The \code{SomaScanSYMBOL} 
+    map is meant to only list \emph{official} gene symbols, while the 
+    \code{SomaScanALIAS} maps are meant to store all \emph{used} symbols.
 
-  Mappings were based on data provided by: Entrez Gene  
-  ftp://ftp.ncbi.nlm.nih.gov/gene/DATA  
-  With a date stamp from the source of: 2021-Sep13
+    Mappings were based on data provided by Entrez Gene  
+    (ftp://ftp.ncbi.nlm.nih.gov/gene/DATA),  
+    with a date stamp from the source of: 2021-Sep13
 }
 
 \seealso{
-  \itemize{
-    \item \code{\link[AnnotationDbi]{AnnotationDb-class}} for use of
-          the \code{select()} interface.
-  }
+    \code{\link[AnnotationDbi]{AnnotationDb-class}} for use of
+    the \code{select()} interface.
 }
 
 \examples{
@@ -38,7 +40,7 @@ xx <- as.list(SomaScanALIAS2PROBE)
 if(length(xx) > 0){
     # Get the probe identifiers for the first two aliases
     xx[1:2]
-    # Get the first one
+    # Get the first value
     xx[[1]]
 }
 }
