@@ -5,6 +5,7 @@
     \code{SomaScanTARGETFULLNAME} is an R object that provides mappings between
     manufacturer identifiers and the names of their protein targets. 
 }
+
 \details{
     Each manufacturer identifier is mapped to the full name of the SOMAmer 
     protein target. An \code{NA} is reported if there is no target name 
@@ -19,6 +20,10 @@
     Mappings were based on data provided by: SomaLogic
     (https://somalogic.com/somascan-menu/), 
     with a date stamp from the source of: 2023-Oct
+}
+
+\value{
+    A \link{Bimap} object of the \code{ProbeAnnDbBimap} class.
 }
 
 \references{

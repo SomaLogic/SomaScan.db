@@ -12,6 +12,10 @@
     \code{?AnnotationDbi::select} from the \code{AnnotationDbi} package.
 }
 
+\value{
+    A platform-centric annotation package.
+}
+
 \seealso{
     \code{\link[AnnotationDbi]{AnnotationDb-class}} for use of
     \code{keys()}, \code{columns()} and \code{select()}.

@@ -29,6 +29,10 @@
 
 }
 
+\value{
+    A \link{Bimap} object of the \code{ProbeAnnDbBimap} class.
+}
+
 \references{
     \url{http://www.genome.ad.jp/kegg/}
 }

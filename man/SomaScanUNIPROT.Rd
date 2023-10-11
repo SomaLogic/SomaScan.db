@@ -6,6 +6,7 @@
     \code{SomaScanUNIPROT} is an R object that contains mappings between 
     \code{SeqIds} and Uniprot accession numbers.
 }
+
 \details{
     This object is a simple mapping of \code{SeqIds} to Uniprot
     accession numbers.
@@ -13,6 +14,10 @@
     Human mappings were based on data provided by NCBI, with an
     exception for fly, which required retrieving the data from Ensembl
     (\url{http://www.ensembl.org/biomart/martview/}).
+}
+
+\value{
+    A \link{Bimap} object of the \code{ProbeAnnDbBimap} class.
 }
 
 \seealso{

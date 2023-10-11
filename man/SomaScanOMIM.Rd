@@ -6,6 +6,7 @@
     \code{SomaScanOMIM} is an R object that provides mappings between
     manufacturer identifiers and OMIM identifiers.
 }
+
 \details{
     Each \code{SeqIds} is mapped to a vector of OMIM identifiers. The
     vector length may be one or longer, depending on how many OMIM identifiers
@@ -21,6 +22,10 @@
     Mappings were based on data provided by Entrez Gene  
     (ftp://ftp.ncbi.nlm.nih.gov/gene/DATA),
     with a date stamp from the source of: 2021-Sep13
+}
+
+\value{
+    A \link{Bimap} object of the \code{ProbeAnnDbBimap} class.
 }
 
 \references{

@@ -17,6 +17,7 @@
     ontology. Thus, this mapping is much larger and more inclusive than
     \code{SomaScanGO2PROBE}.
 }
+
 \details{
     If \code{SomaScanGO} is cast as a list, each \code{SeqId} is
     mapped to a list of lists. The names of the outer list are GO
@@ -71,6 +72,10 @@
     All mappings were based on data provided by Gene Ontology 
     (http://current.geneontology.org/ontology/go-basic.obo), 
     with a date stamp from the source of: 2021-09-01
+}
+
+\value{
+    A \link{Bimap} object of the \code{ProbeAnnDbBimap} class.
 }
 
 \references{

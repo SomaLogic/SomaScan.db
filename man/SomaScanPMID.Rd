@@ -36,6 +36,10 @@
 
 }
 
+\value{
+    A \link{Bimap} object of the \code{ProbeAnnDbBimap} class.
+}
+
 \references{
     \url{https://www.ncbi.nlm.nih.gov/entrez/query.fcgi?db=PubMed}
 }

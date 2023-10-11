@@ -24,6 +24,10 @@
     with a date stamp from the source of: 2021-Sep13
 }
 
+\value{
+    A \link{Bimap} object of the \code{ProbeAnnDbBimap} class.
+}
+
 \seealso{
     \code{\link[AnnotationDbi]{AnnotationDb-class}} for use of
     the \code{select()} interface.

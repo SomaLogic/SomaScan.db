@@ -6,7 +6,7 @@ Description: An R package providing extended biological annotations for
     public repositories. For more information on the SomaScan assay 
     and its data, please see 
     <https://github.com/SomaLogic/SomaLogic-Data/blob/master/README.md>.
-Version: 0.99.3
+Version: 0.99.4
 Authors@R: 
     c(person(given = "Amanda", 
              family = "Hiser",

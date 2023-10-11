@@ -5,6 +5,7 @@
     \code{SomaScanSYMBOL} is an R object that provides mappings between
     \code{SeqIds} and gene abbreviations.
 }
+
 \details{
     Each \code{SeqId} is mapped to an abbreviation (symbol) for the
     corresponding gene. An \code{NA} is reported if there is no known
@@ -17,6 +18,10 @@
     Mappings were based on data provided by Entrez Gene  
     (ftp://ftp.ncbi.nlm.nih.gov/gene/DATA),  
     with a date stamp from the source of: 2021-Sep13
+}
+
+\value{
+    A \link{Bimap} object of the \code{ProbeAnnDbBimap} class.
 }
 
 \references{

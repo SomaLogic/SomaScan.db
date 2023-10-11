@@ -5,6 +5,7 @@
     \code{SomaScanREFSEQ} is an R object that provides mappings between
     \code{SeqIds} and RefSeq identifiers.
 }
+
 \details{
     Each manufacturer identifier is mapped to a named vector of RefSeq 
     identifiers. The name represents the manufacturer identifier, and the 
@@ -36,6 +37,10 @@
     Mappings were based on data provided by Entrez Gene 
     (\url{ftp://ftp.ncbi.nlm.nih.gov/gene/DATA}), 
     with a date stamp from the source of: 2021-Sep13
+}
+
+\value{
+    A \link{Bimap} object of the \code{ProbeAnnDbBimap} class.
 }
 
 \references{

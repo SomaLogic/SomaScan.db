@@ -25,6 +25,10 @@
     with a date stamp from the source of: 2021-Sep13
 }
 
+\value{
+    A \link{Bimap} object of the \code{ProbeAnnDbBimap} class.
+}
+
 \references{
     \url{https://www.ncbi.nlm.nih.gov}
 }

@@ -7,6 +7,7 @@
     \code{SeqIds} and EC numbers. \code{SomaScanENZYME2PROBE} is an R object 
     that maps Enzyme Commission (EC) numbers to \code{SeqIds}.
 }
+
 \details{
     When the \code{SomaScanENZYME} mapping viewed as a list, each
     manufacturer identifier maps to a named vector containing the EC
@@ -50,6 +51,10 @@
     using files provided by KEGG GENOME 
     (\url{ftp://ftp.genome.jp/pub/kegg/genomes}), 
     with a date stamp from the source of: 2011-Mar15
+}
+
+\value{
+    A \link{Bimap} object of the \code{ProbeAnnDbBimap} class.
 }
 
 \references{
