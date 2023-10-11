@@ -13,6 +13,7 @@ vignette: >
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, crop = NULL)
+library(BiocStyle)
 ```
 
 ```{r loading packages}

@@ -63,11 +63,11 @@ mergeToNamespaceAndExportQuietly <- function(envir, pkgname) {
 #' res <- select(SomaScan.db, keys = seqs, columns = "UNIPROT")
 #' addTargetFullName(res)
 addTargetFullName <- function(data) {
-  seqIds <- data$PROBEID
-  targNames <- toTable(SomaScanTARGETFULLNAME)
-  targNames <- targNames[targNames$probe_id %in% seqIds,]
-  names(targNames) <- c("PROBEID", "TARGETFULLNAME")
-  merge(targNames, data)
+    seqIds <- data$PROBEID
+    targNames <- toTable(SomaScanTARGETFULLNAME)
+    targNames <- targNames[targNames$probe_id %in% seqIds,]
+    names(targNames) <- c("PROBEID", "TARGETFULLNAME")
+    merge(targNames, data)
 }
 
 ##############################################################

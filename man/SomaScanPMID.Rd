@@ -1,49 +1,52 @@
 \name{SomaScanPMID}
 \alias{SomaScanPMID}
 \alias{SomaScanPMID2PROBE}
-\title{Maps between Manufacturer Identifiers and PubMed Identifiers}
+\title{Maps between SomaScan SeqIds and PubMed identifiers}
 \description{
-   SomaScanPMID is an R object that provides mappings between
-   manufacturer identifiers and PubMed identifiers.
-   SomaScanPMID2PROBE is an R object that provides mappings between
-  PubMed identifiers and manufacturer identifiers.
+    \code{SomaScanPMID} is an R object that provides mappings between
+    \code{SeqIds} and PubMed identifiers.
+    
+    \code{SomaScanPMID2PROBE} is an R object that provides mappings between
+    PubMed identifiers and \code{SeqIDs}.
 }
+
 \details{
-  When SomaScanPMID is viewed as a list each manufacturer
-  identifier is mapped to a named vector of PubMed identifiers. The name
-  associated with each vector corresponds to the manufacturer
-  identifier. The length of the vector may be one or greater, depending
-  on how many PubMed identifiers a given manufacturer identifier is
-  mapped to. An \code{NA} is reported for any manufacturer identifier
-  that cannot be mapped to a PubMed identifier.
-  
-  When SomaScanPMID2PROBE is viewed as a list each PubMed
-  identifier is mapped to a named vector of manufacturer
-  identifiers. The name represents the PubMed identifier and the vector
-  contains all manufacturer identifiers that are represented by that
-  PubMed identifier. The length of the vector may be one or longer,
-  depending on how many manufacturer identifiers are mapped to a given
-  PubMed identifier.
-  
-  Titles, abstracts, and possibly full texts of articles can be obtained
-  from PubMed by providing a valid PubMed identifier. The pubmed function of
-  annotate can also be used for the same purpose.
+    When \code{SomaScanPMID} is viewed as a list, each \code{SeqId} is mapped 
+    to a named vector of PubMed identifiers. The name associated with each 
+    vector corresponds to the \code{SeqId}. The length of the vector may be 
+    one or greater, depending on how many PubMed identifiers a given
+    \code{SeqId} is mapped to. An \code{NA} is reported for any \code{SeqId}
+    that cannot be mapped to a PubMed identifier.
 
-  Mappings were based on data provided by: Entrez Gene  
-  ftp://ftp.ncbi.nlm.nih.gov/gene/DATA  
-  With a date stamp from the source of: 2021-Sep13
+    When \code{SomaScanPMID2PROBE} is viewed as a list, each PubMed
+    identifier is mapped to a named vector of \code{SeqIds}. The name 
+    represents the PubMed identifier and the vector contains all \code{SeqIds} 
+    that are represented by that PubMed identifier. The length of the vector
+    may be one or longer, depending on how many \code{SeqIds} are 
+    mapped to a given PubMed identifier.
 
+    Titles, abstracts, and possibly full texts of articles can be obtained
+    from PubMed by providing a valid PubMed identifier. The \code{pubmed()} 
+    function of the \code{annotate} package can also be used for the same 
+    purpose.
+
+    Mappings were based on data provided by Entrez Gene 
+    (ftp://ftp.ncbi.nlm.nih.gov/gene/DATA), 
+    with a date stamp from the source of: 2021-Sep13
+
+}
+
+\value{
+    A \link{Bimap} object of the \code{ProbeAnnDbBimap} class.
 }
 
 \references{
-  \url{https://www.ncbi.nlm.nih.gov/entrez/query.fcgi?db=PubMed}
+    \url{https://www.ncbi.nlm.nih.gov/entrez/query.fcgi?db=PubMed}
 }
 
 \seealso{
-  \itemize{
-    \item \code{\link[AnnotationDbi]{AnnotationDb-class}} for use of
-          the \code{select()} interface.
-  }
+    \code{\link[AnnotationDbi]{AnnotationDb-class}} for use of 
+    the \code{select()} interface.
 }
 
 \examples{
@@ -62,8 +65,8 @@ if(length(xx) > 0){
     xx[1:2]
     # Get the first one
     xx[[1]]
-    if(interactive() && !is.null(xx[[1]]) && !is.na(xx[[1]])
-       && require(annotate)){
+    if(interactive() && !is.null(xx[[1]]) && !is.na(xx[[1]]) 
+    && require(annotate)){
         # Get article information as XML files
         xmls <- pubmed(xx[[1]], disp = "data")
         # View article information using a browser
@@ -90,4 +93,3 @@ if(length(xx) > 0){
 }
 
 \keyword{datasets}
-
