@@ -5,6 +5,24 @@ cols <- c("UNIPROT", "SYMBOL")
 
 # Testing ---------
 
+# Note: these values will NOT match the total number of analytes in the 
+# menu tool (and that is expected), as this package excludes 
+# non-human analytes
+test_that("The number of probes in the database is as expected", {
+    all_keys <- keys(SomaScan.db)
+    all_probeIDs <- select(SomaScan.db, keys = keys(SomaScan.db), 
+                           columns = "PROBEID")
+    v4.1_probeIDs <- select(SomaScan.db, keys = keys(SomaScan.db), 
+                            columns = "PROBEID", menu = "v4.1")
+    v4.0_probeIDs <- select(SomaScan.db, keys = keys(SomaScan.db), 
+                            columns = "PROBEID", menu = "v4.0")
+    
+    expect_length(all_keys, 7267L)
+    expect_length(all_probeIDs$PROBEID, 7267L)
+    expect_length(v4.1_probeIDs$PROBEID, 7267L)
+    expect_length(v4.0_probeIDs$PROBEID, 4966L)
+})
+
 # SeqIds
 test_that("`select()` returns same results as online menu tool for `10012-5`", {
     menu_res <- c("10012-5", "O95238", "SPDEF")
