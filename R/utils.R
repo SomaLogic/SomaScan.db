@@ -15,31 +15,6 @@ dbEasyQuery <- function(conn, SQL, j0 = NA) {
     }
 }
 
-# Copied from AnnotationDbi::mergeToNamespaceAndExport(), but
-# modified to remove the repetitive PFAM/PROSITE error msgs
-mergeToNamespaceAndExportQuietly <- function(envir, pkgname) {
-    determineDep <- function() {
-        pattern <- "SomaScan"
-        name <- paste0(prefix, sub(pattern, "\\1", obj))
-        dc[[name]]
-    }
-    keys <- ls(envir, all.names = TRUE)
-    for (obj in keys) {
-        prefix <- sub(".db", "", pkgname)
-        dc <- eval(parse(text = paste0(pkgname, ":::datacache")))
-        ns <- asNamespace(pkgname)
-        if (any(grepl("PFAM|PROSITE|CHR|ACCNUM", obj))) {
-            # Stashes obj in datacache env (defined in zzz.R)
-            assign(obj, envir[[obj]], envir = dc)
-            # Binds function to a symbol in the env
-            makeActiveBinding(sym = obj, fun = determineDep, env = ns)
-        } else {
-            assign(obj, envir[[obj]], envir = ns)
-        }
-        namespaceExport(ns, obj)
-    }
-}
-
 #' Add Target Full Name information to data frame
 #' 
 #' @description
