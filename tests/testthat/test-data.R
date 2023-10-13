@@ -27,3 +27,17 @@ test_that("The data objects have the same information as the SQLite db menu tabl
     expect_identical(unique(res_5k$probe_id), v4.0_analytes)
     expect_identical(unique(res_7k$probe_id), v4.1_analytes)
 })
+
+test_that("Custom bimaps are available in the environment", {
+    expect_true(exists("SomaScanTARGETFULLNAME"))
+    expect_true(exists("SomaScanORGANISM"))
+    expect_identical(SomaScanORGANISM, "Homo sapiens")
+})
+
+test_that("Custom bimaps behave as expected when cast to data.frame", {
+    df <- toTable(SomaScanTARGETFULLNAME)
+    expect_s3_class(df, "data.frame")
+    expect_equal(dim(df), c(7352L, 2L))
+    expect_named(df, c("probe_id", "target_full_name"))
+})
+
