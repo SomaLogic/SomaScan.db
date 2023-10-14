@@ -21,6 +21,7 @@ library(BiocStyle)
 suppressPackageStartupMessages({
     library(GO.db)
     library(KEGGREST)
+    library(org.Hs.eg.db)
     library(SomaScan.db)
     library(withr)
 })
