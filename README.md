@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# SomaScan.db <a href="https://somalogic.github.io/SomaDataIO"><img src="man/figures/logo.png" align="right" height="138" alt="" /></a>
+# SomaScan.db <a href="https://somalogic.github.io/SomaDataIO"><img src="inst/figures/logo.png" align="right" height="138" alt="" /></a>
 
 The `SomaScan.db` package is a platform-centric R package that provides
 extended biological annotations for analytes in the SomaScan assay menu,
