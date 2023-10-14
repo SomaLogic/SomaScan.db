@@ -27,14 +27,25 @@ usage examples.
 
 ## Installation
 
-The development version of the `SomaScan.db` package can be be installed
-from GitHub:
+`SomaScan.db` can be installed from the most recent Bioconductor release
+using the `BiocManager` package:
+
+``` r
+# If not already installed, install BiocManager
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("SomaScan.db")
+```
+
+The development version of `SomaScan.db`, containing the most current
+features and/or updates, can be be installed from GitHub:
 
 ``` r
 remotes::install_github("SomaLogic/SomaScan.db")
 ```
 
-The package can then be loaded using the usual syntax:
+Once installed, the package can be loaded using the usual syntax:
 
 ``` r
 library(SomaScan.db)
