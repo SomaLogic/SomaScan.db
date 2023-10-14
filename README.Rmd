@@ -65,12 +65,8 @@ following R packages:
 
 * `methods` 
     - comes bundled with R installation
-* `DBI`
-    - install from CRAN: `install.packages("DBI")`
 * `AnnotationDbi` (>= 1.56.2)
     - install from Bioconductor: `BiocManager::install("AnnotationDbi")`
-* `org.Hs.eg.db` (>= 3.14.0)
-    - install from Bioconductor: `BiocManager::install("org.Hs.eg.db")`
 
 You may also want to install another of SomaLogic's R packages,
 [SomaDataIO](https://github.com/SomaLogic/SomaDataIO/),

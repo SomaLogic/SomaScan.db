@@ -13,13 +13,14 @@ Authors@R:
              role = c("cre", "aut"),
              email = "ahiser@somalogic.com",
              comment = c(ORCID = "0000-0002-2121-1873")),
-      person(given = "SomaLogic Operating Co., Inc.", 
+      person(given = "SomaLogic Operating Co., Inc.",
              role = c("cph", "fnd")))
 Depends: 
     R (>= 4.2.0),
     AnnotationDbi (>= 1.56.2), 
-    DBI, 
-    methods, 
+    methods
+Imports:
+    DBI,
     org.Hs.eg.db (>= 3.14.0)
 Suggests:
     annotate,

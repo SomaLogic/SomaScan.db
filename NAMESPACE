@@ -1,7 +1,16 @@
-import(methods)
 import(AnnotationDbi)
-import(DBI)
 import(org.Hs.eg.db)
+importFrom(methods, 
+           as,
+           new,
+           callNextMethod,
+           setMethod,
+           setRefClass)
+importFrom(DBI, 
+           dbConnect,
+           dbGetQuery, 
+           dbSendQuery, 
+           dbDisconnect)
 
 # Only statically exported objects are listed here. 
 # All the AnnObj instances created at load time (ex. SomaScanENTREZID and the 
