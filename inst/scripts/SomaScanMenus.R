@@ -1,11 +1,14 @@
-devtools::load_all(".")
+library(SomaScan.db)
+library(AnnotationDbi)
 
 # Connecting to db
 dbname <- file.path("inst/extdata/SomaScan.sqlite")
 
+sql <- c("SELECT probe_id from map_menu WHERE %s IS 1")
+
 somascan_menu <- list(
-    v4.0 = dbGetQuery(SomaScan_dbconn(), "SELECT probe_id from map_menu WHERE v4_0 IS 1")$probe_id,
-    v4.1 = dbGetQuery(SomaScan_dbconn(), "SELECT probe_id from map_menu WHERE v4_1 IS 1")$probe_id
+    v4.0 = dbGetQuery(SomaScan_dbconn(), sprintf(sql, "v4_0"))$probe_id,
+    v4.1 = dbGetQuery(SomaScan_dbconn(), sprintf(sql, "v4_1"))$probe_id
 )
 
 # Removing any duplicate entries, only need 1 per analyte
