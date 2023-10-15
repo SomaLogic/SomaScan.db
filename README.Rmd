@@ -19,7 +19,8 @@ ver <- paste0("https://img.shields.io/badge/Version-", ver,
 ```
 
 
-# SomaScan.db <a href="https://somalogic.github.io/SomaDataIO"><img src="inst/figures/logo.png" align="right" height="138" alt="" /></a>
+# SomaScan.db <a href="https://somalogic.github.io/SomaDataIO">
+<img src="inst/figures/logo.png" align="right" height="138" alt="" /></a>
 
 
 The `SomaScan.db` package is a platform-centric R package that provides 
@@ -33,7 +34,7 @@ sequence ID (`SeqId`), which is in the format `12345-67`. In this package, the
 `SeqId` may also be referred to as the "PROBEID". This identifier is the 
 cornerstone of the SomaScan assay, and is used to uniquely identify SomaLogic 
 analytes. For more information about `SeqIds`, please see
-[?SomaDataIO::SeqId](https://somalogic.github.io/SomaDataIO/reference/SeqId.html)
+[?SomaDataIO::SeqId](https://somalogic.github.io/SomaDataIO/reference/SeqId.html).
 
 The `SomaScan.db` package enables mapping from `SeqIds` to other identifiers 
 from popular public data repositories, many of which are gene-based, and vice 
@@ -126,7 +127,7 @@ mapIds(SomaScan.db, keys = "18342-2", columns = "SYMBOL", multiVals = "first")
 values from `keys` and `columns`:
 
 ```{r eval=FALSE}
-select(SomaScan.db, keys = "18342-2", columns = c("ENTREZID", "SYMBOL", "UNIPROT"))
+select(SomaScan.db, keys = "18342-2", columns = c("SYMBOL", "UNIPROT"))
 ```
 
 `select` can also be used to identify `SeqIds` associated with a gene or
