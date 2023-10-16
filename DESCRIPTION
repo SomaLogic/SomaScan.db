@@ -16,7 +16,7 @@ Authors@R:
       person(given = "SomaLogic Operating Co., Inc.",
              role = c("cph", "fnd")))
 Depends: 
-    R (>= 4.2.0),
+    R (>= 4.3.0),
     AnnotationDbi (>= 1.56.2), 
     methods
 Imports:
