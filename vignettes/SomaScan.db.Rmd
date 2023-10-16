@@ -7,7 +7,7 @@ output:
       toc_float: true
 vignette: >
   %\VignetteIndexEntry{Introduction to SomaScan.db}
-  %\VignetteEngine{knitr::knitr}
+  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 

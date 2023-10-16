@@ -7,7 +7,7 @@ output:
       toc_float: true
 vignette: >
   %\VignetteIndexEntry{Example ADAT Workflow Using SomaScan.db}
-  %\VignetteEngine{knitr::knitr}
+  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
