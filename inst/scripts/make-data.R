@@ -1,0 +1,117 @@
+library(AnnotationDbi)
+library(AnnotationForge)
+library(DBI)
+library(dplyr)
+
+# ---------- Input data ----------------------#
+# Up-to-date analyte lists from past SomaScan menu releases will be used to
+# generate the SQLite annotation database. The original document used to 
+# generate these files is available to SomaLogic customers only. 
+# However, the full menu and extended annotations can be explored 
+# at https://menu.somalogic.com/.
+
+# The files below were created by selecting the "SeqId", "Entrez Gene ID", and
+# "Target Full Name" columns from the official SomaScan menu document, using
+# both the 5k (v4.0) and 7k (v4.1) assay menus.
+# Note: these files must NOT have column headers
+files <- list(menu_5k = system.file("extdata/SomaScan_5k_seqIDs_EntrezIDs_targFullNames.txt", 
+                                    package = "SomaScan.db", mustWork = TRUE),
+              menu_7k = system.file("extdata/SomaScan_7k_seqIDs_EntrezIDs_targFullNames.txt",
+                                    package = "SomaScan.db", mustWork = TRUE))
+
+# Column headers may be added once read into the environment
+colnames <- c("probe_id", "entrez_id", "target_full_name")
+data <- lapply(files, read.delim, header = FALSE, col.names = colnames)
+
+# The target full name will not initially be needed (to generate the 
+# SQLite database)
+pkg_input <- data$menu_7k[,1:2]
+
+
+#----------- Generate SQLite db --------------#
+# This database will require a "HUMANCHIP_DB" schema
+available.dbschemas() %>% grep("HUMAN", ., value = T)
+
+# Metadata information required to populate a human ChipDb
+pkgmeta <- c(DBSCHEMA = "HUMANCHIP_DB",
+             ORGANISM = "Human", 
+             SPECIES = "Homo sapiens", 
+             MANUFACTURER = "SomaLogic", 
+             CHIPNAME = "SomaScan", 
+             MANUFACTURERURL = "https://somalogic.com/somascan-platform/")
+
+# This package was originally created using the function call below.
+# Note: this only needed to be run ONCE
+# AnnotationForge::makeDBPackage("HUMANCHIP_DB",
+#                                affy = FALSE,
+#                                prefix = "SomaScan",
+#                                fileName = file,
+#                                # Using Entrez Gene IDs
+#                                baseMapType = "eg", 
+#                                # Pre-submission pkg version required by Bioc
+#                                version = "0.99.0", 
+#                                manufacturer = "SomaLogic",
+#                                chipName = "SomaScan",
+#                                author = "Amanda Hiser")
+
+# The previous function was used to generate an entire package skeleton at
+# the beginning of package development (including DESCRIPTION file, man pages, 
+# etc.), and only needed to be run once. See the AnnotationForge documentation
+# for more details. 
+# The function call below can be used to create *just* the SQLite database 
+# component:
+AnnotationForge::populateDB(
+    "HUMANCHIP_DB", 
+    affy = FALSE,
+    prefix = "SomaScan",
+    fileName = files$menu_7k, 
+    metaDataSrc = pkgmeta,
+    baseMapType = "eg",
+    outputDir = "inst/extdata/"
+)
+
+
+# ---------- Create database connection--------------#
+con <- dbConnect(dbDriver("SQLite"), "SomaScan.sqlite")
+
+
+#----------- Modify metadata --------------#
+# This step suggested by the AnnotationForge vignette "Making New Annotation 
+# Packages", section 7
+dbGetQuery(con, "SELECT * FROM metadata") # Check current metadata
+dbSendQuery(con, paste("UPDATE metadata SET value='SomaScan.db' WHERE",
+                       "value='AnnotationDbi'"))
+
+
+#----------- Add tables to database ------------------#
+# The 7k version of the SomaScan assay menu encompasses all analytes
+# from the previous menu (5k), and as such represents a "superset"
+# of all currently available assay analytes and their unique identifiers
+superset <- input_data$menu_7k$probe_id
+
+# Create a dataframe to delineate which analytes are available in each 
+# version of the menu
+menus <- data.frame(probe_id = superset,
+                    v4_0 = ifelse(superset %in% input_data$menu_5k[[1]], 
+                                  1, 0),
+                    v4_1 = ifelse(superset %in% input_data$menu_7k[[1]], 
+                                  1, 0))
+
+# Adding above data as a table to the SQLite database
+dbGetQuery(con, paste("CREATE Table map_menu", 
+                      "(probe_id TEXT, v4_0 INTEGER, v4_1 INTEGER)"))
+dbAppendTable(con, "map_menu", menus)
+
+# Adding target full name table to SQLite database
+seqId2targName <- dplyr::select(data$menu_7k, -entrez_id)
+
+# These should be identical
+identical(pkg_input$probe_id, seqId2targName$probe_id) 
+
+dbGetQuery(con, paste("CREATE Table target_names", 
+                      "(probe_id TEXT, target_full_name TEXT)"))
+dbAppendTable(con, "target_names", seqId2targName)
+
+
+# ------- Close database connection ------#
+dbDisconnect(con)
