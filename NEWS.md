@@ -1,3 +1,7 @@
+# SomaScan.db 0.99.5
+* Increased minimum R version dependency to 4.3.0
+* Cleaned up DESCRIPTION file and removed/cleaned up package imports
+
 # SomaScan.db 0.99.4
 * Added `\value{}` field to bimap man pages
 + Included link to the `AnnotationDbi::bimap` help page for more details
