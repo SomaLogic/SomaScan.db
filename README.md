@@ -1,12 +1,22 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# SomaScan.db <a href="https://somalogic.github.io/SomaDataIO"><img src="inst/figures/logo.png" align="right" height="138" alt="" /></a>
+# SomaScan.db <img src="inst/figures/logo.png" align="right" height="138" alt="" />
+
+<!-- badges: start -->
+
+![GitHub
+version](https://img.shields.io/badge/Version-0.99.6-success.svg?style=flat&logo=github)
+[![Lifecycle:
+stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
+[![License:
+MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://choosealicense.com/licenses/mit/)
+<!-- badges: end -->
 
 The `SomaScan.db` package is a platform-centric R package that provides
 extended biological annotations for analytes in the SomaScan assay menu,
 using resources provided by the [Bioconductor
-project](https://bioconductor.org/). The package exposes a single
+project](https://bioconductor.org/). The package exposes a database
 object, `SomaScan.db`, which is an SQLite database that can be queried
 to retrieve annotations for SomaScan analytes.
 
@@ -16,7 +26,7 @@ package, the `SeqId` may also be referred to as the “PROBEID”. This
 identifier is the cornerstone of the SomaScan assay, and is used to
 uniquely identify SomaLogic analytes. For more information about
 `SeqIds`, please see
-[?SomaDataIO::SeqId](https://somalogic.github.io/SomaDataIO/reference/SeqId.html)
+[?SomaDataIO::SeqId](https://somalogic.github.io/SomaDataIO/reference/SeqId.html).
 
 The `SomaScan.db` package enables mapping from `SeqIds` to other
 identifiers from popular public data repositories, many of which are
@@ -32,8 +42,9 @@ using the `BiocManager` package:
 
 ``` r
 # If not already installed, install BiocManager
-if (!require("BiocManager", quietly = TRUE))
+if (!require("BiocManager", quietly = TRUE)) {
     install.packages("BiocManager")
+}
 
 BiocManager::install("SomaScan.db")
 ```
@@ -53,7 +64,7 @@ library(SomaScan.db)
 
 ### Dependencies
 
-The `SomaScan.db` package requires `R >= 4.2.0`, and depends on the
+The `SomaScan.db` package requires `R >= 4.3.0`, and depends on the
 following R packages:
 
 - `methods`
@@ -107,7 +118,7 @@ mapIds(SomaScan.db, keys = "18342-2", columns = "SYMBOL", multiVals = "first")
     using values from `keys` and `columns`:
 
 ``` r
-select(SomaScan.db, keys = "18342-2", columns = c("ENTREZID", "SYMBOL", "UNIPROT"))
+select(SomaScan.db, keys = "18342-2", columns = c("SYMBOL", "UNIPROT"))
 ```
 
 `select` can also be used to identify `SeqIds` associated with a gene or
