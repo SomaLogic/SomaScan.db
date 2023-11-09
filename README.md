@@ -6,11 +6,15 @@
 <!-- badges: start -->
 
 ![GitHub
-version](https://img.shields.io/badge/Version-0.99.6-success.svg?style=flat&logo=github)
+version](https://img.shields.io/badge/Version-0.99.7-success.svg?style=flat&logo=github)
 [![Lifecycle:
 stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![License:
 MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://choosealicense.com/licenses/mit/)
+[![BioC
+rank](https://bioconductor.org/shields/downloads/release/SomaScan.db.svg)](https://bioconductor.org/packages/stats/data-annotation/SomaScan.db/)
+[![Bioc
+support](https://bioconductor.org/shields/posts/SomaScan.db.svg)](https://support.bioconductor.org/tag/SomaScan.db)
 <!-- badges: end -->
 
 The `SomaScan.db` package is a platform-centric R package that provides
