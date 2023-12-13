@@ -14,15 +14,10 @@ vignette: >
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, crop = NULL)
 library(BiocStyle)
-```
-
-```{r loading packages}
-suppressPackageStartupMessages({
-    library(dplyr)
-    library(GO.db)
-    library(SomaDataIO)
-    library(SomaScan.db)
-})
+library(dplyr)
+library(GO.db)
+library(SomaDataIO)
+library(SomaScan.db)
 ```
 
 
@@ -41,8 +36,16 @@ format, as well as the documentation in `r CRANpkg("SomaDataIO")` and the
 `r Githubpkg("SomaLogic/SomaLogic-Data")` Github repository. For more 
 information about the ADAT format, as well as a detailed description of the 
 fields found in an ADAT, please reference the 
-`r Githubpkg("SomaLogic/SomaLogic-Data")` repository [README](https://github.com/SomaLogic/SomaLogic-Data).
+`r Githubpkg("SomaLogic/SomaLogic-Data")` repository 
+[README](https://github.com/SomaLogic/SomaLogic-Data).
 
+
+```{r load-pkgs}
+library(dplyr)
+library(GO.db)
+library(SomaDataIO)
+library(SomaScan.db)
+```
 
 # Reading an ADAT
 
@@ -202,7 +205,8 @@ Note that the "PROBEID" column corresponds to the SomaScan `SeqId`, the
 central probe for the platform. This identifier ties the other available 
 annotations (listed in the `columns` output above) to the data found in an 
 ADAT file. For more information on the ADAT file format and an explanation of 
-its contents, please reference the [SomaLogic-Data GitHub repository](https://github.com/SomaLogic/SomaLogic-Data).
+its contents, please reference the 
+[SomaLogic-Data GitHub repository](https://github.com/SomaLogic/SomaLogic-Data).
 
 For this example, we will retrieve Gene Ontology (GO) identifiers associated 
 with the `SeqIds` that are positively correlated with `Age`. This will be the 

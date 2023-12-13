@@ -1,3 +1,6 @@
+# SomaScan.db 0.99.7
+* Created pkgdown site
+
 # SomaScan.db 0.99.6
 * Updated vignette engine to use `knitr::rmarkdown`
 

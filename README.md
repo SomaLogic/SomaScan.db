@@ -1,12 +1,12 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# SomaScan.db <img src="inst/figures/logo.png" align="right" height="138" alt="" />
+# `SomaScan.db` <img src="inst/figures/logo.png" align="right" height="138" alt="" />
 
 <!-- badges: start -->
 
 ![GitHub
-version](https://img.shields.io/badge/Version-0.99.7-success.svg?style=flat&logo=github)
+version](https://img.shields.io/badge/Version-0.99.8-success.svg?style=flat&logo=github)
 [![Lifecycle:
 stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![License:
@@ -17,32 +17,33 @@ rank](https://bioconductor.org/shields/downloads/release/SomaScan.db.svg)](https
 support](https://bioconductor.org/shields/posts/SomaScan.db.svg)](https://support.bioconductor.org/tag/SomaScan.db)
 <!-- badges: end -->
 
+# Oveview
+
 The `SomaScan.db` package is a platform-centric R package that provides
 extended biological annotations for analytes in the SomaScan assay menu,
-using resources provided by the [Bioconductor
-project](https://bioconductor.org/). The package exposes a database
-object, `SomaScan.db`, which is an SQLite database that can be queried
-to retrieve annotations for SomaScan analytes.
+using resources provided by the
+[Bioconductor](https://bioconductor.org/) project. The package exposes a
+database object, `SomaScan.db`, which is an SQLite database that can be
+queried to retrieve annotations for SomaScan analytes.
 
 `SomaScan.db` is structured around a primary identifier, the SomaLogic
-sequence ID (`SeqId`), which is in the format `12345-67`. In this
-package, the `SeqId` may also be referred to as the “PROBEID”. This
-identifier is the cornerstone of the SomaScan assay, and is used to
-uniquely identify SomaLogic analytes. For more information about
-`SeqIds`, please see
-[?SomaDataIO::SeqId](https://somalogic.github.io/SomaDataIO/reference/SeqId.html).
+sequence ID (`SeqId`). Please note that in some cases, this identifier
+may also be referred to as a “PROBEID”. `SeqIds` are the cornerstone of
+the SomaScan assay, and are used to uniquely identify SomaLogic
+analytes. The `SomaScan.db` package enables mapping from `SeqIds` to
+other identifiers from popular public data repositories, many of which
+are gene-based, and vice versa.
 
-The `SomaScan.db` package enables mapping from `SeqIds` to other
-identifiers from popular public data repositories, many of which are
-gene-based, and vice versa. See below for installation instructions and
-usage examples.
+For more information about `SeqIds`, please see
+[?SomaDataIO::SeqId](https://somalogic.github.io/SomaDataIO/reference/SeqId.html).
 
 ------------------------------------------------------------------------
 
 ## Installation
 
 `SomaScan.db` can be installed from the most recent Bioconductor release
-using the `BiocManager` package:
+using the [BiocManager](https://CRAN.R-project.org/package=BiocManager)
+package:
 
 ``` r
 # If not already installed, install BiocManager

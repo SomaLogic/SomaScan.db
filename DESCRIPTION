@@ -6,7 +6,7 @@ Description: An R package providing extended biological annotations for
     public repositories. For more information about the SomaScan assay 
     and its data, please reference the 'SomaLogic/SomaLogic-Data' GitHub 
     repository.
-Version: 0.99.7
+Version: 0.99.8
 Authors@R: 
     c(person(given = "Amanda", 
              family = "Hiser",
@@ -33,6 +33,7 @@ Suggests:
     rmarkdown,
     SomaDataIO,
     testthat (>= 3.0.0),
+    tibble,
     withr
 VignetteBuilder: knitr
 License: MIT + file LICENSE
@@ -46,3 +47,4 @@ URL: https://somalogic.com, https://github.com/SomaLogic/SomaScan.db/
 manufacturerUrl: https://somalogic.com/somascan-platform
 BugReports: https://github.com/SomaLogic/SomaScan.db/issues
 Config/testthat/edition: 3
+Config/Needs/website: tidyverse/tidytemplate

@@ -1,0 +1,133 @@
+url: https://somalogic.github.io/SomaScan.db
+
+development:
+  mode: auto
+
+authors:
+  Amanda Hiser:
+    href: https://github.com/amanda-hi
+  SomaLogic Operating Co., Inc.:
+    href: http://www.somalogic.com
+  footer:
+    roles: [fnd]
+    text: "was developed by the Bioinformatics Dept. at"
+  sidebar:
+    roles: [cre, fnd]
+    before: "Special :pray: to:"
+    after: ":dna:"
+  before: "[SomaScan.db](https://github.com/SomaLogic/SomaScan.db/) is proudly brought to you by:"
+  after: ":dna:"
+
+footer:
+  structure:
+    left: [package, developed_by]
+    right: built_with
+  components:
+    logo: "<img src='inst/figures/logo.png' width='20'> "
+
+template:
+  bootstrap: 5
+  package: tidytemplate
+  bslib:
+    primary: "#0054AD"
+    border-radius: 0.5rem
+    btn-border-radius: 0.25rem
+    base_font: {google: "Roboto"}
+
+home:
+  sidebar:
+    structure: [links, help, oss, license, citation, authors, dev, toc]
+    components:
+      oss:
+        title: Other Software
+        text: >
+          [SomaDataIO](https://somalogic.github.io/SomaDataIO/) <br />
+          [SomaPlotr](https://somalogic.github.io/SomaPlotr/) <br />
+          [Canopy](https://github.com/SomaLogic/Canopy/) <br />
+          [DataDelve Statistics](https://somalogic.com/datadelve-statistics/)
+      help:
+        title: Getting Help
+        text: >
+          [Ask a question](https://somalogic.github.io/SomaScan.db/SUPPORT.html) <br />
+          [Report a bug](https://github.com/SomaLogic/SomaScan.db/issues)
+        
+  links:
+  - text: Learn more about SomaScan
+    href: http://www.somalogic.com
+  - text: Read SomaScan tech notes
+    href: http://www.somalogic.com/tech-notes/
+
+navbar:
+  structure:
+    left: [intro, reference, articles, news]
+    right: [search, github]
+        
+articles:
+  - title: Getting Started
+    navbar: ~
+    contents:
+    - SomaScan-db
+    
+  - title: Example ADAT Workflow Using SomaScan.db
+    navbar: ~
+    contents:
+    - example_adat_workflow
+
+  - title: Advanced Exploration of the SomaScan Menu
+    navbar: ~
+    contents:
+    - advanced_usage_examples
+
+reference:
+  - title: Query the Database
+    desc: >
+      Methods for retrieving annotations from the SQLite database.
+    contents:
+    - keys
+    - keytypes
+    - columns
+    - select
+    - mapIds
+    - SomaDb-class
+    
+  - title: Data Objects
+    desc: >
+      Objects provided with `SomaScan.db`
+    contents:
+    - SomaScan.db
+    - somascan_menu
+      
+  - title: Mapping Objects
+    desc: >
+      Objects containing mappings between database keys (i.e. identifiers).
+    contents:
+    - SomaScanALIAS2PROBE
+    - SomaScanENSEMBL
+    - SomaScanENTREZID
+    - SomaScanENZYME
+    - SomaScanGENENAME
+    - SomaScanGO
+    - SomaScanMAP
+    - SomaScanOMIM
+    - SomaScanORGANISM
+    - SomaScanPATH
+    - SomaScanPMID
+    - SomaScanREFSEQ
+    - SomaScanSYMBOL
+    - SomaTARGETFULLNAME
+    - SomaScanUNIPROT
+      
+  - title: Helpers
+    desc: >
+      Miscellaneous functions for retrieving data or modifying query results.
+    contents:
+    - addTargetFullName
+  
+  - title: Accessor Functions
+    desc: >
+      Convenience functions for accessing the database.
+    contents:
+    - SomaScan_dbconn
+
+news:
+  - one_page: true
