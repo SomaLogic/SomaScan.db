@@ -14,6 +14,8 @@ vignette: >
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(withr)
+library(SomaScan.db)
+library(tibble)
 ```
 
 
@@ -284,7 +286,7 @@ select(SomaScan.db, keys = example_keys[3L], columns = "GO")
 select(SomaScan.db,
        keys = example_keys[3L],
        columns = c("UNIPROT", "ENSEMBL", "GO", "PATH", "IPI")
-)
+) |> tibble::as_tibble()
 ```
 
 The example above illustrates why it is preferred to request as few columns as 

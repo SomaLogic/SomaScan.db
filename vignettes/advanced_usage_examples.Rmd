@@ -14,18 +14,15 @@ vignette: >
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(BiocStyle)
+library(GO.db)
+library(KEGGREST)
+library(org.Hs.eg.db)
+library(SomaScan.db)
+library(withr)
 ```
 
 
-```{r loading-packages, warning = FALSE, message = FALSE}
-suppressPackageStartupMessages({
-    library(GO.db)
-    library(KEGGREST)
-    library(org.Hs.eg.db)
-    library(SomaScan.db)
-    library(withr)
-})
-```
+# Introduction
 
 This vignette is a follow up to the "Introduction to SomaScan.db" vignette,
 and will introduce more advanced capabilities of the `SomaScan.db` 
@@ -34,13 +31,21 @@ explore the SomaScan menu and execute complex annotation functions, outside of
 the basic use of `select` outlined in the introductory vignette. Knowledge of
 SQL is not required, but a familiarity with R and SomaScan data is highly 
 suggested. For an introduction to the `SomaScan.db` package and its 
-methods, please see `vignette("introductory_vignette", "SomaScan.db")`.
+methods, please see `vignette("SomaScan-db", "SomaScan.db")`.
 
 Please note that this vignette will require the installation and usage of 
 *three* additional Bioconductor R packages: `r Biocpkg("GO.db")`, 
 `r Biocpkg("EnsDb.Hsapiens.v75")`, and `r Biocpkg("KEGGREST")`. 
 Please see the linked pages to find installation instructions for these 
 packages.
+
+```{r load-pkgs, warning = FALSE, message = FALSE}
+library(GO.db)
+library(KEGGREST)
+library(org.Hs.eg.db)
+library(SomaScan.db)
+library(withr)
+```
 
 
 # Incorporating Additional Annotations
@@ -347,7 +352,7 @@ merge(pos_sel, pos_res, by.x = "ENSEMBL", by.y = "GENEID")
 
 # Functional Group Representation
 
-As mentioned in the Introductory Vignette (`vignette("SomaScan.db", package = "SomaScan.db")`), 
+As mentioned in the Introductory Vignette (`vignette("SomaScan-db", package = "SomaScan.db")`), 
 the `SomaScan.db` annotation database can be queried using values other than
 the central database key, the `SeqId` (i.e. the "PROBEID" column). This 
 section will describe additional methods of retrieving information from the 
