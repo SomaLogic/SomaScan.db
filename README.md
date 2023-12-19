@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# `SomaScan.db` <img src="inst/figures/logo.png" align="right" height="138" alt="" />
+# SomaScan.db
 
 <!-- badges: start -->
 
@@ -17,7 +17,7 @@ rank](https://bioconductor.org/shields/downloads/release/SomaScan.db.svg)](https
 support](https://bioconductor.org/shields/posts/SomaScan.db.svg)](https://support.bioconductor.org/tag/SomaScan.db)
 <!-- badges: end -->
 
-# Oveview
+# Overview
 
 The `SomaScan.db` package is a platform-centric R package that provides
 extended biological annotations for analytes in the SomaScan assay menu,

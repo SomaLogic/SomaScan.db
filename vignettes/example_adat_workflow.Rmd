@@ -1,6 +1,5 @@
 ---
 title: "Example ADAT Workflow Using SomaScan.db"
-abstract: "A short workflow illustrating the use of SomaScan.db to annotate SomaScan data (as an ADAT)."
 package: "`r BiocStyle::pkg_ver('SomaScan.db')`"
 output: 
   BiocStyle::html_document:

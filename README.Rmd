@@ -13,13 +13,16 @@ knitr::opts_chunk$set(
   comment = "#>",
   fig.path = "man/figures/README-"
 )
-ver <- desc::desc_get_version(".")
-ver <- paste0("https://img.shields.io/badge/Version-", ver,
+dcf <- read.dcf(file = file.path(".", "DESCRIPTION"))
+if ( nrow(dcf) < 1L) 
+  stop("DESCRIPTION file of package is corrupt.", call. = FALSE)
+desc <- as.list(dcf[1L, ])
+ver <- paste0("https://img.shields.io/badge/Version-", desc$Version,
               "-success.svg?style=flat&logo=github")
 ```
 
 
-# `SomaScan.db` <img src="inst/figures/logo.png" align="right" height="138" alt="" />
+# SomaScan.db
 
 
 <!-- badges: start -->
@@ -30,7 +33,7 @@ ver <- paste0("https://img.shields.io/badge/Version-", ver,
 [![Bioc support](https://bioconductor.org/shields/posts/SomaScan.db.svg)](https://support.bioconductor.org/tag/SomaScan.db)
 <!-- badges: end -->
 
-# Oveview
+# Overview
 
 The `SomaScan.db` package is a platform-centric R package that provides 
 extended biological annotations for analytes in the SomaScan assay menu, using 
