@@ -1,6 +1,5 @@
 ---
 title: "Advanced Exploration of the SomaScan Menu"
-abstract: "Advanced use cases of SomaScan.db, including SomaScan menu exploration examples."
 package: "`r BiocStyle::pkg_ver('SomaScan.db')`"
 output: 
   BiocStyle::html_document:

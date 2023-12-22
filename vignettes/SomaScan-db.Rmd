@@ -1,6 +1,5 @@
 ---
 title: "Introduction to SomaScan.db"
-abstract: "Brief overview of an annotation package for SomaLogic SomaScan data."
 package: "`r BiocStyle::pkg_ver('SomaScan.db')`"
 output: 
   BiocStyle::html_document:

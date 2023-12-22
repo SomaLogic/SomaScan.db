@@ -23,7 +23,7 @@ footer:
     left: [package, developed_by]
     right: built_with
   components:
-    logo: "<img src='inst/figures/logo.png' width='20'> "
+    logo: "<img src='favicon-16x16.png'>"
 
 template:
   bootstrap: 5
@@ -43,7 +43,7 @@ home:
         text: >
           [SomaDataIO](https://somalogic.github.io/SomaDataIO/) <br />
           [SomaPlotr](https://somalogic.github.io/SomaPlotr/) <br />
-          [Canopy](https://github.com/SomaLogic/Canopy/) <br />
+          [Canopy (Python)](https://github.com/SomaLogic/Canopy/) <br />
           [DataDelve Statistics](https://somalogic.com/datadelve-statistics/)
       help:
         title: Getting Help
