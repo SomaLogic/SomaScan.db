@@ -86,11 +86,6 @@
     </div>
 
     
-        <div class="abstract">
-      <p class="abstract">Abstract</p>
-      Advanced use cases of SomaScan.db, including SomaScan menu
-      exploration examples.
-    </div>
     
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
@@ -524,11 +519,11 @@ returned for each KEGG pathway:</p>
 <span><span class="co">##  $ CLASS      : chr "Environmental Information Processing; Signaling molecules and interaction"</span></span>
 <span><span class="co">##  $ PATHWAY_MAP: Named chr "Cell adhesion molecules"</span></span>
 <span><span class="co">##   ..- attr(*, "names")= chr "hsa04514"</span></span>
-<span><span class="co">##  $ DRUG       : chr [1:210] "D02800" "Alefacept (USAN/INN)" "D02811" "Alicaforsen sodium (USAN)" ...</span></span>
+<span><span class="co">##  $ DRUG       : chr [1:224] "D02800" "Alefacept (USAN/INN)" "D02811" "Alicaforsen sodium (USAN)" ...</span></span>
 <span><span class="co">##  $ DBLINKS    : chr "GO: 0050839"</span></span>
 <span><span class="co">##  $ ORGANISM   : Named chr "NA  Homo sapiens (human) [GN:hsa]"</span></span>
 <span><span class="co">##   ..- attr(*, "names")= chr "Homo sapiens (human) [GN:hsa]"</span></span>
-<span><span class="co">##  $ GENE       : chr [1:316] "965" "CD58; CD58 molecule [KO:K06492]" "914" "CD2; CD2 molecule [KO:K06449]" ...</span></span>
+<span><span class="co">##  $ GENE       : chr [1:314] "965" "CD58; CD58 molecule [KO:K06492]" "914" "CD2; CD2 molecule [KO:K06449]" ...</span></span>
 <span><span class="co">##  $ REL_PATHWAY: Named chr [1:5] "Adherens junction" "Tight junction" "Complement and coagulation cascades" "T cell receptor signaling pathway" ...</span></span>
 <span><span class="co">##   ..- attr(*, "names")= chr [1:5] "hsa04520" "hsa04530" "hsa04610" "hsa04660" ...</span></span>
 <span><span class="co">##  $ KO_PATHWAY : chr "ko04514"</span></span>
@@ -1052,9 +1047,9 @@ include “homeobox”, “zinc finger”, “notch”, etc.</p>
 </h2>
 <div class="sourceCode" id="cb86"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## R version 4.3.2 (2023-10-31)</span></span>
+<pre><code><span><span class="co">## R version 4.3.3 (2024-02-29)</span></span>
 <span><span class="co">## Platform: x86_64-apple-darwin20 (64-bit)</span></span>
-<span><span class="co">## Running under: macOS Monterey 12.6.9</span></span>
+<span><span class="co">## Running under: macOS Monterey 12.7.3</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Matrix products: default</span></span>
 <span><span class="co">## BLAS:   /Library/Frameworks/R.framework/Versions/4.3-x86_64/Resources/lib/libRblas.0.dylib </span></span>
@@ -1071,38 +1066,35 @@ include “homeobox”, “zinc finger”, “notch”, etc.</p>
 <span><span class="co">## [8] base     </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## other attached packages:</span></span>
-<span><span class="co">##  [1] withr_2.5.2          SomaScan.db_0.99.8   org.Hs.eg.db_3.18.0 </span></span>
+<span><span class="co">##  [1] withr_3.0.0          SomaScan.db_0.99.8   org.Hs.eg.db_3.18.0 </span></span>
 <span><span class="co">##  [4] KEGGREST_1.42.0      GO.db_3.18.0         AnnotationDbi_1.64.1</span></span>
 <span><span class="co">##  [7] IRanges_2.36.0       S4Vectors_0.40.2     Biobase_2.62.0      </span></span>
 <span><span class="co">## [10] BiocGenerics_0.48.1  BiocStyle_2.30.0    </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## loaded via a namespace (and not attached):</span></span>
-<span><span class="co">##  [1] sass_0.4.8              bitops_1.0-7           </span></span>
-<span><span class="co">##  [3] RSQLite_2.3.4           stringi_1.8.3          </span></span>
-<span><span class="co">##  [5] digest_0.6.33           magrittr_2.0.3         </span></span>
-<span><span class="co">##  [7] evaluate_0.23           bookdown_0.37          </span></span>
-<span><span class="co">##  [9] fastmap_1.1.1           blob_1.2.4             </span></span>
-<span><span class="co">## [11] jsonlite_1.8.8          GenomeInfoDb_1.38.2    </span></span>
-<span><span class="co">## [13] DBI_1.1.3               BiocManager_1.30.22    </span></span>
-<span><span class="co">## [15] httr_1.4.7              purrr_1.0.2            </span></span>
-<span><span class="co">## [17] Biostrings_2.70.1       textshaping_0.3.7      </span></span>
-<span><span class="co">## [19] jquerylib_0.1.4         cli_3.6.2              </span></span>
-<span><span class="co">## [21] rlang_1.1.2             crayon_1.5.2           </span></span>
-<span><span class="co">## [23] XVector_0.42.0          bit64_4.0.5            </span></span>
-<span><span class="co">## [25] cachem_1.0.8            yaml_2.3.8             </span></span>
-<span><span class="co">## [27] tools_4.3.2             memoise_2.0.1          </span></span>
-<span><span class="co">## [29] GenomeInfoDbData_1.2.11 curl_5.2.0             </span></span>
-<span><span class="co">## [31] vctrs_0.6.5             R6_2.5.1               </span></span>
-<span><span class="co">## [33] png_0.1-8               lifecycle_1.0.4        </span></span>
-<span><span class="co">## [35] zlibbioc_1.48.0         stringr_1.5.1          </span></span>
-<span><span class="co">## [37] fs_1.6.3                bit_4.0.5              </span></span>
-<span><span class="co">## [39] ragg_1.2.7              pkgconfig_2.0.3        </span></span>
-<span><span class="co">## [41] desc_1.4.3              pkgdown_2.0.7          </span></span>
-<span><span class="co">## [43] bslib_0.6.1             glue_1.6.2             </span></span>
-<span><span class="co">## [45] systemfonts_1.0.5       xfun_0.41              </span></span>
-<span><span class="co">## [47] knitr_1.45              htmltools_0.5.7        </span></span>
-<span><span class="co">## [49] rmarkdown_2.25          compiler_4.3.2         </span></span>
-<span><span class="co">## [51] RCurl_1.98-1.13</span></span></code></pre>
+<span><span class="co">##  [1] sass_0.4.8              RSQLite_2.3.5          </span></span>
+<span><span class="co">##  [3] digest_0.6.34           magrittr_2.0.3         </span></span>
+<span><span class="co">##  [5] evaluate_0.23           bookdown_0.38          </span></span>
+<span><span class="co">##  [7] fastmap_1.1.1           blob_1.2.4             </span></span>
+<span><span class="co">##  [9] jsonlite_1.8.8          GenomeInfoDb_1.38.7    </span></span>
+<span><span class="co">## [11] DBI_1.2.2               BiocManager_1.30.22    </span></span>
+<span><span class="co">## [13] httr_1.4.7              purrr_1.0.2            </span></span>
+<span><span class="co">## [15] Biostrings_2.70.2       textshaping_0.3.7      </span></span>
+<span><span class="co">## [17] jquerylib_0.1.4         cli_3.6.2              </span></span>
+<span><span class="co">## [19] rlang_1.1.3             crayon_1.5.2           </span></span>
+<span><span class="co">## [21] XVector_0.42.0          bit64_4.0.5            </span></span>
+<span><span class="co">## [23] cachem_1.0.8            yaml_2.3.8             </span></span>
+<span><span class="co">## [25] tools_4.3.3             memoise_2.0.1          </span></span>
+<span><span class="co">## [27] GenomeInfoDbData_1.2.11 curl_5.2.1             </span></span>
+<span><span class="co">## [29] vctrs_0.6.5             R6_2.5.1               </span></span>
+<span><span class="co">## [31] png_0.1-8               lifecycle_1.0.4        </span></span>
+<span><span class="co">## [33] zlibbioc_1.48.0         fs_1.6.3               </span></span>
+<span><span class="co">## [35] bit_4.0.5               ragg_1.2.7             </span></span>
+<span><span class="co">## [37] pkgconfig_2.0.3         desc_1.4.3             </span></span>
+<span><span class="co">## [39] pkgdown_2.0.7           bslib_0.6.1            </span></span>
+<span><span class="co">## [41] systemfonts_1.0.6       xfun_0.42              </span></span>
+<span><span class="co">## [43] knitr_1.45              htmltools_0.5.7        </span></span>
+<span><span class="co">## [45] rmarkdown_2.26          compiler_4.3.3</span></span></code></pre>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
