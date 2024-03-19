@@ -425,7 +425,8 @@ The default behavior of `mapIds` is to return the first available result:
 
 ```{r multiVals-first}
 # The default - returns the first available result
-mapIds(SomaScan.db, keys = example_keys[3], column = "GO", multiVals = "first")
+mapIds(SomaScan.db, keys = example_keys[3L], column = "GO", 
+       multiVals = "first")
 ```
 
 Again, the `select` message here indicates that, while only 1 value was 
@@ -434,7 +435,8 @@ viewed by specifying `multiVals="list"`:
 
 ```{r multiVals-list}
 # Returns a list object of results, instead of only returning the first result
-mapIds(SomaScan.db, keys = example_keys[3], column = "GO", multiVals = "list")
+mapIds(SomaScan.db, keys = example_keys[3L], column = "GO", 
+       multiVals = "list")
 ```
 
 

@@ -172,6 +172,7 @@ about each menu:
 | :------------------- | :------------- | :------------- |
 | v4.0                 | 5k             | 5,284          |
 | v4.1                 | 7k             | 7,596          |
+| v5.0                 | 11k            | 10,731         |
 
 [^1]: `SomaScan.db` contains annotations for human protein targets only. 
 However, some targets in the SomaScan menu are associated with biological 
