@@ -33,6 +33,21 @@ geneMsg <- paste("This package has no genes. This can be caused by a large",
                  sep = ""
 )
 
+# Note: these values will NOT match the total number of analytes in the 
+# menu tool (and that is expected), as this package excludes 
+# non-human analytes
+n_probes <- 10731L # Probes in 11k (superset of previous menus)
+all_probeIDs <- keys(SomaScan.db)
+sel_probeIDs <- select(SomaScan.db, keys = keys(SomaScan.db), 
+                       columns = "PROBEID")
+sql_probeIDs <- getProbes()
+v4.0_probeIDs <- select(SomaScan.db, keys = keys(SomaScan.db), 
+                        columns = "PROBEID", menu = "v4.0")
+v4.1_probeIDs <- select(SomaScan.db, keys = keys(SomaScan.db), 
+                        columns = "PROBEID", menu = "v4.1")
+v5.0_probeIDs <- select(SomaScan.db, keys = keys(SomaScan.db), 
+                        columns = "PROBEID", menu = "v5.0")
+
 
 # Testing ----------
 test_that("Verify probes and genes exist (for chip packages)", {
@@ -46,26 +61,15 @@ test_that("Verify probes and genes exist (for chip packages)", {
 })
 
 test_that("Verify number of probes is as expected", {
-    # Note: these values will NOT match the total number of analytes in the 
-    # menu tool (and that is expected), as this package excludes 
-    # non-human analytes
-    all_probeIDs <- keys(SomaScan.db)
-    sel_probeIDs <- select(SomaScan.db, keys = keys(SomaScan.db), 
-                           columns = "PROBEID")
-    sql_probeIDs <- getProbes()
-    v4.1_probeIDs <- select(SomaScan.db, keys = keys(SomaScan.db), 
-                            columns = "PROBEID", menu = "v4.1")
-    v4.0_probeIDs <- select(SomaScan.db, keys = keys(SomaScan.db), 
-                            columns = "PROBEID", menu = "v4.0")
-    
     # All methods below should retrieve same number of probes
-    expect_length(all_probeIDs, 7267L)
-    expect_length(sel_probeIDs$PROBEID, 7267L)
-    expect_equal(sql_probeIDs, 7267L)
+    expect_length(all_probeIDs, n_probes)
+    expect_length(sel_probeIDs$PROBEID, n_probes)
+    expect_equal(sql_probeIDs, n_probes)
     
     # Lengths should differ by menu version
     expect_length(v4.1_probeIDs$PROBEID, 7267L)
     expect_length(v4.0_probeIDs$PROBEID, 4966L)
+    expect_length(v5.0_probeIDs$PROBEID, n_probes)
 })
 
 test_that("SQLite database environment variables are set correctly", {

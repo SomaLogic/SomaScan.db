@@ -4,11 +4,9 @@ x <- c("seq.1234.56", "1234-56", "seq.1234-56_78", "seq.1234.56_78")
 res <- getSeqId(x)
 
 # Mix of valid and invalid IDs
-y <- c(
-    "1234-56", "1234_56", "1234.56", "12.3456.78",
-    "1234", "abc.DEFGH.12", "ABCDE", "Homo.Sapiens_12",
-    "1", NA, NULL
-)
+y <- c("1234-56", "1234_56", "1234.56", "12.3456.78",
+       "1234", "abc.DEFGH.12", "ABCDE", "Homo.Sapiens_12",
+       "1", NA, NULL)
 inv_res <- getSeqId(y)
 
 
@@ -46,8 +44,8 @@ test_that("`getSeqId()` works as expected when used in a `select()` call", {
         )
     )
     expect_identical(k, c(
-        "20564-53", "5481-16", "17792-158", "21760-22", "5508-62",
-        "5236-2", "21161-16", "11143-32", "4996-66", "9379-248"
+        "34799-31", "20520-14", "9123-18", "21707-15", "29325-43", 
+        "29148-63", "34785-16", "21115-48", "3872-2", "30232-17"
     ))
     expect_type(sel_res$PROBEID, "character")
     expect_identical(getSeqId(sel_res$PROBEID), sel_res$PROBEID)

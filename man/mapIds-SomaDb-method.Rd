@@ -34,11 +34,12 @@
   }
 
 \item{menu}{a character string identifying a SomaScan menu
-version (optional). This will filter the keys to the specified menu
-and only return data associated with analytes present in that menu.
-By default, all annotations from all analytes are available.
-Options include either \code{"5k"} or \code{"7k"}, as well as the version numbers
-for those menus, \code{"v4.0"} or \code{"v4.1"} (respectively).}
+version (optional). Possible options include: \code{"5k"},\code{"7k"}, or \code{"11k"},
+as well as the version numbers for those menus (\code{"v4.0"}, \code{"v4.1"}, or
+\code{"v5.0"}, respectively). May only be used when \code{keytype = "PROBEID"}.
+This argument will filter the keys to the specified menu and only return
+data associated with analytes present in that menu. By default, all
+annotations from all analytes are available.}
 
 \item{match}{a logical (TRUE/FALSE). Must be used with the "SYMBOL",
 "ALIAS", or "GENENAME" keytypes only. If true, the character string

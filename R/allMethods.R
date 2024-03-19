@@ -98,11 +98,12 @@ AnnotationDbi::columns
 #' @inherit AnnotationDbi::select params
 #' @inheritDotParams AnnotationDbi::select
 #' @param menu a character string identifying a SomaScan menu
-#'    version (optional). This will filter the keys to the specified menu
-#'    and only return data associated with analytes present in that menu.
-#'    By default, all annotations from all analytes are available.
-#'    Options include either `"5k"` or `"7k"`, as well as the version numbers
-#'    for those menus, `"v4.0"` or `"v4.1"` (respectively).
+#'    version (optional). Possible options include: `"5k"`,`"7k"`, or `"11k"`, 
+#'    as well as the version numbers for those menus (`"v4.0"`, `"v4.1"`, or 
+#'    `"v5.0"`, respectively). May only be used when `keytype = "PROBEID"`. 
+#'    This argument will filter the keys to the specified menu and only return 
+#'    data associated with analytes present in that menu. By default, all 
+#'    annotations from all analytes are available.
 #' @param match a logical (TRUE/FALSE). Must be used with the "SYMBOL", 
 #'    "ALIAS", or "GENENAME" keytypes only. If true, the character string 
 #'    provided for `keys` will be used as a search term. The string will be 
@@ -118,13 +119,18 @@ AnnotationDbi::columns
 #' # Look up the gene symbol and gene type for all example keys
 #' select(SomaScan.db, keys = keys, columns = c("SYMBOL", "GENETYPE"))
 #' 
-#' # Look up SomaScan SeqIds associated with a gene of interest
+#' # Look up SomaScan SeqIds & proteins associated with a gene of interest
 #' select(SomaScan.db, keys = "NOTCH3", keytype = "SYMBOL", 
 #'       columns = c("PROBEID", "UNIPROT"))
 #' @exportMethod
 setMethod("select", "SomaDb",
     function(x, keys, columns, keytype, menu = NULL, match = FALSE, ...) {
         if ( missing(keytype) ) keytype <- "PROBEID"
+        if ( !is.null(menu) && keytype != "PROBEID") {
+            message("The 'menu' argument can only be used when ", 
+                    "'keytype = 'PROBEID''. The results of this query will ",
+                    "contain all analytes from the 11k menu.")
+        }
         keys <- .preprocessKeys(keytype = keytype, keys = keys, 
                                 menu = menu, match = match)
         x <- as(x, "ChipDb") # Convert back to ChipDb for internal methods
@@ -170,9 +176,13 @@ setMethod("mapIds", "SomaDb",
                    multiVals = c("filter", "asNA", "first", 
                                  "list", "CharacterList")) {
             if ( missing(keytype) ) keytype <- "PROBEID" 
+            if ( !is.null(menu) && keytype != "PROBEID") {
+              message("The 'menu' argument can only be used when ", 
+                      "'keytype = 'PROBEID''. The results of this query will ",
+                      "contain all analytes from the 11k menu.")
+            }
             keys <- .preprocessKeys(keytype = keytype, keys = keys, 
                                     menu = menu, match = match)
-            
             x <- as(x, "ChipDb") # Convert back to ChipDb for internal methods
             callNextMethod(x, keys, column, keytype, menu, match, ..., 
                            multiVals = multiVals)
@@ -187,7 +197,7 @@ setMethod("mapIds", "SomaDb",
 # `select` and `mapIds`
 .preprocessKeys <- function(keytype, keys, menu, match) {
     if ( isTRUE(keytype == "PROBEID") ) {
-        keys <- .filterSeqIds(keys, menu = menu)
+        keys <- .filterSeqIds(keys, menu)
         ids <- getSeqId(keys)
     } else if ( grepl("SYMBOL|ALIAS|NAME", keytype) && isTRUE(match) ) {
         ids <- .matchKeys(keys, keytype)
@@ -205,23 +215,28 @@ setMethod("mapIds", "SomaDb",
 .filterSeqIds <- function(keys, menu) {
     if ( !is.null(menu) ) {
         menu <- tolower(menu)
-        if ( grepl("v4.1|7k", menu) ) {
-            keys <- keys[keys %in% somascan_menu$v4.1]
+        menu <- if ( grepl("v5.0|11k", menu) ) {
+          menu <- "v5.0"
+        } else if ( grepl("v4.1|7k", menu) ) {
+          menu <- "v4.1"
         } else if ( grepl("v4.0|5k", menu) ) {
-            keys <- keys[keys %in% somascan_menu$v4.0]
+          menu <- "v4.0"
         }
-        # Some SeqIds map to 2+ Entrez IDs
-        unique(keys)
+        keys <- keys[keys %in% somascan_menu[[menu]]] 
+        unique(keys) # Some SeqIds map to 2+ Entrez IDs
     } else {
         keys
     }
 }
 
-# `syms` can be a single value or vector of values
+# Internal function to match on an incomplete character string for the
+# keytype being used, essentially allowing for fuzzy matching of query keys. 
+# Ex: "NOTCH" will be matched and return NOTCH2, NOTCH4, etc.
+# `syms` can be a single value or a vector of values
 .matchKeys <- function(syms, type = "SYMBOL") {
     mapping <- switch(type,
-                      "SYMBOL" = SomaScanSYMBOL,
-                      "ALIAS" = SomaScanALIAS2PROBE,
+                      "SYMBOL"   = SomaScanSYMBOL,
+                      "ALIAS"    = SomaScanALIAS2PROBE,
                       "GENENAME" = SomaScanGENENAME)
     allKeys <- mappedRkeys(mapping)
     matches <- lapply(syms, function(.x) {

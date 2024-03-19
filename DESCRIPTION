@@ -40,7 +40,7 @@ License: MIT + file LICENSE
 biocViews: ChipDb, AnnotationData, Homo_sapiens
 BiocType: Annotation
 LazyData: false
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 Roxygen: list(markdown = TRUE)
 Encoding: UTF-8
 URL: https://somalogic.com, https://github.com/SomaLogic/SomaScan.db/
