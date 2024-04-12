@@ -9,8 +9,8 @@
 <title>Advanced Exploration of the SomaScan Menu • SomaScan.db</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.8/font.css" rel="stylesheet">
-<link href="../deps/Source_Code_Pro-0.4.8/font.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.9/font.css" rel="stylesheet">
+<link href="../deps/Source_Code_Pro-0.4.9/font.css" rel="stylesheet">
 <!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Advanced Exploration of the SomaScan Menu">
@@ -24,11 +24,11 @@
     <a href="#container" class="visually-hidden-focusable">Skip to content</a>
     
 
-    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-none"><div class="container">
+    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-none" data-bs-theme="light"><div class="container">
     
     <a class="navbar-brand me-2" href="../index.html">SomaScan.db</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.99.8</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.99.9</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -519,7 +519,7 @@ returned for each KEGG pathway:</p>
 <span><span class="co">##  $ CLASS      : chr "Environmental Information Processing; Signaling molecules and interaction"</span></span>
 <span><span class="co">##  $ PATHWAY_MAP: Named chr "Cell adhesion molecules"</span></span>
 <span><span class="co">##   ..- attr(*, "names")= chr "hsa04514"</span></span>
-<span><span class="co">##  $ DRUG       : chr [1:224] "D02800" "Alefacept (USAN/INN)" "D02811" "Alicaforsen sodium (USAN)" ...</span></span>
+<span><span class="co">##  $ DRUG       : chr [1:226] "D02800" "Alefacept (USAN/INN)" "D02811" "Alicaforsen sodium (USAN)" ...</span></span>
 <span><span class="co">##  $ DBLINKS    : chr "GO: 0050839"</span></span>
 <span><span class="co">##  $ ORGANISM   : Named chr "NA  Homo sapiens (human) [GN:hsa]"</span></span>
 <span><span class="co">##   ..- attr(*, "names")= chr "Homo sapiens (human) [GN:hsa]"</span></span>
@@ -825,8 +825,9 @@ adhesion.</p>
 <div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cellAd_ids</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/select-SomaDb-method.html">select</a></span><span class="op">(</span><span class="va">SomaScan.db</span>, keys <span class="op">=</span> <span class="st">"GO:0007155"</span>, keytype <span class="op">=</span> <span class="st">"GO"</span>,</span>
 <span>                     columns <span class="op">=</span> <span class="st">"PROBEID"</span>, <span class="st">"UNIPROTID"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## The 'menu' argument can only be used when 'keytype = 'PROBEID''. The results of this query will contain all analytes from the 11k menu.</span></span></code></pre>
 <pre><code><span><span class="co">## 'select()' returned 1:many mapping between keys and columns</span></span></code></pre>
-<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">cellAd_ids</span>, n <span class="op">=</span> <span class="fl">10L</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##            GO   PROBEID EVIDENCE ONTOLOGY</span></span>
 <span><span class="co">## 1  GO:0007155  10037-98      IBA       BP</span></span>
@@ -839,28 +840,28 @@ adhesion.</p>
 <span><span class="co">## 8  GO:0007155 10907-116      IEA       BP</span></span>
 <span><span class="co">## 9  GO:0007155  10980-11      IDA       BP</span></span>
 <span><span class="co">## 10 GO:0007155  11067-13      NAS       BP</span></span></code></pre>
-<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Total number of SeqIds associated with cell adhesion</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">cellAd_ids</span><span class="op">$</span><span class="va">PROBEID</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] 377</span></span></code></pre>
-<p>There are 377 unique <code>SeqIds</code> associated with the “cell
+<pre><code><span><span class="co">## [1] 453</span></span></code></pre>
+<p>There are 453 unique <code>SeqIds</code> associated with the “cell
 adhesion” GO term (<em>unique</em> is important here because the data
 frame above may contain multiple entries per <code>SeqId</code>, due to
-the “EVIDENCE” column). There are 7267 total <code>SeqIds</code> in the
-<code>SomaScan.db</code> database, so 5.19% of keys in the database are
+the “EVIDENCE” column). There are 10731 total <code>SeqIds</code> in the
+<code>SomaScan.db</code> database, so 4.22% of keys in the database are
 associated with cell adhesion.</p>
 <p>How many of the <em>total</em> proteins in the cell adhesion GO term
 are covered by the SomaScan menu? To answer this question, we first must
 use another annotation package, <code>org.Hs.eg.db</code>, to retrieve a
 list of all human UniProt IDs associated with the “cell adhesion” GO
 term.</p>
-<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cellAd_prots</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/select-SomaDb-method.html">select</a></span><span class="op">(</span><span class="va">org.Hs.eg.db</span>, </span>
 <span>                       keys <span class="op">=</span> <span class="st">"GO:0007155"</span>, </span>
 <span>                       keytype <span class="op">=</span> <span class="st">"GO"</span>, </span>
 <span>                       columns <span class="op">=</span> <span class="st">"UNIPROT"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## 'select()' returned 1:many mapping between keys and columns</span></span></code></pre>
-<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Again, we take the unique set of proteins</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">cellAd_prots</span><span class="op">$</span><span class="va">UNIPROT</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 875</span></span></code></pre>
@@ -868,11 +869,11 @@ term.</p>
 of 875 unique human UniProt IDs. Now we can check to see how many of
 these are covered by the SomaScan menu by searching for the proteins in
 <code>SomaScan.db</code> with <code>select</code>:</p>
-<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cellAd_covProts</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/select-SomaDb-method.html">select</a></span><span class="op">(</span><span class="va">SomaScan.db</span>, keys <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">cellAd_prots</span><span class="op">$</span><span class="va">UNIPROT</span><span class="op">)</span>,</span>
 <span>                          keytype <span class="op">=</span> <span class="st">"UNIPROT"</span>, columns <span class="op">=</span> <span class="st">"PROBEID"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## 'select()' returned 1:many mapping between keys and columns</span></span></code></pre>
-<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb69"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">cellAd_covProts</span>, n <span class="op">=</span> <span class="fl">20L</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##       UNIPROT  PROBEID</span></span>
 <span><span class="co">## 1      P42684  3342-76</span></span>
@@ -893,30 +894,30 @@ these are covered by the SomaScan menu by searching for the proteins in
 <span><span class="co">## 16     Q546D7     &lt;NA&gt;</span></span>
 <span><span class="co">## 17     Q9NP70     &lt;NA&gt;</span></span>
 <span><span class="co">## 18     P02760  15453-3</span></span>
-<span><span class="co">## 19     Q99217     &lt;NA&gt;</span></span>
-<span><span class="co">## 20     Q02410     &lt;NA&gt;</span></span></code></pre>
+<span><span class="co">## 19     Q99217 29575-81</span></span>
+<span><span class="co">## 20     Q99217 30706-62</span></span></code></pre>
 <p><code>select</code> will return an <code>NA</code> value if a key is
 not found in the database. As seen above, some proteins in
 <code>GO:0007155</code> do not map to a <code>SeqId</code> in
 <code>SomaScan.db</code>. To get an accurate count of the proteins that
 <em>do</em> map to a <code>SeqId</code>, we must remove the unmapped
 proteins by filtering out rows with <code>NA</code> values:</p>
-<div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cellAd_covProts</span> <span class="op">&lt;-</span> <span class="va">cellAd_covProts</span><span class="op">[</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">cellAd_covProts</span><span class="op">$</span><span class="va">PROBEID</span><span class="op">)</span>,<span class="op">]</span></span>
 <span></span>
 <span><span class="va">cellAd_covIDs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">cellAd_covProts</span><span class="op">$</span><span class="va">UNIPROT</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">cellAd_covIDs</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] 542</span></span></code></pre>
+<pre><code><span><span class="co">## [1] 661</span></span></code></pre>
 <p>We removed duplicates from the list of proteins provided as keys, to
-get a final count of 542 proteins (61.94%) from the “cell adhesion” GO
+get a final count of 661 proteins (75.54%) from the “cell adhesion” GO
 term that are covered by the SomaScan menu.</p>
 <p>Does this number differ between versions of the SomaScan Menu?
 Remember that the 7k menu contains <em>all</em> of the
 <code>SeqIds</code> in the 5k menu, so what this really tells us is:
 were analytes targeting cell adhesion-related proteins added in the 7k
 menu?</p>
-<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cellAd_menu</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"5k"</span>, <span class="st">"7k"</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
 <span>    <span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/select-SomaDb-method.html">select</a></span><span class="op">(</span><span class="va">SomaScan.db</span>, keys <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">cellAd_prots</span><span class="op">$</span><span class="va">UNIPROT</span><span class="op">)</span>,</span>
 <span>                 keytype <span class="op">=</span> <span class="st">"UNIPROT"</span>, columns <span class="op">=</span> <span class="st">"PROBEID"</span>,</span>
@@ -925,9 +926,11 @@ menu?</p>
 <span>    <span class="co"># Again, removing probes that do not map to a cell adhesion protein</span></span>
 <span>    <span class="va">df</span> <span class="op">&lt;-</span> <span class="va">df</span><span class="op">[</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">PROBEID</span><span class="op">)</span>,<span class="op">]</span></span>
 <span><span class="op">}</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/stats/setNames.html" class="external-link">setNames</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"somascan_5k"</span>, <span class="st">"somascan_7k"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## 'select()' returned 1:many mapping between keys and columns</span></span>
-<span><span class="co">## 'select()' returned 1:many mapping between keys and columns</span></span></code></pre>
-<div class="sourceCode" id="cb74"><pre class="downlit sourceCode r">
+<pre><code><span><span class="co">## The 'menu' argument can only be used when 'keytype = 'PROBEID''. The results of this query will contain all analytes from the 11k menu.</span></span></code></pre>
+<pre><code><span><span class="co">## 'select()' returned 1:many mapping between keys and columns</span></span></code></pre>
+<pre><code><span><span class="co">## The 'menu' argument can only be used when 'keytype = 'PROBEID''. The results of this query will contain all analytes from the 11k menu.</span></span></code></pre>
+<pre><code><span><span class="co">## 'select()' returned 1:many mapping between keys and columns</span></span></code></pre>
+<div class="sourceCode" id="cb78"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical</a></span><span class="op">(</span><span class="va">cellAd_menu</span><span class="op">$</span><span class="va">somascan_5k</span>, <span class="va">cellAd_menu</span><span class="op">$</span><span class="va">somascan_7k</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] TRUE</span></span></code></pre>
 <p>In this example, the number of <code>SeqIds</code> associated with
@@ -959,58 +962,75 @@ pattern of characters. This feature is especially useful when looking
 for annotations for a gene family. For example, a regex pattern can be
 used to retrieve a list of all IL17 receptor family genes in the
 database:</p>
-<div class="sourceCode" id="cb76"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb80"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">il17_family</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/keys-SomaDb-method.html">keys</a></span><span class="op">(</span><span class="va">SomaScan.db</span>, keytype <span class="op">=</span> <span class="st">"SYMBOL"</span>, pattern <span class="op">=</span> <span class="st">"IL17"</span><span class="op">)</span></span></code></pre></div>
 <p>Those keys can then be used to query the database with
 <code>select</code>:</p>
-<div class="sourceCode" id="cb77"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb81"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/select-SomaDb-method.html">select</a></span><span class="op">(</span><span class="va">SomaScan.db</span>, keys <span class="op">=</span> <span class="va">il17_family</span>, keytype <span class="op">=</span> <span class="st">"SYMBOL"</span>,</span>
 <span>       columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"PROBEID"</span>, <span class="st">"UNIPROT"</span>, <span class="st">"GENENAME"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## 'select()' returned 1:many mapping between keys and columns</span></span></code></pre>
 <pre><code><span><span class="co">##     SYMBOL  PROBEID UNIPROT                  GENENAME</span></span>
-<span><span class="co">## 1    IL17A  21897-4  Q16552           interleukin 17A</span></span>
-<span><span class="co">## 2    IL17A  3498-53  Q16552           interleukin 17A</span></span>
-<span><span class="co">## 3    IL17A  9170-24  Q16552           interleukin 17A</span></span>
-<span><span class="co">## 4   IL17RA  2992-59  Q96F46 interleukin 17 receptor A</span></span>
-<span><span class="co">## 5    IL17C   9255-5  Q9P0M4           interleukin 17C</span></span>
-<span><span class="co">## 6    IL17B 14022-17  Q9UHF5           interleukin 17B</span></span>
-<span><span class="co">## 7    IL17B  3499-77  Q9UHF5           interleukin 17B</span></span>
-<span><span class="co">## 8    IL17D  4136-40  Q8TAD2           interleukin 17D</span></span>
-<span><span class="co">## 9   IL17RD  3376-49  Q8NFM7 interleukin 17 receptor D</span></span>
-<span><span class="co">## 10  IL17RD  3376-49  B4DXM5 interleukin 17 receptor D</span></span>
-<span><span class="co">## 11  IL17RB 5084-154  Q9NRM6 interleukin 17 receptor B</span></span>
-<span><span class="co">## 12  IL17RB  6262-14  Q9NRM6 interleukin 17 receptor B</span></span>
-<span><span class="co">## 13  IL17RC  5468-67  Q8NAC3 interleukin 17 receptor C</span></span>
-<span><span class="co">## 14   IL17F 14026-24  Q96PD4           interleukin 17F</span></span>
-<span><span class="co">## 15   IL17F  21897-4  Q96PD4           interleukin 17F</span></span>
-<span><span class="co">## 16   IL17F  2775-54  Q96PD4           interleukin 17F</span></span>
-<span><span class="co">## 17  IL17RE 20535-68  B4DMZ3 interleukin 17 receptor E</span></span>
-<span><span class="co">## 18  IL17RE 20535-68  Q8NFR9 interleukin 17 receptor E</span></span>
-<span><span class="co">## 19 IL17REL     &lt;NA&gt;    &lt;NA&gt;                      &lt;NA&gt;</span></span></code></pre>
+<span><span class="co">## 1    IL17A  13718-1  Q16552           interleukin 17A</span></span>
+<span><span class="co">## 2    IL17A  21897-4  Q16552           interleukin 17A</span></span>
+<span><span class="co">## 3    IL17A  31553-5  Q16552           interleukin 17A</span></span>
+<span><span class="co">## 4    IL17A  3498-53  Q16552           interleukin 17A</span></span>
+<span><span class="co">## 5    IL17A  9170-24  Q16552           interleukin 17A</span></span>
+<span><span class="co">## 6   IL17RA  2992-59  Q96F46 interleukin 17 receptor A</span></span>
+<span><span class="co">## 7    IL17C  9255-13  Q9P0M4           interleukin 17C</span></span>
+<span><span class="co">## 8    IL17C   9255-5  Q9P0M4           interleukin 17C</span></span>
+<span><span class="co">## 9    IL17B 14022-17  Q9UHF5           interleukin 17B</span></span>
+<span><span class="co">## 10   IL17B  3499-77  Q9UHF5           interleukin 17B</span></span>
+<span><span class="co">## 11   IL17D  4136-40  Q8TAD2           interleukin 17D</span></span>
+<span><span class="co">## 12  IL17RD  3376-49  Q8NFM7 interleukin 17 receptor D</span></span>
+<span><span class="co">## 13  IL17RD  3376-49  B4DXM5 interleukin 17 receptor D</span></span>
+<span><span class="co">## 14  IL17RB 35707-93  Q9NRM6 interleukin 17 receptor B</span></span>
+<span><span class="co">## 15  IL17RB 5084-154  Q9NRM6 interleukin 17 receptor B</span></span>
+<span><span class="co">## 16  IL17RB  6262-14  Q9NRM6 interleukin 17 receptor B</span></span>
+<span><span class="co">## 17  IL17RC  5468-67  Q8NAC3 interleukin 17 receptor C</span></span>
+<span><span class="co">## 18   IL17F 14026-24  Q96PD4           interleukin 17F</span></span>
+<span><span class="co">## 19   IL17F  21897-4  Q96PD4           interleukin 17F</span></span>
+<span><span class="co">## 20   IL17F  2775-54  Q96PD4           interleukin 17F</span></span>
+<span><span class="co">## 21   IL17F  31553-5  Q96PD4           interleukin 17F</span></span>
+<span><span class="co">## 22  IL17RE 20535-68  B4DMZ3 interleukin 17 receptor E</span></span>
+<span><span class="co">## 23  IL17RE 20535-68  Q8NFR9 interleukin 17 receptor E</span></span>
+<span><span class="co">## 24 IL17REL     &lt;NA&gt;    &lt;NA&gt;                      &lt;NA&gt;</span></span></code></pre>
 <p>If multiple gene families are of interest, the <code>keys</code>
 argument of <code>select</code> (in combination with
 <code>match=TRUE</code>) can support a regex pattern, and will
 accomplish both of the previous steps in a single call:</p>
-<div class="sourceCode" id="cb80"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb84"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/select-SomaDb-method.html">select</a></span><span class="op">(</span><span class="va">SomaScan.db</span>, keys <span class="op">=</span> <span class="st">"NOTCH|ZF"</span>, keytype <span class="op">=</span> <span class="st">"SYMBOL"</span>, </span>
 <span>       columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"PROBEID"</span>, <span class="st">"SYMBOL"</span>, <span class="st">"GENENAME"</span><span class="op">)</span>, match <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## 'select()' returned 1:many mapping between keys and columns</span></span></code></pre>
-<pre><code><span><span class="co">##     SYMBOL   PROBEID</span></span>
-<span><span class="co">## 1   NOTCH2  11297-54</span></span>
-<span><span class="co">## 2   NOTCH2   5106-52</span></span>
-<span><span class="co">## 3   NOTCH2   8407-84</span></span>
-<span><span class="co">## 4  ZFYVE27   13432-9</span></span>
-<span><span class="co">## 5  ZFYVE27   9102-28</span></span>
-<span><span class="co">## 6    ZFP91  13651-54</span></span>
-<span><span class="co">## 7     MZF1   14662-6</span></span>
-<span><span class="co">## 8   ZFAND5 18317-111</span></span>
-<span><span class="co">## 9   ZFAND1   19173-5</span></span>
-<span><span class="co">## 10  CREBZF   21134-9</span></span>
-<span><span class="co">## 11  ZFAND3  21875-31</span></span>
-<span><span class="co">## 12   ZFP36   22395-7</span></span>
-<span><span class="co">## 13 ZFAND2B   23319-6</span></span>
-<span><span class="co">## 14  NOTCH1    5107-7</span></span>
-<span><span class="co">## 15  NOTCH3   5108-72</span></span>
+<pre><code><span><span class="co">##       SYMBOL   PROBEID</span></span>
+<span><span class="co">## 1     NOTCH2  11297-54</span></span>
+<span><span class="co">## 2     NOTCH2   5106-52</span></span>
+<span><span class="co">## 3     NOTCH2   8407-84</span></span>
+<span><span class="co">## 4    ZFYVE27   13432-9</span></span>
+<span><span class="co">## 5    ZFYVE27   9102-28</span></span>
+<span><span class="co">## 6      ZFP91  13651-54</span></span>
+<span><span class="co">## 7       MZF1   14662-6</span></span>
+<span><span class="co">## 8     ZFAND5 18317-111</span></span>
+<span><span class="co">## 9     ZFAND1   19173-5</span></span>
+<span><span class="co">## 10    CREBZF   21134-9</span></span>
+<span><span class="co">## 11    ZFAND3  21875-31</span></span>
+<span><span class="co">## 12     ZFP42  22038-30</span></span>
+<span><span class="co">## 13     ZFP36   22395-7</span></span>
+<span><span class="co">## 14   ZFAND2B   23319-6</span></span>
+<span><span class="co">## 15   ZFYVE19   26166-2</span></span>
+<span><span class="co">## 16    NOTCH4  26329-69</span></span>
+<span><span class="co">## 17     FEZF2 29288-262</span></span>
+<span><span class="co">## 18     ZFP37  29349-78</span></span>
+<span><span class="co">## 19     VEZF1 29356-246</span></span>
+<span><span class="co">## 20    ZFP69B 29397-101</span></span>
+<span><span class="co">## 21     IKZF3 32719-135</span></span>
+<span><span class="co">## 22 NOTCH2NLB   33381-1</span></span>
+<span><span class="co">## 23     ZFP57  33456-11</span></span>
+<span><span class="co">## 24   ZFYVE21   33555-5</span></span>
+<span><span class="co">## 25    ZFAND6  35258-74</span></span>
+<span><span class="co">## 26    NOTCH1    5107-7</span></span>
+<span><span class="co">## 27    NOTCH3   5108-72</span></span>
 <span><span class="co">##                                                   GENENAME</span></span>
 <span><span class="co">## 1                                         notch receptor 2</span></span>
 <span><span class="co">## 2                                         notch receptor 2</span></span>
@@ -1023,33 +1043,59 @@ accomplish both of the previous steps in a single call:</p>
 <span><span class="co">## 9                        zinc finger AN1-type containing 1</span></span>
 <span><span class="co">## 10                      CREB/ATF bZIP transcription factor</span></span>
 <span><span class="co">## 11                       zinc finger AN1-type containing 3</span></span>
-<span><span class="co">## 12                               ZFP36 ring finger protein</span></span>
-<span><span class="co">## 13                      zinc finger AN1-type containing 2B</span></span>
-<span><span class="co">## 14                                        notch receptor 1</span></span>
-<span><span class="co">## 15                                        notch receptor 3</span></span></code></pre>
+<span><span class="co">## 12                               ZFP42 zinc finger protein</span></span>
+<span><span class="co">## 13                               ZFP36 ring finger protein</span></span>
+<span><span class="co">## 14                      zinc finger AN1-type containing 2B</span></span>
+<span><span class="co">## 15                     zinc finger FYVE-type containing 19</span></span>
+<span><span class="co">## 16                                        notch receptor 4</span></span>
+<span><span class="co">## 17                                FEZ family zinc finger 2</span></span>
+<span><span class="co">## 18                               ZFP37 zinc finger protein</span></span>
+<span><span class="co">## 19                      vascular endothelial zinc finger 1</span></span>
+<span><span class="co">## 20                             ZFP69 zinc finger protein B</span></span>
+<span><span class="co">## 21                             IKAROS family zinc finger 3</span></span>
+<span><span class="co">## 22                               notch 2 N-terminal like B</span></span>
+<span><span class="co">## 23                               ZFP57 zinc finger protein</span></span>
+<span><span class="co">## 24                     zinc finger FYVE-type containing 21</span></span>
+<span><span class="co">## 25                       zinc finger AN1-type containing 6</span></span>
+<span><span class="co">## 26                                        notch receptor 1</span></span>
+<span><span class="co">## 27                                        notch receptor 3</span></span></code></pre>
 <p>The <code>GENENAME</code> column can also support a regex pattern,
 and can be used to search for keywords that are associated with specific
 gene families (and not just the gene symbols themselves). Examples
 include “homeobox”, “zinc finger”, “notch”, etc.</p>
-<div class="sourceCode" id="cb83"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb87"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/select-SomaDb-method.html">select</a></span><span class="op">(</span><span class="va">SomaScan.db</span>, keys <span class="op">=</span> <span class="st">"homeobox"</span>, keytype <span class="op">=</span> <span class="st">"GENENAME"</span>, </span>
 <span>       columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"PROBEID"</span>, <span class="st">"SYMBOL"</span><span class="op">)</span>, match <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## 'select()' returned 1:1 mapping between keys and columns</span></span></code></pre>
-<pre><code><span><span class="co">##       GENENAME   PROBEID SYMBOL</span></span>
-<span><span class="co">## 1 homeobox A11  22375-15 HOXA11</span></span>
-<span><span class="co">## 2  homeobox A5  22376-95  HOXA5</span></span>
-<span><span class="co">## 3 homeobox C11  22474-28 HOXC11</span></span>
-<span><span class="co">## 4  homeobox D4 22476-115  HOXD4</span></span></code></pre>
+<pre><code><span><span class="co">##        GENENAME   PROBEID SYMBOL</span></span>
+<span><span class="co">## 1  homeobox A11  22375-15 HOXA11</span></span>
+<span><span class="co">## 2   homeobox A5  22376-95  HOXA5</span></span>
+<span><span class="co">## 3  homeobox C11  22474-28 HOXC11</span></span>
+<span><span class="co">## 4   homeobox D4 22476-115  HOXD4</span></span>
+<span><span class="co">## 5   homeobox C9   28147-8  HOXC9</span></span>
+<span><span class="co">## 6  homeobox A10  28162-49 HOXA10</span></span>
+<span><span class="co">## 7   homeobox B6   28467-4  HOXB6</span></span>
+<span><span class="co">## 8   homeobox A9  28495-10  HOXA9</span></span>
+<span><span class="co">## 9   homeobox C6  28769-70  HOXC6</span></span>
+<span><span class="co">## 10  homeobox B7  29263-40  HOXB7</span></span>
+<span><span class="co">## 11  homeobox C5  29420-65  HOXC5</span></span>
+<span><span class="co">## 12  homeobox A7   30504-3  HOXA7</span></span>
+<span><span class="co">## 13 homeobox D10  33419-10 HOXD10</span></span>
+<span><span class="co">## 14  homeobox A6  33426-10  HOXA6</span></span>
+<span><span class="co">## 15  homeobox B8  33444-17  HOXB8</span></span>
+<span><span class="co">## 16  homeobox C8   33624-3  HOXC8</span></span>
+<span><span class="co">## 17  homeobox B1  34260-43  HOXB1</span></span>
+<span><span class="co">## 18  homeobox B4  34757-64  HOXB4</span></span></code></pre>
 </div>
 </div>
 <div class="section level2">
 <h2 id="session-info">Session info<a class="anchor" aria-label="anchor" href="#session-info"></a>
 </h2>
-<div class="sourceCode" id="cb86"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb90"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## R version 4.3.3 (2024-02-29)</span></span>
 <span><span class="co">## Platform: x86_64-apple-darwin20 (64-bit)</span></span>
-<span><span class="co">## Running under: macOS Monterey 12.7.3</span></span>
+<span><span class="co">## Running under: macOS Monterey 12.7.4</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Matrix products: default</span></span>
 <span><span class="co">## BLAS:   /Library/Frameworks/R.framework/Versions/4.3-x86_64/Resources/lib/libRblas.0.dylib </span></span>
@@ -1066,35 +1112,36 @@ include “homeobox”, “zinc finger”, “notch”, etc.</p>
 <span><span class="co">## [8] base     </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## other attached packages:</span></span>
-<span><span class="co">##  [1] withr_3.0.0          SomaScan.db_0.99.8   org.Hs.eg.db_3.18.0 </span></span>
+<span><span class="co">##  [1] withr_3.0.0          SomaScan.db_0.99.9   org.Hs.eg.db_3.18.0 </span></span>
 <span><span class="co">##  [4] KEGGREST_1.42.0      GO.db_3.18.0         AnnotationDbi_1.64.1</span></span>
 <span><span class="co">##  [7] IRanges_2.36.0       S4Vectors_0.40.2     Biobase_2.62.0      </span></span>
 <span><span class="co">## [10] BiocGenerics_0.48.1  BiocStyle_2.30.0    </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## loaded via a namespace (and not attached):</span></span>
-<span><span class="co">##  [1] sass_0.4.8              RSQLite_2.3.5          </span></span>
-<span><span class="co">##  [3] digest_0.6.34           magrittr_2.0.3         </span></span>
-<span><span class="co">##  [5] evaluate_0.23           bookdown_0.38          </span></span>
-<span><span class="co">##  [7] fastmap_1.1.1           blob_1.2.4             </span></span>
-<span><span class="co">##  [9] jsonlite_1.8.8          GenomeInfoDb_1.38.7    </span></span>
-<span><span class="co">## [11] DBI_1.2.2               BiocManager_1.30.22    </span></span>
-<span><span class="co">## [13] httr_1.4.7              purrr_1.0.2            </span></span>
-<span><span class="co">## [15] Biostrings_2.70.2       textshaping_0.3.7      </span></span>
-<span><span class="co">## [17] jquerylib_0.1.4         cli_3.6.2              </span></span>
-<span><span class="co">## [19] rlang_1.1.3             crayon_1.5.2           </span></span>
-<span><span class="co">## [21] XVector_0.42.0          bit64_4.0.5            </span></span>
-<span><span class="co">## [23] cachem_1.0.8            yaml_2.3.8             </span></span>
-<span><span class="co">## [25] tools_4.3.3             memoise_2.0.1          </span></span>
-<span><span class="co">## [27] GenomeInfoDbData_1.2.11 curl_5.2.1             </span></span>
-<span><span class="co">## [29] vctrs_0.6.5             R6_2.5.1               </span></span>
-<span><span class="co">## [31] png_0.1-8               lifecycle_1.0.4        </span></span>
-<span><span class="co">## [33] zlibbioc_1.48.0         fs_1.6.3               </span></span>
-<span><span class="co">## [35] bit_4.0.5               ragg_1.2.7             </span></span>
-<span><span class="co">## [37] pkgconfig_2.0.3         desc_1.4.3             </span></span>
-<span><span class="co">## [39] pkgdown_2.0.7           bslib_0.6.1            </span></span>
-<span><span class="co">## [41] systemfonts_1.0.6       xfun_0.42              </span></span>
-<span><span class="co">## [43] knitr_1.45              htmltools_0.5.7        </span></span>
-<span><span class="co">## [45] rmarkdown_2.26          compiler_4.3.3</span></span></code></pre>
+<span><span class="co">##  [1] sass_0.4.9              bitops_1.0-7           </span></span>
+<span><span class="co">##  [3] RSQLite_2.3.6           digest_0.6.35          </span></span>
+<span><span class="co">##  [5] magrittr_2.0.3          evaluate_0.23          </span></span>
+<span><span class="co">##  [7] bookdown_0.38           fastmap_1.1.1          </span></span>
+<span><span class="co">##  [9] blob_1.2.4              jsonlite_1.8.8         </span></span>
+<span><span class="co">## [11] GenomeInfoDb_1.38.8     DBI_1.2.2              </span></span>
+<span><span class="co">## [13] BiocManager_1.30.22     httr_1.4.7             </span></span>
+<span><span class="co">## [15] purrr_1.0.2             Biostrings_2.70.3      </span></span>
+<span><span class="co">## [17] textshaping_0.3.7       jquerylib_0.1.4        </span></span>
+<span><span class="co">## [19] cli_3.6.2               rlang_1.1.3            </span></span>
+<span><span class="co">## [21] crayon_1.5.2            XVector_0.42.0         </span></span>
+<span><span class="co">## [23] bit64_4.0.5             cachem_1.0.8           </span></span>
+<span><span class="co">## [25] yaml_2.3.8              tools_4.3.3            </span></span>
+<span><span class="co">## [27] memoise_2.0.1           GenomeInfoDbData_1.2.11</span></span>
+<span><span class="co">## [29] curl_5.2.1              vctrs_0.6.5            </span></span>
+<span><span class="co">## [31] R6_2.5.1                png_0.1-8              </span></span>
+<span><span class="co">## [33] lifecycle_1.0.4         zlibbioc_1.48.2        </span></span>
+<span><span class="co">## [35] fs_1.6.3                bit_4.0.5              </span></span>
+<span><span class="co">## [37] ragg_1.3.0              pkgconfig_2.0.3        </span></span>
+<span><span class="co">## [39] desc_1.4.3              pkgdown_2.0.8          </span></span>
+<span><span class="co">## [41] bslib_0.7.0             systemfonts_1.0.6      </span></span>
+<span><span class="co">## [43] xfun_0.43               knitr_1.45             </span></span>
+<span><span class="co">## [45] htmltools_0.5.8.1       rmarkdown_2.26         </span></span>
+<span><span class="co">## [47] compiler_4.3.3          RCurl_1.98-1.14</span></span></code></pre>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
@@ -1111,7 +1158,7 @@ include “homeobox”, “zinc finger”, “notch”, etc.</p>
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.8.</p>
 </div>
 
   </div></footer>
