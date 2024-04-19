@@ -27,7 +27,6 @@ Suggests:
     BiocStyle,
     dplyr,
     GO.db,
-    hgu95av2.db,
     KEGGREST,
     knitr,
     rmarkdown,
