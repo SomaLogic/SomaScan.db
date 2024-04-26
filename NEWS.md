@@ -1,3 +1,6 @@
+# SomaScan.db 0.99.10
+* Updated SQLite database to incorporate new 11k menu content
+
 # SomaScan.db 0.99.8
 * Launched pkgdown site
 
