@@ -192,7 +192,7 @@ sure to specify the appropriate <code>multiVals</code> parameter for each query.
 <span class="r-in"><span><span class="fu">mapIds</span><span class="op">(</span><span class="va">SomaScan.db</span>, keys <span class="op">=</span> <span class="va">keys</span>, column <span class="op">=</span> <span class="st">"UNIPROT"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> 'select()' returned 1:many mapping between keys and columns</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     10000-28      10001-7     10003-15     10006-25     10008-43 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     "P43320"     "L7RRS6"     "P51814" "A0A024R1A7"           NA </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "A0A0H3W5U0" "A0A0S2Z559"     "P51814"     "B2R7H4"     "B2R9P6" </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     10010-10 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> "A0A024R1X5" </span>
 <span class="r-in"><span></span></span>
@@ -200,22 +200,26 @@ sure to specify the appropriate <code>multiVals</code> parameter for each query.
 <span class="r-in"><span><span class="fu">mapIds</span><span class="op">(</span><span class="va">SomaScan.db</span>, keys <span class="op">=</span> <span class="va">keys</span>, column <span class="op">=</span> <span class="st">"UNIPROT"</span>, multiVals <span class="op">=</span> <span class="st">"list"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> 'select()' returned 1:many mapping between keys and columns</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $`10000-28`</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "P43320" "R4UMM2"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "A0A0H3W5U0" "P43320"     "Q9UCM8"     "R4UMM2"    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $`10001-7`</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "L7RRS6"     "P04049"     "A0A0S2Z4L5"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "A0A0S2Z559" "A0A8I5KSV6" "A0A024R2G5" "B0LPH8"     "B2R5N3"    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [6] "L7RRS6"     "P04049"     "Q15278"     "Q9UC20"     "A0A8I5KSB0"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [11] "B4E0X2"     "A0A0S2Z4L5" "A0A8I5KQV4" "A0A8I5KTA5"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $`10003-15`</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "P51814"     "A0A024R1C4"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "P51814" "A8K1V6" "B4DH01" "Q96LE8" "Q9UMC4" "Q9UMV5" "Q9UMV6"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [8] "Q9UMV7" "Q9UMV8" "Q9UMV9" "Q9UMW0" "Q9UMW1"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $`10006-25`</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "A0A024R1A7" "P19419"     "Q86SR6"    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "B2R7H4" "O75606" "O95058" "P19419" "Q6FG56" "Q969X8" "Q9UJM4"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $`10008-43`</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "B2R9P6" "B3KWT4" "P43080" "Q7Z6T1" "Q9NU14"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $`10010-10`</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "A0A024R1X5" "Q14457"     "W0FFG4"     "B4DQ36"     "E7EV84"    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "A0A024R1X5" "B2R6N7"     "O75595"     "Q14457"     "Q53F78"    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [6] "Q9UNA8"     "W0FFG4"     "B4DQ36"     "E7EV84"    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>

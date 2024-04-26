@@ -101,9 +101,9 @@ highly suggested. For an introduction to the <code>SomaScan.db</code>
 package and its methods, please see
 <code><a href="../articles/SomaScan-db.html">vignette("SomaScan-db", "SomaScan.db")</a></code>.</p>
 <p>Please note that this vignette will require the installation and
-usage of <em>three</em> additional Bioconductor R packages: <em><a href="https://bioconductor.org/packages/3.18/GO.db" class="external-link">GO.db</a></em>,
-<em><a href="https://bioconductor.org/packages/3.18/EnsDb.Hsapiens.v75" class="external-link">EnsDb.Hsapiens.v75</a></em>,
-and <em><a href="https://bioconductor.org/packages/3.18/KEGGREST" class="external-link">KEGGREST</a></em>.
+usage of <em>three</em> additional Bioconductor R packages: <em><a href="https://bioconductor.org/packages/3.19/GO.db" class="external-link">GO.db</a></em>,
+<em><a href="https://bioconductor.org/packages/3.19/EnsDb.Hsapiens.v75" class="external-link">EnsDb.Hsapiens.v75</a></em>,
+and <em><a href="https://bioconductor.org/packages/3.19/KEGGREST" class="external-link">KEGGREST</a></em>.
 Please see the linked pages to find installation instructions for these
 packages.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
@@ -158,7 +158,7 @@ additional information for each GO ID (<code>Term</code>,
 <code>Ontology</code>, <code>Definition</code>, and
 <code>Synonym</code>)</li>
 <li>Linking results from <code>SomaScan.db</code> with another
-Bioconductor tool, like the <em><a href="https://bioconductor.org/packages/3.18/GO.db" class="external-link">GO.db</a></em>
+Bioconductor tool, like the <em><a href="https://bioconductor.org/packages/3.19/GO.db" class="external-link">GO.db</a></em>
 annotation package</li>
 </ol>
 <p>Each of these techniques have their own special utility. Below, we
@@ -326,23 +326,23 @@ With the list output of <code>Synonym</code>, the process is a little
 less straightforward. In addition, it takes multiple steps to generate
 these additional annotations and combine them with a <code>select</code>
 data frame. Instead of performing so many steps, we can utilize another
-Bionconductor annotation resource called <em><a href="https://bioconductor.org/packages/3.18/GO.db" class="external-link">GO.db</a></em> to
+Bionconductor annotation resource called <em><a href="https://bioconductor.org/packages/3.19/GO.db" class="external-link">GO.db</a></em> to
 retrieve GO annotation elements in a convenient data frame format.</p>
 <hr>
 </div>
 <div class="section level4">
 <h4 id="go-db">GO.db<a class="anchor" aria-label="anchor" href="#go-db"></a>
 </h4>
-<p>The <em><a href="https://bioconductor.org/packages/3.18/GO.db" class="external-link">GO.db</a></em> R
+<p>The <em><a href="https://bioconductor.org/packages/3.19/GO.db" class="external-link">GO.db</a></em> R
 package contains annotations describing the entire Gene Ontology
-knowledgebase, assembled using data directly from the <a href="http://geneontology.org/" class="external-link">GO website</a>. <em><a href="https://bioconductor.org/packages/3.18/GO.db" class="external-link">GO.db</a></em>
+knowledgebase, assembled using data directly from the <a href="http://geneontology.org/" class="external-link">GO website</a>. <em><a href="https://bioconductor.org/packages/3.19/GO.db" class="external-link">GO.db</a></em>
 provides a method to easily retrieve the latest version of the Gene
 Ontology knowledgebase into an R session. Like <code>SomaScan.db</code>,
-<em><a href="https://bioconductor.org/packages/3.18/GO.db" class="external-link">GO.db</a></em> is an
+<em><a href="https://bioconductor.org/packages/3.19/GO.db" class="external-link">GO.db</a></em> is an
 annotation package that can be queried using the same five methods
 (<code>select</code>, <code>keys</code>, <code>keytypes</code>,
 <code>columns</code>, and <code>mapIds</code>). By utilizing both
-<code>SomaScan.db</code> and <em><a href="https://bioconductor.org/packages/3.18/GO.db" class="external-link">GO.db</a></em>, it
+<code>SomaScan.db</code> and <em><a href="https://bioconductor.org/packages/3.19/GO.db" class="external-link">GO.db</a></em>, it
 is possible to connect <code>SeqIds</code> to GO IDs, then add
 additional GO annotations that are not available within
 <code>SomaScan.db</code>.</p>
@@ -369,7 +369,7 @@ GO ID) to use as a starting point:</p>
 <p>As shown previously, the GO ID, EVIDENCE code, and ONTOLOGY comprise
 the extent of GO information contained in <code>SomaScan.db</code>.
 However, we can use the GO ID (in the <code>GO</code> column) to connect
-these values to the annotations in <em><a href="https://bioconductor.org/packages/3.18/GO.db" class="external-link">GO.db</a></em>:</p>
+these values to the annotations in <em><a href="https://bioconductor.org/packages/3.19/GO.db" class="external-link">GO.db</a></em>:</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/AnnotationDbi/man/AnnotationDb-class.html" class="external-link">columns</a></span><span class="op">(</span><span class="va">GO.db</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "DEFINITION" "GOID"       "ONTOLOGY"   "TERM"</span></span></code></pre>
@@ -457,13 +457,13 @@ information <em>between</em> annotation package resources (i.e
 <h3 id="kegg-pathways">KEGG Pathways<a class="anchor" aria-label="anchor" href="#kegg-pathways"></a>
 </h3>
 <p>Note that the same workflow <em>cannot</em> be performed for KEGG
-pathways, due to KEGG’s data sharing policy. Instead, the package <em><a href="https://bioconductor.org/packages/3.18/KEGGREST" class="external-link">KEGGREST</a></em>
+pathways, due to KEGG’s data sharing policy. Instead, the package <em><a href="https://bioconductor.org/packages/3.19/KEGGREST" class="external-link">KEGGREST</a></em>
 must be used. Rather than an annotation database-style package (like
-<code>SomaScan.db</code> and <code>GO.db</code>), <em><a href="https://bioconductor.org/packages/3.18/KEGGREST" class="external-link">KEGGREST</a></em>
+<code>SomaScan.db</code> and <code>GO.db</code>), <em><a href="https://bioconductor.org/packages/3.19/KEGGREST" class="external-link">KEGGREST</a></em>
 is a package that provides a client interface in R to the KEGG REST
 (REpresentational State Transfer) server. For reference, REST is an
 interface that two computer systems can use to securely exchange
-information over the internet. Queries made with the <em><a href="https://bioconductor.org/packages/3.18/KEGGREST" class="external-link">KEGGREST</a></em>
+information over the internet. Queries made with the <em><a href="https://bioconductor.org/packages/3.19/KEGGREST" class="external-link">KEGGREST</a></em>
 package retrieve information directly from the online KEGG database.</p>
 <p>Let’s take the same <code>select</code> query as we used for GO, but
 modify it to obtain KEGG pathway identifiers instead:</p>
@@ -519,7 +519,7 @@ returned for each KEGG pathway:</p>
 <span><span class="co">##  $ CLASS      : chr "Environmental Information Processing; Signaling molecules and interaction"</span></span>
 <span><span class="co">##  $ PATHWAY_MAP: Named chr "Cell adhesion molecules"</span></span>
 <span><span class="co">##   ..- attr(*, "names")= chr "hsa04514"</span></span>
-<span><span class="co">##  $ DRUG       : chr [1:226] "D02800" "Alefacept (USAN/INN)" "D02811" "Alicaforsen sodium (USAN)" ...</span></span>
+<span><span class="co">##  $ DRUG       : chr [1:228] "D02800" "Alefacept (USAN/INN)" "D02811" "Alicaforsen sodium (USAN)" ...</span></span>
 <span><span class="co">##  $ DBLINKS    : chr "GO: 0050839"</span></span>
 <span><span class="co">##  $ ORGANISM   : Named chr "NA  Homo sapiens (human) [GN:hsa]"</span></span>
 <span><span class="co">##   ..- attr(*, "names")= chr "Homo sapiens (human) [GN:hsa]"</span></span>
@@ -722,7 +722,7 @@ just extract the pathway name (<code>NAME</code>):</p>
 to a character vector or used to build a data frame, which can then be
 appended to or merged similar to the pathway name in the code chunks
 above. For more details about what can be done with the package, see
-<em><a href="https://bioconductor.org/packages/3.18/KEGGREST" class="external-link">KEGGREST</a></em>.</p>
+<em><a href="https://bioconductor.org/packages/3.19/KEGGREST" class="external-link">KEGGREST</a></em>.</p>
 </div>
 </div>
 <div class="section level2">
@@ -741,10 +741,10 @@ information corresponding to SomaScan analytes; the second requires a
 human transcriptome or organism-centric annotation package to retrieve
 the desired chromosomal locations.</p>
 <p>We will provide a brief example of this using the popular
-organism-centric package, <em><a href="https://bioconductor.org/packages/3.18/EnsDb.Hsapiens.v75" class="external-link">EnsDb.Hsapiens.v75</a></em>,
+organism-centric package, <em><a href="https://bioconductor.org/packages/3.19/EnsDb.Hsapiens.v75" class="external-link">EnsDb.Hsapiens.v75</a></em>,
 which contains a database of human annotations derived from
 <code>Ensembl release 75</code>. However, this procedure can also be
-performed using transcriptome-centric annotation packages like <em><a href="https://bioconductor.org/packages/3.18/TxDb.Hsapiens.UCSC.hg19.knownGene" class="external-link">TxDb.Hsapiens.UCSC.hg19.knownGene</a></em>.</p>
+performed using transcriptome-centric annotation packages like <em><a href="https://bioconductor.org/packages/3.19/TxDb.Hsapiens.UCSC.hg19.knownGene" class="external-link">TxDb.Hsapiens.UCSC.hg19.knownGene</a></em>.</p>
 <p>Let’s say we are interested in collecting position information
 associated with the protein target corresponding to
 <code>SeqId = 11138-16</code>. First, we must determine which gene this
@@ -760,7 +760,7 @@ associated with the protein target corresponding to
 <span><span class="co">##           ENSEMBL</span></span>
 <span><span class="co">## 1 ENSG00000020633</span></span></code></pre>
 <p>We now know this probe targets protein encoded by the RUNX3 gene. We
-can use <em><a href="https://bioconductor.org/packages/3.18/EnsDb.Hsapiens.v75" class="external-link">EnsDb.Hsapiens.v75</a></em>
+can use <em><a href="https://bioconductor.org/packages/3.19/EnsDb.Hsapiens.v75" class="external-link">EnsDb.Hsapiens.v75</a></em>
 to retrieve positional information about RUNX3, like which chromosome
 the RUNX3 is on, its start and stop position, and how many exons it has
 (at the time of Ensembl’s <code>v75</code> release):</p>
@@ -843,12 +843,12 @@ adhesion.</p>
 <div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Total number of SeqIds associated with cell adhesion</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">cellAd_ids</span><span class="op">$</span><span class="va">PROBEID</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] 453</span></span></code></pre>
-<p>There are 453 unique <code>SeqIds</code> associated with the “cell
+<pre><code><span><span class="co">## [1] 451</span></span></code></pre>
+<p>There are 451 unique <code>SeqIds</code> associated with the “cell
 adhesion” GO term (<em>unique</em> is important here because the data
 frame above may contain multiple entries per <code>SeqId</code>, due to
 the “EVIDENCE” column). There are 10731 total <code>SeqIds</code> in the
-<code>SomaScan.db</code> database, so 4.22% of keys in the database are
+<code>SomaScan.db</code> database, so 4.2% of keys in the database are
 associated with cell adhesion.</p>
 <p>How many of the <em>total</em> proteins in the cell adhesion GO term
 are covered by the SomaScan menu? To answer this question, we first must
@@ -864,9 +864,9 @@ term.</p>
 <div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Again, we take the unique set of proteins</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">cellAd_prots</span><span class="op">$</span><span class="va">UNIPROT</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] 875</span></span></code></pre>
+<pre><code><span><span class="co">## [1] 3294</span></span></code></pre>
 <p>The GO term <code>GO:0007155</code> (cell adhesion) contains a total
-of 875 unique human UniProt IDs. Now we can check to see how many of
+of 3294 unique human UniProt IDs. Now we can check to see how many of
 these are covered by the SomaScan menu by searching for the proteins in
 <code>SomaScan.db</code> with <code>select</code>:</p>
 <div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
@@ -875,27 +875,27 @@ these are covered by the SomaScan menu by searching for the proteins in
 <pre><code><span><span class="co">## 'select()' returned 1:many mapping between keys and columns</span></span></code></pre>
 <div class="sourceCode" id="cb69"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">cellAd_covProts</span>, n <span class="op">=</span> <span class="fl">20L</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##       UNIPROT  PROBEID</span></span>
-<span><span class="co">## 1      P42684  3342-76</span></span>
-<span><span class="co">## 2      P42684  5261-13</span></span>
-<span><span class="co">## 3      P22303 10980-11</span></span>
-<span><span class="co">## 4      P22303 15553-22</span></span>
-<span><span class="co">## 5      P35609 9844-138</span></span>
-<span><span class="co">## 6  A0A0S2Z381 19751-21</span></span>
-<span><span class="co">## 7      P00813 19751-21</span></span>
-<span><span class="co">## 8      F5GWI4 19751-21</span></span>
-<span><span class="co">## 9      E7ENV9  3280-49</span></span>
-<span><span class="co">## 10     E7EX88  3280-49</span></span>
-<span><span class="co">## 11 A0A1U9X785  4125-52</span></span>
-<span><span class="co">## 12     B4DNX3  4125-52</span></span>
-<span><span class="co">## 13     Q15109  4125-52</span></span>
-<span><span class="co">## 14     Q13740   5451-1</span></span>
-<span><span class="co">## 15     B3KNN9   5451-1</span></span>
-<span><span class="co">## 16     Q546D7     &lt;NA&gt;</span></span>
-<span><span class="co">## 17     Q9NP70     &lt;NA&gt;</span></span>
-<span><span class="co">## 18     P02760  15453-3</span></span>
-<span><span class="co">## 19     Q99217 29575-81</span></span>
-<span><span class="co">## 20     Q99217 30706-62</span></span></code></pre>
+<pre><code><span><span class="co">##    UNIPROT PROBEID</span></span>
+<span><span class="co">## 1   P42684 3342-76</span></span>
+<span><span class="co">## 2   P42684 5261-13</span></span>
+<span><span class="co">## 3   A0M8X0 3342-76</span></span>
+<span><span class="co">## 4   A0M8X0 5261-13</span></span>
+<span><span class="co">## 5   B7UEF2 3342-76</span></span>
+<span><span class="co">## 6   B7UEF2 5261-13</span></span>
+<span><span class="co">## 7   B7UEF3 3342-76</span></span>
+<span><span class="co">## 8   B7UEF3 5261-13</span></span>
+<span><span class="co">## 9   B7UEF4 3342-76</span></span>
+<span><span class="co">## 10  B7UEF4 5261-13</span></span>
+<span><span class="co">## 11  B7UEF5 3342-76</span></span>
+<span><span class="co">## 12  B7UEF5 5261-13</span></span>
+<span><span class="co">## 13  Q5T0X6 3342-76</span></span>
+<span><span class="co">## 14  Q5T0X6 5261-13</span></span>
+<span><span class="co">## 15  Q5W0C5 3342-76</span></span>
+<span><span class="co">## 16  Q5W0C5 5261-13</span></span>
+<span><span class="co">## 17  Q6NZY6 3342-76</span></span>
+<span><span class="co">## 18  Q6NZY6 5261-13</span></span>
+<span><span class="co">## 19  Q7Z301 3342-76</span></span>
+<span><span class="co">## 20  Q7Z301 5261-13</span></span></code></pre>
 <p><code>select</code> will return an <code>NA</code> value if a key is
 not found in the database. As seen above, some proteins in
 <code>GO:0007155</code> do not map to a <code>SeqId</code> in
@@ -908,9 +908,9 @@ proteins by filtering out rows with <code>NA</code> values:</p>
 <span><span class="va">cellAd_covIDs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">cellAd_covProts</span><span class="op">$</span><span class="va">UNIPROT</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">cellAd_covIDs</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] 661</span></span></code></pre>
+<pre><code><span><span class="co">## [1] 2482</span></span></code></pre>
 <p>We removed duplicates from the list of proteins provided as keys, to
-get a final count of 661 proteins (75.54%) from the “cell adhesion” GO
+get a final count of 2482 proteins (75.35%) from the “cell adhesion” GO
 term that are covered by the SomaScan menu.</p>
 <p>Does this number differ between versions of the SomaScan Menu?
 Remember that the 7k menu contains <em>all</em> of the
@@ -970,31 +970,112 @@ database:</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/select-SomaDb-method.html">select</a></span><span class="op">(</span><span class="va">SomaScan.db</span>, keys <span class="op">=</span> <span class="va">il17_family</span>, keytype <span class="op">=</span> <span class="st">"SYMBOL"</span>,</span>
 <span>       columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"PROBEID"</span>, <span class="st">"UNIPROT"</span>, <span class="st">"GENENAME"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## 'select()' returned 1:many mapping between keys and columns</span></span></code></pre>
-<pre><code><span><span class="co">##     SYMBOL  PROBEID UNIPROT                  GENENAME</span></span>
-<span><span class="co">## 1    IL17A  13718-1  Q16552           interleukin 17A</span></span>
-<span><span class="co">## 2    IL17A  21897-4  Q16552           interleukin 17A</span></span>
-<span><span class="co">## 3    IL17A  31553-5  Q16552           interleukin 17A</span></span>
-<span><span class="co">## 4    IL17A  3498-53  Q16552           interleukin 17A</span></span>
-<span><span class="co">## 5    IL17A  9170-24  Q16552           interleukin 17A</span></span>
-<span><span class="co">## 6   IL17RA  2992-59  Q96F46 interleukin 17 receptor A</span></span>
-<span><span class="co">## 7    IL17C  9255-13  Q9P0M4           interleukin 17C</span></span>
-<span><span class="co">## 8    IL17C   9255-5  Q9P0M4           interleukin 17C</span></span>
-<span><span class="co">## 9    IL17B 14022-17  Q9UHF5           interleukin 17B</span></span>
-<span><span class="co">## 10   IL17B  3499-77  Q9UHF5           interleukin 17B</span></span>
-<span><span class="co">## 11   IL17D  4136-40  Q8TAD2           interleukin 17D</span></span>
-<span><span class="co">## 12  IL17RD  3376-49  Q8NFM7 interleukin 17 receptor D</span></span>
-<span><span class="co">## 13  IL17RD  3376-49  B4DXM5 interleukin 17 receptor D</span></span>
-<span><span class="co">## 14  IL17RB 35707-93  Q9NRM6 interleukin 17 receptor B</span></span>
-<span><span class="co">## 15  IL17RB 5084-154  Q9NRM6 interleukin 17 receptor B</span></span>
-<span><span class="co">## 16  IL17RB  6262-14  Q9NRM6 interleukin 17 receptor B</span></span>
-<span><span class="co">## 17  IL17RC  5468-67  Q8NAC3 interleukin 17 receptor C</span></span>
-<span><span class="co">## 18   IL17F 14026-24  Q96PD4           interleukin 17F</span></span>
-<span><span class="co">## 19   IL17F  21897-4  Q96PD4           interleukin 17F</span></span>
-<span><span class="co">## 20   IL17F  2775-54  Q96PD4           interleukin 17F</span></span>
-<span><span class="co">## 21   IL17F  31553-5  Q96PD4           interleukin 17F</span></span>
-<span><span class="co">## 22  IL17RE 20535-68  B4DMZ3 interleukin 17 receptor E</span></span>
-<span><span class="co">## 23  IL17RE 20535-68  Q8NFR9 interleukin 17 receptor E</span></span>
-<span><span class="co">## 24 IL17REL     &lt;NA&gt;    &lt;NA&gt;                      &lt;NA&gt;</span></span></code></pre>
+<pre><code><span><span class="co">##      SYMBOL  PROBEID    UNIPROT                  GENENAME</span></span>
+<span><span class="co">## 1     IL17A  13718-1     Q16552           interleukin 17A</span></span>
+<span><span class="co">## 2     IL17A  13718-1     Q5T2P0           interleukin 17A</span></span>
+<span><span class="co">## 3     IL17A  13718-1     Q6NZ94           interleukin 17A</span></span>
+<span><span class="co">## 4     IL17A  21897-4     Q16552           interleukin 17A</span></span>
+<span><span class="co">## 5     IL17A  21897-4     Q5T2P0           interleukin 17A</span></span>
+<span><span class="co">## 6     IL17A  21897-4     Q6NZ94           interleukin 17A</span></span>
+<span><span class="co">## 7     IL17A  31553-5     Q16552           interleukin 17A</span></span>
+<span><span class="co">## 8     IL17A  31553-5     Q5T2P0           interleukin 17A</span></span>
+<span><span class="co">## 9     IL17A  31553-5     Q6NZ94           interleukin 17A</span></span>
+<span><span class="co">## 10    IL17A  3498-53     Q16552           interleukin 17A</span></span>
+<span><span class="co">## 11    IL17A  3498-53     Q5T2P0           interleukin 17A</span></span>
+<span><span class="co">## 12    IL17A  3498-53     Q6NZ94           interleukin 17A</span></span>
+<span><span class="co">## 13    IL17A  9170-24     Q16552           interleukin 17A</span></span>
+<span><span class="co">## 14    IL17A  9170-24     Q5T2P0           interleukin 17A</span></span>
+<span><span class="co">## 15    IL17A  9170-24     Q6NZ94           interleukin 17A</span></span>
+<span><span class="co">## 16   IL17RA  2992-59     Q96F46 interleukin 17 receptor A</span></span>
+<span><span class="co">## 17   IL17RA  2992-59     O43844 interleukin 17 receptor A</span></span>
+<span><span class="co">## 18   IL17RA  2992-59     Q20WK1 interleukin 17 receptor A</span></span>
+<span><span class="co">## 19    IL17C  9255-13     Q3MIG8           interleukin 17C</span></span>
+<span><span class="co">## 20    IL17C  9255-13     Q9HC75           interleukin 17C</span></span>
+<span><span class="co">## 21    IL17C  9255-13     Q9P0M4           interleukin 17C</span></span>
+<span><span class="co">## 22    IL17C   9255-5     Q3MIG8           interleukin 17C</span></span>
+<span><span class="co">## 23    IL17C   9255-5     Q9HC75           interleukin 17C</span></span>
+<span><span class="co">## 24    IL17C   9255-5     Q9P0M4           interleukin 17C</span></span>
+<span><span class="co">## 25    IL17B 14022-17     Q9UHF5           interleukin 17B</span></span>
+<span><span class="co">## 26    IL17B 14022-17     Q14CE5           interleukin 17B</span></span>
+<span><span class="co">## 27    IL17B 14022-17     Q6IAG3           interleukin 17B</span></span>
+<span><span class="co">## 28    IL17B  3499-77     Q9UHF5           interleukin 17B</span></span>
+<span><span class="co">## 29    IL17B  3499-77     Q14CE5           interleukin 17B</span></span>
+<span><span class="co">## 30    IL17B  3499-77     Q6IAG3           interleukin 17B</span></span>
+<span><span class="co">## 31    IL17D  4136-40     B1AM69           interleukin 17D</span></span>
+<span><span class="co">## 32    IL17D  4136-40     Q8TAD2           interleukin 17D</span></span>
+<span><span class="co">## 33   IL17RD  3376-49     B4DXM5 interleukin 17 receptor D</span></span>
+<span><span class="co">## 34   IL17RD  3376-49     Q2NKP7 interleukin 17 receptor D</span></span>
+<span><span class="co">## 35   IL17RD  3376-49     Q58EZ7 interleukin 17 receptor D</span></span>
+<span><span class="co">## 36   IL17RD  3376-49     Q6RVF4 interleukin 17 receptor D</span></span>
+<span><span class="co">## 37   IL17RD  3376-49     Q6UWI5 interleukin 17 receptor D</span></span>
+<span><span class="co">## 38   IL17RD  3376-49     Q8N113 interleukin 17 receptor D</span></span>
+<span><span class="co">## 39   IL17RD  3376-49     Q8NFM7 interleukin 17 receptor D</span></span>
+<span><span class="co">## 40   IL17RD  3376-49     Q8NFS0 interleukin 17 receptor D</span></span>
+<span><span class="co">## 41   IL17RD  3376-49     Q9UFA0 interleukin 17 receptor D</span></span>
+<span><span class="co">## 42   IL17RB 35707-93     Q9BPZ0 interleukin 17 receptor B</span></span>
+<span><span class="co">## 43   IL17RB 35707-93     Q9NRL4 interleukin 17 receptor B</span></span>
+<span><span class="co">## 44   IL17RB 35707-93     Q9NRM5 interleukin 17 receptor B</span></span>
+<span><span class="co">## 45   IL17RB 35707-93     Q9NRM6 interleukin 17 receptor B</span></span>
+<span><span class="co">## 46   IL17RB 5084-154     Q9BPZ0 interleukin 17 receptor B</span></span>
+<span><span class="co">## 47   IL17RB 5084-154     Q9NRL4 interleukin 17 receptor B</span></span>
+<span><span class="co">## 48   IL17RB 5084-154     Q9NRM5 interleukin 17 receptor B</span></span>
+<span><span class="co">## 49   IL17RB 5084-154     Q9NRM6 interleukin 17 receptor B</span></span>
+<span><span class="co">## 50   IL17RB  6262-14     Q9BPZ0 interleukin 17 receptor B</span></span>
+<span><span class="co">## 51   IL17RB  6262-14     Q9NRL4 interleukin 17 receptor B</span></span>
+<span><span class="co">## 52   IL17RB  6262-14     Q9NRM5 interleukin 17 receptor B</span></span>
+<span><span class="co">## 53   IL17RB  6262-14     Q9NRM6 interleukin 17 receptor B</span></span>
+<span><span class="co">## 54   IL17RC  5468-67 A0A8Q3SJ19 interleukin 17 receptor C</span></span>
+<span><span class="co">## 55   IL17RC  5468-67     Q8NAC3 interleukin 17 receptor C</span></span>
+<span><span class="co">## 56   IL17RC  5468-67 A0A8Q3SIU5 interleukin 17 receptor C</span></span>
+<span><span class="co">## 57   IL17RC  5468-67 A0A8Q3SIV5 interleukin 17 receptor C</span></span>
+<span><span class="co">## 58   IL17RC  5468-67 A0A8Q3SJJ9 interleukin 17 receptor C</span></span>
+<span><span class="co">## 59   IL17RC  5468-67 A0A8Q3WM30 interleukin 17 receptor C</span></span>
+<span><span class="co">## 60   IL17RC  5468-67 A0A8Q3SJ01 interleukin 17 receptor C</span></span>
+<span><span class="co">## 61   IL17RC  5468-67     A8BWC1 interleukin 17 receptor C</span></span>
+<span><span class="co">## 62   IL17RC  5468-67     A8BWC9 interleukin 17 receptor C</span></span>
+<span><span class="co">## 63   IL17RC  5468-67     A8BWD5 interleukin 17 receptor C</span></span>
+<span><span class="co">## 64   IL17RC  5468-67     E9PHG1 interleukin 17 receptor C</span></span>
+<span><span class="co">## 65   IL17RC  5468-67     E9PHJ6 interleukin 17 receptor C</span></span>
+<span><span class="co">## 66   IL17RC  5468-67     Q6UVY3 interleukin 17 receptor C</span></span>
+<span><span class="co">## 67   IL17RC  5468-67     Q6UWD4 interleukin 17 receptor C</span></span>
+<span><span class="co">## 68   IL17RC  5468-67     Q8NFS1 interleukin 17 receptor C</span></span>
+<span><span class="co">## 69   IL17RC  5468-67     Q9BR97 interleukin 17 receptor C</span></span>
+<span><span class="co">## 70   IL17RC  5468-67     C9JSZ3 interleukin 17 receptor C</span></span>
+<span><span class="co">## 71    IL17F 14026-24     F1JZ09           interleukin 17F</span></span>
+<span><span class="co">## 72    IL17F 14026-24     Q6NSI0           interleukin 17F</span></span>
+<span><span class="co">## 73    IL17F 14026-24     Q7Z6P4           interleukin 17F</span></span>
+<span><span class="co">## 74    IL17F 14026-24     Q96PD4           interleukin 17F</span></span>
+<span><span class="co">## 75    IL17F 14026-24     Q96PI8           interleukin 17F</span></span>
+<span><span class="co">## 76    IL17F 14026-24     Q9NUE6           interleukin 17F</span></span>
+<span><span class="co">## 77    IL17F  21897-4     F1JZ09           interleukin 17F</span></span>
+<span><span class="co">## 78    IL17F  21897-4     Q6NSI0           interleukin 17F</span></span>
+<span><span class="co">## 79    IL17F  21897-4     Q7Z6P4           interleukin 17F</span></span>
+<span><span class="co">## 80    IL17F  21897-4     Q96PD4           interleukin 17F</span></span>
+<span><span class="co">## 81    IL17F  21897-4     Q96PI8           interleukin 17F</span></span>
+<span><span class="co">## 82    IL17F  21897-4     Q9NUE6           interleukin 17F</span></span>
+<span><span class="co">## 83    IL17F  2775-54     F1JZ09           interleukin 17F</span></span>
+<span><span class="co">## 84    IL17F  2775-54     Q6NSI0           interleukin 17F</span></span>
+<span><span class="co">## 85    IL17F  2775-54     Q7Z6P4           interleukin 17F</span></span>
+<span><span class="co">## 86    IL17F  2775-54     Q96PD4           interleukin 17F</span></span>
+<span><span class="co">## 87    IL17F  2775-54     Q96PI8           interleukin 17F</span></span>
+<span><span class="co">## 88    IL17F  2775-54     Q9NUE6           interleukin 17F</span></span>
+<span><span class="co">## 89    IL17F  31553-5     F1JZ09           interleukin 17F</span></span>
+<span><span class="co">## 90    IL17F  31553-5     Q6NSI0           interleukin 17F</span></span>
+<span><span class="co">## 91    IL17F  31553-5     Q7Z6P4           interleukin 17F</span></span>
+<span><span class="co">## 92    IL17F  31553-5     Q96PD4           interleukin 17F</span></span>
+<span><span class="co">## 93    IL17F  31553-5     Q96PI8           interleukin 17F</span></span>
+<span><span class="co">## 94    IL17F  31553-5     Q9NUE6           interleukin 17F</span></span>
+<span><span class="co">## 95   IL17RE 20535-68     B4DMZ3 interleukin 17 receptor E</span></span>
+<span><span class="co">## 96   IL17RE 20535-68     B2RB34 interleukin 17 receptor E</span></span>
+<span><span class="co">## 97   IL17RE 20535-68     B2RNR1 interleukin 17 receptor E</span></span>
+<span><span class="co">## 98   IL17RE 20535-68     B9EH65 interleukin 17 receptor E</span></span>
+<span><span class="co">## 99   IL17RE 20535-68     J3KQN7 interleukin 17 receptor E</span></span>
+<span><span class="co">## 100  IL17RE 20535-68     Q6P532 interleukin 17 receptor E</span></span>
+<span><span class="co">## 101  IL17RE 20535-68     Q8N8H7 interleukin 17 receptor E</span></span>
+<span><span class="co">## 102  IL17RE 20535-68     Q8N8H8 interleukin 17 receptor E</span></span>
+<span><span class="co">## 103  IL17RE 20535-68     Q8NFR9 interleukin 17 receptor E</span></span>
+<span><span class="co">## 104  IL17RE 20535-68     Q8TEC2 interleukin 17 receptor E</span></span>
+<span><span class="co">## 105 IL17REL     &lt;NA&gt;       &lt;NA&gt;                      &lt;NA&gt;</span></span></code></pre>
 <p>If multiple gene families are of interest, the <code>keys</code>
 argument of <code>select</code> (in combination with
 <code>match=TRUE</code>) can support a regex pattern, and will
@@ -1093,13 +1174,13 @@ include “homeobox”, “zinc finger”, “notch”, etc.</p>
 </h2>
 <div class="sourceCode" id="cb90"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## R version 4.3.3 (2024-02-29)</span></span>
-<span><span class="co">## Platform: x86_64-apple-darwin20 (64-bit)</span></span>
+<pre><code><span><span class="co">## R version 4.4.0 (2024-04-24)</span></span>
+<span><span class="co">## Platform: x86_64-apple-darwin20</span></span>
 <span><span class="co">## Running under: macOS Monterey 12.7.4</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Matrix products: default</span></span>
-<span><span class="co">## BLAS:   /Library/Frameworks/R.framework/Versions/4.3-x86_64/Resources/lib/libRblas.0.dylib </span></span>
-<span><span class="co">## LAPACK: /Library/Frameworks/R.framework/Versions/4.3-x86_64/Resources/lib/libRlapack.dylib;  LAPACK version 3.11.0</span></span>
+<span><span class="co">## BLAS:   /Library/Frameworks/R.framework/Versions/4.4-x86_64/Resources/lib/libRblas.0.dylib </span></span>
+<span><span class="co">## LAPACK: /Library/Frameworks/R.framework/Versions/4.4-x86_64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.0</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## locale:</span></span>
 <span><span class="co">## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8</span></span>
@@ -1112,36 +1193,36 @@ include “homeobox”, “zinc finger”, “notch”, etc.</p>
 <span><span class="co">## [8] base     </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## other attached packages:</span></span>
-<span><span class="co">##  [1] withr_3.0.0          SomaScan.db_0.99.10  org.Hs.eg.db_3.18.0 </span></span>
-<span><span class="co">##  [4] KEGGREST_1.42.0      GO.db_3.18.0         AnnotationDbi_1.64.1</span></span>
-<span><span class="co">##  [7] IRanges_2.36.0       S4Vectors_0.40.2     Biobase_2.62.0      </span></span>
-<span><span class="co">## [10] BiocGenerics_0.48.1  BiocStyle_2.30.0    </span></span>
+<span><span class="co">##  [1] withr_3.0.0          SomaScan.db_0.99.10  org.Hs.eg.db_3.19.1 </span></span>
+<span><span class="co">##  [4] KEGGREST_1.43.0      GO.db_3.19.1         AnnotationDbi_1.65.2</span></span>
+<span><span class="co">##  [7] IRanges_2.37.1       S4Vectors_0.41.7     Biobase_2.63.1      </span></span>
+<span><span class="co">## [10] BiocGenerics_0.49.1  BiocStyle_2.31.0    </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## loaded via a namespace (and not attached):</span></span>
-<span><span class="co">##  [1] sass_0.4.9              bitops_1.0-7           </span></span>
-<span><span class="co">##  [3] RSQLite_2.3.6           digest_0.6.35          </span></span>
-<span><span class="co">##  [5] magrittr_2.0.3          evaluate_0.23          </span></span>
-<span><span class="co">##  [7] bookdown_0.39           fastmap_1.1.1          </span></span>
-<span><span class="co">##  [9] blob_1.2.4              jsonlite_1.8.8         </span></span>
-<span><span class="co">## [11] GenomeInfoDb_1.38.8     DBI_1.2.2              </span></span>
-<span><span class="co">## [13] BiocManager_1.30.22     httr_1.4.7             </span></span>
-<span><span class="co">## [15] purrr_1.0.2             Biostrings_2.70.3      </span></span>
+<span><span class="co">##  [1] sass_0.4.9              RSQLite_2.3.6          </span></span>
+<span><span class="co">##  [3] digest_0.6.35           magrittr_2.0.3         </span></span>
+<span><span class="co">##  [5] evaluate_0.23           bookdown_0.39          </span></span>
+<span><span class="co">##  [7] fastmap_1.1.1           blob_1.2.4             </span></span>
+<span><span class="co">##  [9] jsonlite_1.8.8          GenomeInfoDb_1.39.14   </span></span>
+<span><span class="co">## [11] DBI_1.2.2               BiocManager_1.30.22    </span></span>
+<span><span class="co">## [13] httr_1.4.7              purrr_1.0.2            </span></span>
+<span><span class="co">## [15] UCSC.utils_0.99.7       Biostrings_2.71.6      </span></span>
 <span><span class="co">## [17] textshaping_0.3.7       jquerylib_0.1.4        </span></span>
 <span><span class="co">## [19] cli_3.6.2               rlang_1.1.3            </span></span>
-<span><span class="co">## [21] crayon_1.5.2            XVector_0.42.0         </span></span>
+<span><span class="co">## [21] crayon_1.5.2            XVector_0.43.1         </span></span>
 <span><span class="co">## [23] bit64_4.0.5             cachem_1.0.8           </span></span>
-<span><span class="co">## [25] yaml_2.3.8              tools_4.3.3            </span></span>
-<span><span class="co">## [27] memoise_2.0.1           GenomeInfoDbData_1.2.11</span></span>
+<span><span class="co">## [25] yaml_2.3.8              tools_4.4.0            </span></span>
+<span><span class="co">## [27] memoise_2.0.1           GenomeInfoDbData_1.2.12</span></span>
 <span><span class="co">## [29] curl_5.2.1              vctrs_0.6.5            </span></span>
 <span><span class="co">## [31] R6_2.5.1                png_0.1-8              </span></span>
-<span><span class="co">## [33] lifecycle_1.0.4         zlibbioc_1.48.2        </span></span>
-<span><span class="co">## [35] fs_1.6.3                bit_4.0.5              </span></span>
+<span><span class="co">## [33] lifecycle_1.0.4         zlibbioc_1.49.3        </span></span>
+<span><span class="co">## [35] fs_1.6.4                bit_4.0.5              </span></span>
 <span><span class="co">## [37] ragg_1.3.0              pkgconfig_2.0.3        </span></span>
 <span><span class="co">## [39] desc_1.4.3              pkgdown_2.0.9          </span></span>
 <span><span class="co">## [41] bslib_0.7.0             systemfonts_1.0.6      </span></span>
-<span><span class="co">## [43] xfun_0.43               knitr_1.45             </span></span>
+<span><span class="co">## [43] xfun_0.43               knitr_1.46             </span></span>
 <span><span class="co">## [45] htmltools_0.5.8.1       rmarkdown_2.26         </span></span>
-<span><span class="co">## [47] compiler_4.3.3          RCurl_1.98-1.14</span></span></code></pre>
+<span><span class="co">## [47] compiler_4.4.0</span></span></code></pre>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
